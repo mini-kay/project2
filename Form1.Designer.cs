@@ -78,6 +78,8 @@
             this.txtSchool = new System.Windows.Forms.TextBox();
             this.txtLearnerSurname = new System.Windows.Forms.TextBox();
             this.lblSchool = new System.Windows.Forms.Label();
+            this.btnSubmit = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
@@ -164,7 +166,7 @@
             this.grpSubjects.Controls.Add(this.txtMarkFAL);
             this.grpSubjects.Controls.Add(this.txtMarkHL);
             this.grpSubjects.Controls.Add(this.txtLO);
-            this.grpSubjects.Location = new System.Drawing.Point(323, 19);
+            this.grpSubjects.Location = new System.Drawing.Point(414, 19);
             this.grpSubjects.Name = "grpSubjects";
             this.grpSubjects.Size = new System.Drawing.Size(299, 252);
             this.grpSubjects.TabIndex = 5;
@@ -611,6 +613,8 @@
             // 
             // tabLearnerInfo
             // 
+            this.tabLearnerInfo.Controls.Add(this.btnClear);
+            this.tabLearnerInfo.Controls.Add(this.btnSubmit);
             this.tabLearnerInfo.Controls.Add(this.grpFaculty);
             this.tabLearnerInfo.Controls.Add(this.grpLearnerInfo);
             this.tabLearnerInfo.Controls.Add(this.grpSubjects);
@@ -628,9 +632,9 @@
             this.grpFaculty.Controls.Add(this.lblQualification);
             this.grpFaculty.Controls.Add(this.cmbFaculty);
             this.grpFaculty.Controls.Add(this.lblFaculty);
-            this.grpFaculty.Location = new System.Drawing.Point(23, 314);
+            this.grpFaculty.Location = new System.Drawing.Point(167, 277);
             this.grpFaculty.Name = "grpFaculty";
-            this.grpFaculty.Size = new System.Drawing.Size(462, 145);
+            this.grpFaculty.Size = new System.Drawing.Size(379, 107);
             this.grpFaculty.TabIndex = 15;
             this.grpFaculty.TabStop = false;
             this.grpFaculty.Text = "Faculty && Qualification";
@@ -720,7 +724,7 @@
             this.grpLearnerInfo.Controls.Add(this.lblSchool);
             this.grpLearnerInfo.Controls.Add(this.lblGrade);
             this.grpLearnerInfo.Controls.Add(this.cmbGrade);
-            this.grpLearnerInfo.Location = new System.Drawing.Point(23, 19);
+            this.grpLearnerInfo.Location = new System.Drawing.Point(42, 19);
             this.grpLearnerInfo.Name = "grpLearnerInfo";
             this.grpLearnerInfo.Size = new System.Drawing.Size(232, 252);
             this.grpLearnerInfo.TabIndex = 14;
@@ -819,6 +823,24 @@
             this.lblSchool.TabIndex = 10;
             this.lblSchool.Text = "Enter your school name";
             // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Location = new System.Drawing.Point(192, 409);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnSubmit.TabIndex = 16;
+            this.btnSubmit.Text = "Submit";
+            this.btnSubmit.UseVisualStyleBackColor = true;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(414, 409);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 17;
+            this.btnClear.Text = "Clear All";
+            this.btnClear.UseVisualStyleBackColor = true;
+            // 
             // FuturePathForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -895,6 +917,8 @@
         private System.Windows.Forms.ComboBox cmbFaculty;
         private System.Windows.Forms.Label lblFaculty;
         private System.Windows.Forms.ComboBox cmbQualification;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnSubmit;
     }
 }
 
