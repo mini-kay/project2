@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="LearnerDataAccess.cs" />
     <Compile Include="LearnerManager.cs" />
     <Compile Include="Learner.cs" />
     <Compile Include="Form1.cs">
@@ -80,6 +83,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Database\backupQuery.sql" />
+    <Content Include="Database\QUERY1.sql" />
+    <Content Include="Database\QUERY10.sql" />
+    <Content Include="Database\QUERY11.sql" />
+    <Content Include="Database\QUERY12.sql" />
+    <Content Include="Database\QUERY13.sql" />
+    <Content Include="Database\QUERY14.sql" />
+    <Content Include="Database\QUERY15.sql" />
+    <Content Include="Database\QUERY16.sql" />
+    <Content Include="Database\QUERY17.sql" />
+    <Content Include="Database\QUERY18.sql" />
+    <Content Include="Database\QUERY19.sql" />
+    <Content Include="Database\QUERY2.sql" />
+    <Content Include="Database\QUERY3.sql" />
+    <Content Include="Database\QUERY4.sql" />
+    <Content Include="Database\QUERY5.sql" />
+    <Content Include="Database\QUERY6.sql" />
+    <Content Include="Database\QUERY7.sql" />
+    <Content Include="Database\QUERY8.sql" />
+    <Content Include="Database\QUERY9.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,10 +14,12 @@ namespace project2
     public partial class FuturePathForm : Form
     {
         LearnerManager learnerManager = new LearnerManager();
+
         public FuturePathForm()
         {
             InitializeComponent();
         }
+
 
         private void FuturePathForm_Load(object sender, EventArgs e)
         {
