@@ -58,7 +58,7 @@ CREATE TABLE dbo.UserAccount (
     Username VARCHAR(50) NOT NULL UNIQUE,
     PasswordHash VARCHAR(255) NOT NULL,
     Role VARCHAR(30) NOT NULL
-        CHECK (Role IN ('Administrator', 'Career Advisor')),
+    CHECK (Role IN ('Learner', 'Career Advisor', 'Administrator')),
     IsActive BIT NOT NULL DEFAULT 1
 );
 

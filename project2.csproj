@@ -57,8 +57,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="PasswordHasher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserAccountDataAccess.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,6 +101,12 @@
     <Content Include="Database\QUERY18.sql" />
     <Content Include="Database\QUERY19.sql" />
     <Content Include="Database\QUERY2.sql" />
+    <Content Include="Database\QUERY20.sql" />
+    <Content Include="Database\QUERY21.sql" />
+    <Content Include="Database\QUERY22.sql" />
+    <Content Include="Database\QUERY23.sql" />
+    <Content Include="Database\QUERY24.sql" />
+    <Content Include="Database\QUERY25.sql" />
     <Content Include="Database\QUERY3.sql" />
     <Content Include="Database\QUERY4.sql" />
     <Content Include="Database\QUERY5.sql" />

@@ -18,7 +18,7 @@ VALUES
     ('Mathematical Literacy'),
     ('English Home Language'),
     ('English First Additional Language'),
-    (' isiZulu Home Language'),
+    ('isiZulu Home Language'),
     ('Physical Sciences'),
     ('Life Sciences'),
     ('Accounting'),

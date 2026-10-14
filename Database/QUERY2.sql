@@ -28,6 +28,7 @@ CREATE TABLE dbo.AdvisorySession (
     LearnerID INT NOT NULL,
     DegreeProgrammeID INT NOT NULL,
     SessionDate DATETIME NOT NULL DEFAULT GETDATE(),
+    OverallOutcome VARCHAR(40) NULL,
 
     CONSTRAINT FK_AdvisorySession_Learner
         FOREIGN KEY (LearnerID)
