@@ -80,12 +80,16 @@
             this.txtSchool = new System.Windows.Forms.TextBox();
             this.txtLearnerSurname = new System.Windows.Forms.TextBox();
             this.lblSchool = new System.Windows.Forms.Label();
+            this.tabQuestionnaire = new System.Windows.Forms.TabPage();
+            this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
             this.tabLearnerInfo.SuspendLayout();
             this.grpFaculty.SuspendLayout();
             this.grpLearnerInfo.SuspendLayout();
+            this.tabQuestionnaire.SuspendLayout();
             this.SuspendLayout();
             // 
             // radLearner
@@ -603,12 +607,14 @@
             // 
             this.FuturePathTabControl.Controls.Add(this.tabRoleSelection);
             this.FuturePathTabControl.Controls.Add(this.tabLearnerInfo);
+            this.FuturePathTabControl.Controls.Add(this.tabQuestionnaire);
             this.FuturePathTabControl.Location = new System.Drawing.Point(18, 18);
             this.FuturePathTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FuturePathTabControl.Name = "FuturePathTabControl";
             this.FuturePathTabControl.SelectedIndex = 0;
-            this.FuturePathTabControl.Size = new System.Drawing.Size(1155, 777);
+            this.FuturePathTabControl.Size = new System.Drawing.Size(1167, 777);
             this.FuturePathTabControl.TabIndex = 6;
+            this.FuturePathTabControl.SelectedIndexChanged += new System.EventHandler(this.FuturePathTabControl_SelectedIndexChanged);
             // 
             // tabRoleSelection
             // 
@@ -900,6 +906,39 @@
             this.lblSchool.TabIndex = 10;
             this.lblSchool.Text = "Enter your school name";
             // 
+            // tabQuestionnaire
+            // 
+            this.tabQuestionnaire.Controls.Add(this.btnSubmitQuestions);
+            this.tabQuestionnaire.Controls.Add(this.flowQuestions);
+            this.tabQuestionnaire.Location = new System.Drawing.Point(4, 29);
+            this.tabQuestionnaire.Name = "tabQuestionnaire";
+            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3);
+            this.tabQuestionnaire.Size = new System.Drawing.Size(1159, 744);
+            this.tabQuestionnaire.TabIndex = 2;
+            this.tabQuestionnaire.Text = "Interest Questionnaire";
+            this.tabQuestionnaire.UseVisualStyleBackColor = true;
+            // 
+            // flowQuestions
+            // 
+            this.flowQuestions.AutoScroll = true;
+            this.flowQuestions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowQuestions.Location = new System.Drawing.Point(3, 3);
+            this.flowQuestions.Name = "flowQuestions";
+            this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.flowQuestions.Size = new System.Drawing.Size(1153, 738);
+            this.flowQuestions.TabIndex = 0;
+            // 
+            // btnSubmitQuestions
+            // 
+            this.btnSubmitQuestions.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSubmitQuestions.Location = new System.Drawing.Point(3, 696);
+            this.btnSubmitQuestions.Name = "btnSubmitQuestions";
+            this.btnSubmitQuestions.Size = new System.Drawing.Size(1153, 45);
+            this.btnSubmitQuestions.TabIndex = 2;
+            this.btnSubmitQuestions.Text = "Submit Questionnaire";
+            this.btnSubmitQuestions.UseVisualStyleBackColor = true;
+            this.btnSubmitQuestions.Click += new System.EventHandler(this.btnSubmitQuestions_Click);
+            // 
             // FuturePathForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -920,6 +959,7 @@
             this.grpFaculty.PerformLayout();
             this.grpLearnerInfo.ResumeLayout(false);
             this.grpLearnerInfo.PerformLayout();
+            this.tabQuestionnaire.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -978,6 +1018,9 @@
         private System.Windows.Forms.ComboBox cmbQualification;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSubmit;
+        private System.Windows.Forms.TabPage tabQuestionnaire;
+        private System.Windows.Forms.FlowLayoutPanel flowQuestions;
+        private System.Windows.Forms.Button btnSubmitQuestions;
     }
 }
 
