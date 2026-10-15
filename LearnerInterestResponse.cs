@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace project2
 {
-    internal class LearnerInterestResponse
+    public class LearnerInterestResponse
     {
         public int LearnerInterestResponseID { get; set; }
         public int LearnerID { get; set; }

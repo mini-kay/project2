@@ -31,15 +31,10 @@ namespace project2
         {
             if (questionsLoaded) return;
 
-            var questions = new DataTable();
+            List<InterestQuestion> questions;
             try
             {
-                using (var conn = new SqlConnection(ConnStr))
-                using (var da = new SqlDataAdapter("SELECT InterestQuestionID, InterestCategoryID, " +
-                    "QuestionText " + " FROM dbo.InterestQuestion ORDER BY InterestQuestionID", conn))
-                {
-                    da.Fill(questions);
-                }
+                questions = new InterestQuestionDataAccess().GetAllQuestions();
             }
             catch (Exception ex)
             {
@@ -53,28 +48,16 @@ namespace project2
             flowQuestions.WrapContents = false;
             flowQuestions.AutoScroll = true;
 
-            foreach (DataRow row in questions.Rows)
+            foreach (InterestQuestion question in questions)
             {
-                var lbl = new Label
+                flowQuestions.Controls.Add(new Label
                 {
-                    Text = row["QuestionText"].ToString(),
+                    Text = question.QuestionText,
                     AutoSize = true,
-                    Margin = new Padding(10, 10, 10, 20)
-                };
-
-                var rating = new NumericUpDown
-                {
-                    Minimum = 1,
-                    Maximum = 5,
-                    Value = 3,
-                    Width = 60,
-                    Tag = row["InterestQuestionID"]
-                };
-
-                flowQuestions.Controls.Add(lbl);
-                flowQuestions.Controls.Add(rating);
+                    Margin = new Padding(3, 12, 3, 2)
+                });
             }
-
+            
             flowQuestions.ResumeLayout();
             questionsLoaded = true;
         }
@@ -264,78 +247,23 @@ namespace project2
                 return;
             }
 
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
+            var responses = new List<LearnerInterestResponse>();
+            foreach (Control control in flowQuestions.Controls)
             {
-                MessageBox.Show(
-                    "Please select a faculty and qualification first.");
-                return;
+                if (control is NumericUpDown rating)
+                {
+                    responses.Add(new LearnerInterestResponse
+                    {
+                        LearnerID = currentLearnerID,
+                        InterestQuestionID = Convert.ToInt32(rating.Tag),
+                        ResponseValue = (int)rating.Value
+                    });
+                }
             }
-
-            int degreeProgrammeID = GetSelectedDegreeProgrammeID();
-            MessageBox.Show(
-                "Learner ID: " + currentLearnerID +
-                "\nFaculty: " + cmbFaculty.Text +
-                "\nQualification: " + cmbQualification.Text +
-                "\nDegree Programme ID: " + degreeProgrammeID,
-                "Advisory Session Diagnostic");
-
-            if (degreeProgrammeID == 0)
-            {
-                MessageBox.Show(
-                    "This qualification is not mapped to a supported programme. Please choose another qualification.");
-                return;
-            }
-
             try
             {
-                int sessionID;
-
-                using (var conn = new SqlConnection(ConnStr))
-                {
-                    conn.Open();
-
-                    using (var trans = conn.BeginTransaction())
-                    {
-                        using (var cmd = new SqlCommand(
-                            @"INSERT INTO dbo.AdvisorySession
-                      (LearnerID, DegreeProgrammeID, SessionDate)
-                      OUTPUT INSERTED.AdvisorySessionID
-                      VALUES (@L, @D, GETDATE());",
-                            conn, trans))
-                        {
-                            cmd.Parameters.AddWithValue("@L", currentLearnerID);
-                            cmd.Parameters.AddWithValue("@D", degreeProgrammeID);
-
-                            sessionID = Convert.ToInt32(cmd.ExecuteScalar());
-                        }
-
-                        foreach (Control c in flowQuestions.Controls)
-                        {
-                            if (c is NumericUpDown rating)
-                            {
-                                using (var cmd = new SqlCommand(
-                                    @"INSERT INTO dbo.LearnerInterestResponse
-                              (LearnerID, InterestQuestionID,
-                               AdvisorySessionID, ResponseValue)
-                              VALUES (@L, @Q, @S, @V);",
-                                    conn, trans))
-                                {
-                                    cmd.Parameters.AddWithValue("@L", currentLearnerID);
-                                    cmd.Parameters.AddWithValue(
-                                        "@Q", Convert.ToInt32(rating.Tag));
-                                    cmd.Parameters.AddWithValue("@S", sessionID);
-                                    cmd.Parameters.AddWithValue(
-                                        "@V", (int)rating.Value);
-
-                                    cmd.ExecuteNonQuery();
-                                }
-                            }
-                        }
-
-                        trans.Commit();
-                    }
-                }
+                int sessionID = new AdvisorySessionDataAccess()
+                    .SaveSession(currentLearnerID, responses);
 
                 DataTable scores = GetAlignmentScores(currentLearnerID, sessionID);
 

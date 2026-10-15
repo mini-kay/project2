@@ -54,6 +54,7 @@
       <DependentUpon>Administrator.cs</DependentUpon>
     </Compile>
     <Compile Include="AdvisorySession.cs" />
+    <Compile Include="AdvisorySessionDataAccess.cs" />
     <Compile Include="Career Advisor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +64,7 @@
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="InterestCategory.cs" />
     <Compile Include="InterestQuestion.cs" />
+    <Compile Include="InterestQuestionDataAccess.cs" />
     <Compile Include="LearnerDataAccess.cs" />
     <Compile Include="LearnerInterestResponse.cs" />
     <Compile Include="LearnerManager.cs" />
