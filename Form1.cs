@@ -127,7 +127,7 @@ namespace project2
             {
                 cmd.Parameters.AddWithValue("@First", learner.FirstName);
                 cmd.Parameters.AddWithValue("@Last", learner.LastName);
-                cmd.Parameters.AddWithValue("@Grade", learner.Grade);
+                cmd.Parameters.AddWithValue("@Grade", grade);
                 cmd.Parameters.AddWithValue("@School", learner.SchoolName);
                 cmd.Parameters.AddWithValue("@Province", learner.Province);
                 conn.Open();
@@ -233,6 +233,7 @@ namespace project2
                 return;
             }
             MessageBox.Show("Learner Added Successfully!!");
+            FuturePathTabControl.SelectedTab = tabQuestionnaire;
 
 
 
