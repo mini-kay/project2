@@ -112,27 +112,41 @@ namespace project2
 
         private int currentLearnerID;
 
+
         private int SaveLearner(Learner learner)
         {
-            string digits = new string(learner.Grade.Where(char.IsDigit).ToArray());
+            string digits = new string(
+                learner.Grade.Where(char.IsDigit).ToArray());
+
             int grade = int.Parse(digits);
 
             const string sql = @"
-                INSERT INTO dbo.Learner (FirstName, LastName, Grade, School, Province)
-                OUTPUT INSERTED.LearnerID
-                VALUES (@First, @Last, @Grade, @School, @Province);";
+        INSERT INTO dbo.Learner
+            (FirstName, LastName, Grade, School, Province, Email)
+        OUTPUT INSERTED.LearnerID
+        VALUES
+            (@First, @Last, @Grade, @School, @Province, @Email);";
 
             using (var conn = new SqlConnection(ConnStr))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@First", learner.FirstName);
                 cmd.Parameters.AddWithValue("@Last", learner.LastName);
-                cmd.Parameters.AddWithValue("@Grade", learner.Grade);
+                cmd.Parameters.AddWithValue("@Grade", grade);
                 cmd.Parameters.AddWithValue("@School", learner.SchoolName);
                 cmd.Parameters.AddWithValue("@Province", learner.Province);
+                cmd.Parameters.AddWithValue(
+                    "@Email",
+                    string.IsNullOrWhiteSpace(learner.Email)
+                        ? (object)DBNull.Value
+                        : learner.Email.Trim());
+
                 conn.Open();
-                return (int)cmd.ExecuteScalar();
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
+        
+
         }
         #endregion
 
@@ -233,11 +247,6 @@ namespace project2
                 return;
             }
             MessageBox.Show("Learner Added Successfully!!");
-
-
-
-
-
         }
 
         private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -254,20 +263,50 @@ namespace project2
                 return;
             }
 
+            if (cmbFaculty.SelectedIndex == -1 ||
+                cmbQualification.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Please select a faculty and qualification first.");
+                return;
+            }
+
+            int degreeProgrammeID = GetSelectedDegreeProgrammeID();
+            MessageBox.Show(
+                "Learner ID: " + currentLearnerID +
+                "\nFaculty: " + cmbFaculty.Text +
+                "\nQualification: " + cmbQualification.Text +
+                "\nDegree Programme ID: " + degreeProgrammeID,
+                "Advisory Session Diagnostic");
+
+            if (degreeProgrammeID == 0)
+            {
+                MessageBox.Show(
+                    "This qualification is not mapped to a supported programme. Please choose another qualification.");
+                return;
+            }
+
             try
             {
                 int sessionID;
+
                 using (var conn = new SqlConnection(ConnStr))
                 {
                     conn.Open();
+
                     using (var trans = conn.BeginTransaction())
                     {
                         using (var cmd = new SqlCommand(
-                            "INSERT INTO dbo.AdvisorySession (LearnerID, SessionDate) " +
-                            "OUTPUT INSERTED.AdvisorySessionID VALUES (@L, GETDATE());", conn, trans))
+                            @"INSERT INTO dbo.AdvisorySession
+                      (LearnerID, DegreeProgrammeID, SessionDate)
+                      OUTPUT INSERTED.AdvisorySessionID
+                      VALUES (@L, @D, GETDATE());",
+                            conn, trans))
                         {
                             cmd.Parameters.AddWithValue("@L", currentLearnerID);
-                            sessionID = (int)cmd.ExecuteScalar();
+                            cmd.Parameters.AddWithValue("@D", degreeProgrammeID);
+
+                            sessionID = Convert.ToInt32(cmd.ExecuteScalar());
                         }
 
                         foreach (Control c in flowQuestions.Controls)
@@ -275,33 +314,107 @@ namespace project2
                             if (c is NumericUpDown rating)
                             {
                                 using (var cmd = new SqlCommand(
-                                    "INSERT INTO dbo.LearnerInterestResponse " + 
-                                    "(LearnerID, InterestQuestionID, AdvisorySessionID, ResponseValue) " +
-                                    "VALUES (@L, @Q, @S, @V);", conn, trans))
+                                    @"INSERT INTO dbo.LearnerInterestResponse
+                              (LearnerID, InterestQuestionID,
+                               AdvisorySessionID, ResponseValue)
+                              VALUES (@L, @Q, @S, @V);",
+                                    conn, trans))
                                 {
                                     cmd.Parameters.AddWithValue("@L", currentLearnerID);
-                                    cmd.Parameters.AddWithValue("@Q", Convert.ToInt32(rating.Tag));
+                                    cmd.Parameters.AddWithValue(
+                                        "@Q", Convert.ToInt32(rating.Tag));
                                     cmd.Parameters.AddWithValue("@S", sessionID);
-                                    cmd.Parameters.AddWithValue("@V", (int)rating.Value);
+                                    cmd.Parameters.AddWithValue(
+                                        "@V", (int)rating.Value);
+
                                     cmd.ExecuteNonQuery();
                                 }
                             }
                         }
+
                         trans.Commit();
                     }
                 }
 
                 DataTable scores = GetAlignmentScores(currentLearnerID, sessionID);
-                string text = "Your best matches:\n";
+
+                string resultText = "Your best matches:\n";
+
                 for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
-                    text += (i + 1) + ". " + scores.Rows[i]["ProgrammeName"] + "\n";
-                MessageBox.Show(text, "Interest Results");
+                {
+                    resultText += (i + 1) + ". " +
+                        scores.Rows[i]["ProgrammeName"] + "\n";
+                }
+
+                MessageBox.Show(resultText, "Interest Results");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Could not save answers: " + ex.Message);
+                MessageBox.Show(
+                    "Could not save answers: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
+
+
+        private int GetSelectedDegreeProgrammeID()
+        {
+            string qualification = cmbQualification.Text.Trim();
+
+            string programmeName = null;
+
+            if (qualification.Contains("Bachelor of Commerce"))
+                programmeName = "Bachelor of Commerce";
+            else if (qualification.Contains("Bachelor of Business Science") ||
+                     qualification.StartsWith("BBusSci") ||
+                     qualification.StartsWith("BCom"))
+                programmeName = "Bachelor of Business Science";
+            else if (qualification.Contains("Bachelor of Social Science") ||
+                     qualification.StartsWith("BSocSci"))
+                programmeName = "Bachelor of Social Science";
+            else if (qualification.Contains("Bachelor of Arts") ||
+                     qualification.StartsWith("BA in"))
+                programmeName = "Bachelor of Arts";
+            else if (qualification.Contains("BSc Engineering") ||
+                     qualification.Contains("BSc Construction Studies") ||
+                     qualification.Contains("BSc Property Studies") ||
+                     qualification.Contains("BSc Architectural Studies") ||
+                     qualification.Contains("BSc Geomatics"))
+                programmeName = "Bachelor of Science in Engineering";
+            else if (qualification.Contains("Bachelor of Sciences"))
+                programmeName = "Bachelor of Science";
+            else if (qualification.Contains("Physiotherapy") ||
+                     qualification.Contains("Occupational Therapy") ||
+                     qualification.Contains("Audiology") ||
+                     qualification.Contains("Speech-Language Pathology") ||
+                     qualification.Contains("MBChB"))
+                programmeName = "Bachelor of Health Sciences";
+
+            if (programmeName == null)
+                return 0;
+
+            const string sql = @"
+        SELECT DegreeProgrammeID
+        FROM dbo.DegreeProgramme
+        WHERE ProgrammeName = @ProgrammeName
+          AND IsActive = 1;";
+
+            using (var conn = new SqlConnection(ConnStr))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@ProgrammeName", programmeName);
+                conn.Open();
+
+                object result = cmd.ExecuteScalar();
+
+                return result == null || result == DBNull.Value
+                    ? 0
+                    : Convert.ToInt32(result);
+            }
+        }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
