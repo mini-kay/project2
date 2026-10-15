@@ -72,6 +72,8 @@
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recommendation.cs" />
+    <Compile Include="RecommendationDataAccess.cs" />
     <Compile Include="UserAccountDataAccess.cs" />
     <EmbeddedResource Include="Administrator.resx">
       <DependentUpon>Administrator.cs</DependentUpon>
