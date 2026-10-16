@@ -369,105 +369,6 @@ namespace project2
             
         }
 
-        private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
-                LoadQuestions();
-        }
-
-
-        private void btnSubmitQuestions_Click(object sender, EventArgs e)
-        {
-            if (currentLearnerID <= 0 || currentSessionID <= 0)
-            {
-                MessageBox.Show(
-                    "Please submit the learner information first.");
-                return;
-            }
-
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Please select a faculty and qualification first.");
-                return;
-            }
-
-            var responses = new List<LearnerInterestResponse>();
-
-            foreach (Control control in flowQuestions.Controls)
-            {
-                if (control is NumericUpDown rating && rating.Tag != null)
-                {
-                    responses.Add(new LearnerInterestResponse
-                    {
-                        LearnerID = currentLearnerID,
-                        InterestQuestionID = Convert.ToInt32(rating.Tag),
-                        ResponseValue = (int)rating.Value
-                    });
-                }
-            }
-
-            if (responses.Count == 0)
-            {
-                questionsLoaded = false;
-                LoadQuestions();
-
-                MessageBox.Show(
-                    "No answers found. Please answer the questions on the questionnaire tab.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                var dataAccess = new AdvisorySessionDataAccess();
-
-                // Save responses against the current advisory session.
-                dataAccess.SaveResponses(
-                    currentLearnerID,
-                    currentSessionID,
-                    responses);
-
-                // Calculate programme matches.
-                DataTable scores = GetAlignmentScores(
-                    currentLearnerID,
-                    currentSessionID);
-
-                string resultText = "Your best matches:\n";
-
-                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
-                {
-                    resultText += (i + 1) + ". " +
-                        scores.Rows[i]["ProgrammeName"] + "\n";
-                }
-
-                if (scores.Rows.Count == 0)
-                {
-                    resultText +=
-                        "No matches were found. Please check the interest mappings.";
-                }
-
-                MessageBox.Show(resultText, "Interest Results");
-
-                MessageBox.Show(
-                    "Questionnaire submitted successfully.\nSession ID: "
-                    + currentSessionID,
-                    "Success");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Could not submit the questionnaire:\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!ValidateLearner())
@@ -484,23 +385,18 @@ namespace project2
 
             try
             {
-                // 1. Save the learner.
                 learnerManager.AddLearner(learner);
                 currentLearnerID = SaveLearner(learner);
 
-                // 2. Create one advisory session.
                 AdvisorySessionDataAccess dataAccess =
                     new AdvisorySessionDataAccess();
 
                 currentSessionID = dataAccess.SaveSession(currentLearnerID);
 
-                // 3. Save the learner's subjects and marks.
                 SaveSubjectMarks(currentLearnerID, currentSessionID);
 
-                MessageBox.Show(
-                    "Learner and subject marks saved successfully!");
+                MessageBox.Show("Learner and subject marks saved successfully!");
 
-                // 4. Continue to the questionnaire.
                 FuturePathTabControl.SelectedTab = tabQuestionnaire;
             }
             catch (Exception ex)
@@ -510,8 +406,6 @@ namespace project2
                 );
             }
         }
-        
-
 
         private int GetSelectedDegreeProgrammeID()
         {
@@ -575,9 +469,101 @@ namespace project2
 
         }
 
-       
+        private void FuturePathTabControl_SelectedIndexChanged(
+    object sender, EventArgs e)
+        {
+            if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
+            {
+                LoadQuestions();
+            }
+        }
 
-        
+        private void btnSubmitQuestions_Click(object sender, EventArgs e)
+        {
+            if (currentLearnerID <= 0 || currentSessionID <= 0)
+            {
+                MessageBox.Show(
+                    "Please submit the learner information first.");
+                return;
+            }
+
+            if (cmbFaculty.SelectedIndex == -1 ||
+                cmbQualification.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Please select a faculty and qualification first.");
+                return;
+            }
+
+            var responses = new List<LearnerInterestResponse>();
+
+            foreach (Control control in flowQuestions.Controls)
+            {
+                if (control is NumericUpDown rating && rating.Tag != null)
+                {
+                    responses.Add(new LearnerInterestResponse
+                    {
+                        LearnerID = currentLearnerID,
+                        InterestQuestionID = Convert.ToInt32(rating.Tag),
+                        ResponseValue = (int)rating.Value
+                    });
+                }
+            }
+
+            if (responses.Count == 0)
+            {
+                MessageBox.Show(
+                    "Please complete the interest questionnaire.");
+                return;
+            }
+
+            try
+            {
+                var dataAccess = new AdvisorySessionDataAccess();
+
+                // 1. Save the questionnaire responses.
+                dataAccess.SaveResponses(
+                    currentLearnerID,
+                    currentSessionID,
+                    responses);
+
+                // 2. Calculate programme matches.
+                DataTable scores = GetAlignmentScores(
+                    currentLearnerID,
+                    currentSessionID);
+
+                string resultText = "Your best matches:\n";
+
+                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
+                {
+                    resultText += (i + 1) + ". " +
+                        scores.Rows[i]["ProgrammeName"] + "\n";
+                }
+
+                if (scores.Rows.Count == 0)
+                {
+                    resultText +=
+                        "No matches were found. Please check the interest mappings.";
+                }
+
+
+                MessageBox.Show(resultText, "Interest Results");
+
+                MessageBox.Show(
+                    "Questionnaire submitted successfully.\nSession ID: "
+                    + currentSessionID,
+                    "Success");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Could not submit the questionnaire:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+        }
 
     }
 }
