@@ -23,7 +23,7 @@ namespace project2
             using (SqlCommand command = new SqlCommand (query, connection))
             {
                 connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader ())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {

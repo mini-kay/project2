@@ -56,6 +56,15 @@ namespace project2
                     AutoSize = true,
                     Margin = new Padding(3, 12, 3, 2)
                 });
+
+                flowQuestions.Controls.Add(new NumericUpDown
+                {
+                    Minimum = 1,
+                    Maximum = 5,
+                    Value = 3,
+                    Width = 60,
+                    Tag = question.InterestQuestionID
+                });
             }
             
             flowQuestions.ResumeLayout();
@@ -259,6 +268,14 @@ namespace project2
                         ResponseValue = (int)rating.Value
                     });
                 }
+            }
+
+            if( responses.Count == 0)
+            {
+                questionsLoaded = false;
+                LoadQuestions();
+                MessageBox.Show("No answers found. Please answer the questions on the questionnaire tab.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             try
             {
