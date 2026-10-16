@@ -572,5 +572,9 @@ namespace project2
 
         }
 
+        private void tabLearnerInfo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
