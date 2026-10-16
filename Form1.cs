@@ -165,7 +165,7 @@ namespace project2
                 " - View funding opportunities related to your chosen field(s) of study.\n",
                 "Welcome to Future Path", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        private bool ValidateLearner()
+        private bool ValidateLearnerInfo()
         {
             
             if (txtLearnerName.Text.Trim() == "")
@@ -187,7 +187,14 @@ namespace project2
             if(txtLearnerSurname.Text.Any(char.IsDigit))
             {
                 MessageBox.Show("Last Name cannot contain numbers");
+                return false;  
+            }
+            if (cmbGrade.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a grade");
+                cmbGrade.Focus();
                 return false;
+
             }
             if (txtSchool.Text.Trim() == "")
             {
@@ -197,6 +204,9 @@ namespace project2
             if (txtSchool.Text.Any(char.IsDigit))
             {
                 MessageBox.Show("School Name cannot contain digits");
+                //move cursor back to error
+                txtSchool.Focus();
+                return false;
             }
             if (cmbProvince.Text == "")
             {
@@ -209,11 +219,132 @@ namespace project2
                 return false;
             }
 
+            //validate learner marks
+           
+            if (!ValidateSubject(cmbHomeLanguage, "Home Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkHL, "Home Language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbFAL, "First Additional Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkFAL, "First Additional Language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkLO, "Life Orientation"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject1, "Subject 1"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark1, "Subject 1"))
+            {
+                return false;
+
+            }
+            if (!ValidateSubject(cmbSubject2, "Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark2, "Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject3, "Subject 3"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark3, "Subject 3"))
+            {
+                return false;
+            }
+            //Check for duplicate subjects
+            if (!DuplicateSubjects())
+            {
+                return false;
+            }
+            return true;
+
+        }
+        //check that the same subject is not added twice
+        private bool DuplicateSubjects()
+        {
+            List<string> subjects = new List<string>()
+            {
+                cmbHomeLanguage.Text,
+                cmbFAL.Text,
+                cmbMaths.Text,
+                cmbSubject1.Text,
+                cmbSubject2.Text,
+                cmbSubject3.Text
+            };
+            //remove blank values
+            subjects = subjects.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            //compare total subjects against unique subjects
+            if (subjects.Count != subjects.Distinct().Count())
+            {
+                MessageBox.Show("Duplicate subjects are not allowed", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
             return true;
         }
-        //add focus to this!
-        //improve messageboxes
-        //also check spelling
+        //check that a mark contains a number and is between 0 and 100
+        private bool ValidateMark(TextBox txtMark, string subject)
+        {
+            int mark;
+            //Check is mark was entered
+            if (string.IsNullOrWhiteSpace(txtMark.Text))
+            {
+                MessageBox.Show("Please enter a mark for " + subject, "Missing info", MessageBoxButtons.OK);
+                txtMark.Focus();
+                return false;
+            }
+            //check if a user entered a number
+            if (!int.TryParse(txtMark.Text, out mark))
+            {
+                MessageBox.Show("Mark needs to be a number","Missing info", MessageBoxButtons.OK);
+                txtMark.Focus(); //moving the cursor back to error
+                return false;
+            }
+            //check valid range
+            if (mark < 0 || mark > 100)
+            {
+                MessageBox.Show(subject + " mark must be between 0 and 100");
+                txtMark.Focus();
+                return false;
+            }
+            return true;
+
+        }
+        //check that a subject has been selected
+        private bool ValidateSubject(ComboBox cmbSubject, string subjectName)
+        {
+            if (cmbSubject.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a subject for" + subjectName);
+                cmbSubject.Focus();
+                return false;
+            }
+            return true;
+        }
+
+
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
@@ -233,10 +364,11 @@ namespace project2
             }
             
         }
+        
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (!ValidateLearner())
+            if (!ValidateLearnerInfo())
             {
                 return;
             }
@@ -252,7 +384,12 @@ namespace project2
             }
             MessageBox.Show("Learner Added Successfully!!");
             FuturePathTabControl.SelectedTab = tabQuestionnaire;
+            
+
+            
         }
+
+
 
         private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -290,55 +427,56 @@ namespace project2
                 }
             }
 
-            if( responses.Count == 0)
+            if (responses.Count == 0)
             {
                 questionsLoaded = false;
                 LoadQuestions();
                 MessageBox.Show("No answers found. Please answer the questions on the questionnaire tab.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
 
-            try
-            {
-                var dataAccess = new AdvisorySessionDataAccess();
-
-                // Step 1: Save the interest responses.
-                dataAccess.SaveResponses(currentLearnerID, responses);
-
-                // Step 2: Calculate and display the best matches.
-                DataTable scores = GetAlignmentScores(currentLearnerID);
-
-                string resultText = "Your best matches:\n";
-
-                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
+                try
                 {
-                    resultText += (i + 1) + ". " +
-                        scores.Rows[i]["ProgrammeName"] + "\n";
-                }
+                    var dataAccess = new AdvisorySessionDataAccess();
 
-                if (scores.Rows.Count == 0)
+                    // Step 1: Save the interest responses.
+                    dataAccess.SaveResponses(currentLearnerID, responses);
+
+                    // Step 2: Calculate and display the best matches.
+                    DataTable scores = GetAlignmentScores(currentLearnerID);
+
+                    string resultText = "Your best matches:\n";
+
+                    for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
+                    {
+                        resultText += (i + 1) + ". " +
+                            scores.Rows[i]["ProgrammeName"] + "\n";
+                    }
+
+                    if (scores.Rows.Count == 0)
+                    {
+                        resultText += "No matches were found. Please check the interest mappings.";
+                    }
+
+                    MessageBox.Show(resultText, "Interest Results");
+
+                    // Step 3: Create the advisory session after showing results.
+                    int sessionID = dataAccess.SaveSession(currentLearnerID);
+
+                    // Step 4: Link the responses to the new session.
+                    dataAccess.LinkResponsesToSession(currentLearnerID, sessionID);
+
+                    MessageBox.Show(
+                        "Advisory session created successfully. Session ID: " + sessionID,
+                        "Success");
+                }
+                catch (Exception ex)
                 {
-                    resultText += "No matches were found. Please check the interest mappings.";
+                    MessageBox.Show(
+                        "Could not complete the advising process: " + ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
-
-                MessageBox.Show(resultText, "Interest Results");
-
-                // Step 3: Create the advisory session after showing results.
-                int sessionID = dataAccess.SaveSession(currentLearnerID);
-
-                // Step 4: Link the responses to the new session.
-                dataAccess.LinkResponsesToSession(currentLearnerID, sessionID);
-
-                MessageBox.Show(
-                    "Advisory session created successfully. Session ID: " + sessionID,
-                    "Success");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Could not complete the advising process: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
         }
 
