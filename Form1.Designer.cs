@@ -648,7 +648,7 @@
             this.tabRoleSelection.Controls.Add(this.radAdministrator);
             this.tabRoleSelection.Location = new System.Drawing.Point(4, 22);
             this.tabRoleSelection.Name = "tabRoleSelection";
-            this.tabRoleSelection.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabRoleSelection.Padding = new System.Windows.Forms.Padding(3);
             this.tabRoleSelection.Size = new System.Drawing.Size(770, 479);
             this.tabRoleSelection.TabIndex = 0;
             this.tabRoleSelection.Text = "Role Selection";
@@ -686,7 +686,7 @@
             this.tabLearnerInfo.Controls.Add(this.grpSubjects);
             this.tabLearnerInfo.Location = new System.Drawing.Point(4, 22);
             this.tabLearnerInfo.Name = "tabLearnerInfo";
-            this.tabLearnerInfo.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabLearnerInfo.Padding = new System.Windows.Forms.Padding(3);
             this.tabLearnerInfo.Size = new System.Drawing.Size(770, 479);
             this.tabLearnerInfo.TabIndex = 1;
             this.tabLearnerInfo.Text = "Learner Information";
@@ -758,7 +758,7 @@
             "NOT SURE YET"});
             this.cmbQualification.Location = new System.Drawing.Point(226, 64);
             this.cmbQualification.Name = "cmbQualification";
-            this.cmbQualification.Size = new System.Drawing.Size(100, 21);
+            this.cmbQualification.Size = new System.Drawing.Size(147, 21);
             this.cmbQualification.TabIndex = 16;
             // 
             // lblQualification
@@ -913,9 +913,9 @@
             this.tabQuestionnaire.Controls.Add(this.btnSubmitQuestions);
             this.tabQuestionnaire.Controls.Add(this.flowQuestions);
             this.tabQuestionnaire.Location = new System.Drawing.Point(4, 22);
-            this.tabQuestionnaire.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabQuestionnaire.Margin = new System.Windows.Forms.Padding(2);
             this.tabQuestionnaire.Name = "tabQuestionnaire";
-            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(2);
             this.tabQuestionnaire.Size = new System.Drawing.Size(770, 479);
             this.tabQuestionnaire.TabIndex = 2;
             this.tabQuestionnaire.Text = "Interest Questionnaire";
@@ -925,7 +925,7 @@
             // 
             this.btnSubmitQuestions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnSubmitQuestions.Location = new System.Drawing.Point(2, 448);
-            this.btnSubmitQuestions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSubmitQuestions.Margin = new System.Windows.Forms.Padding(2);
             this.btnSubmitQuestions.Name = "btnSubmitQuestions";
             this.btnSubmitQuestions.Size = new System.Drawing.Size(766, 29);
             this.btnSubmitQuestions.TabIndex = 2;
@@ -938,7 +938,7 @@
             this.flowQuestions.AutoScroll = true;
             this.flowQuestions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowQuestions.Location = new System.Drawing.Point(2, 2);
-            this.flowQuestions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowQuestions.Margin = new System.Windows.Forms.Padding(2);
             this.flowQuestions.Name = "flowQuestions";
             this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 13);
             this.flowQuestions.Size = new System.Drawing.Size(766, 475);
@@ -956,7 +956,7 @@
             this.tabAdvisoryOutcome.Controls.Add(this.label1);
             this.tabAdvisoryOutcome.Location = new System.Drawing.Point(4, 22);
             this.tabAdvisoryOutcome.Name = "tabAdvisoryOutcome";
-            this.tabAdvisoryOutcome.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabAdvisoryOutcome.Padding = new System.Windows.Forms.Padding(3);
             this.tabAdvisoryOutcome.Size = new System.Drawing.Size(770, 479);
             this.tabAdvisoryOutcome.TabIndex = 3;
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
@@ -1097,7 +1097,7 @@
             this.tabAltRecs.Controls.Add(this.grpboxRecProgrammes);
             this.tabAltRecs.Location = new System.Drawing.Point(4, 22);
             this.tabAltRecs.Name = "tabAltRecs";
-            this.tabAltRecs.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabAltRecs.Padding = new System.Windows.Forms.Padding(3);
             this.tabAltRecs.Size = new System.Drawing.Size(770, 479);
             this.tabAltRecs.TabIndex = 4;
             this.tabAltRecs.Text = "Alternative Programme";
@@ -1191,7 +1191,7 @@
             this.tabFundingInfo.Controls.Add(this.label3);
             this.tabFundingInfo.Location = new System.Drawing.Point(4, 22);
             this.tabFundingInfo.Name = "tabFundingInfo";
-            this.tabFundingInfo.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabFundingInfo.Padding = new System.Windows.Forms.Padding(3);
             this.tabFundingInfo.Size = new System.Drawing.Size(770, 479);
             this.tabFundingInfo.TabIndex = 5;
             this.tabFundingInfo.Text = "Funding Info";
@@ -1328,7 +1328,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(794, 529);
             this.Controls.Add(this.FuturePathTabControl);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FuturePathForm";
             this.Text = "Future Path Learner System";
             this.Load += new System.EventHandler(this.FuturePathForm_Load);

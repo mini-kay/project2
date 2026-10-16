@@ -78,42 +78,51 @@ namespace project2
             questionsLoaded = true;
         }
 
-        private DataTable GetAlignmentScores(int learnerID)
+        private DataTable GetAlignmentScores(int learnerID, int sessionID)
         {
             string sql = @"
-        SELECT dp.ProgrammeName,
-               SUM(cat.Total * dim.Weight) AS Score
+        SELECT
+            dp.ProgrammeName,
+            SUM(cat.Total * dim.Weight) AS Score
         FROM dbo.DegreeInterestMapping dim
         JOIN dbo.DegreeProgramme dp
             ON dp.DegreeProgrammeID = dim.DegreeProgrammeID
-        JOIN (
-            SELECT q.InterestCategoryID,
-                   SUM(r.ResponseValue) AS Total
+        JOIN
+        (
+            SELECT
+                q.InterestCategoryID,
+                SUM(r.ResponseValue) AS Total
             FROM dbo.LearnerInterestResponse r
             JOIN dbo.InterestQuestion q
                 ON q.InterestQuestionID = r.InterestQuestionID
             WHERE r.LearnerID = @LearnerID
-              AND r.AdvisorySessionID IS NULL
+              AND r.AdvisorySessionID = @SessionID
             GROUP BY q.InterestCategoryID
-        ) cat ON cat.InterestCategoryID = dim.InterestCategoryID
+        ) cat
+            ON cat.InterestCategoryID = dim.InterestCategoryID
         WHERE dp.IsActive = 1
         GROUP BY dp.ProgrammeName
         ORDER BY Score DESC;";
 
-            var results = new DataTable();
+            DataTable results = new DataTable();
 
-            using (var conn = new SqlConnection(ConnStr))
-            using (var cmd = new SqlCommand(sql, conn))
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@LearnerID", learnerID);
-                new SqlDataAdapter(cmd).Fill(results);
+                cmd.Parameters.AddWithValue("@SessionID", sessionID);
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                {
+                    adapter.Fill(results);
+                }
             }
 
             return results;
         }
 
         private int currentLearnerID;
-
+        private int currentSessionID;
 
         private int SaveLearner(Learner learner)
         {
@@ -151,6 +160,132 @@ namespace project2
 
         }
         #endregion
+
+        private bool TryGetMark(string markText, out int mark)
+        {
+            mark = 0;
+
+            if (!int.TryParse(markText.Trim(), out mark))
+                return false;
+
+            return mark >= 0 && mark <= 100;
+        }
+
+        private void SaveSubjectMarks(int learnerID, int sessionID)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnStr))
+            {
+                connection.Open();
+
+                string sql = @"
+            INSERT INTO dbo.LearnerSubject
+                (LearnerID, SubjectID, AdvisorySessionID, Mark)
+            VALUES
+                (@LearnerID, @SubjectID, @SessionID, @Mark)";
+
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+                    cmd.Parameters.Add("@LearnerID", SqlDbType.Int);
+                    cmd.Parameters.Add("@SubjectID", SqlDbType.Int);
+                    cmd.Parameters.Add("@SessionID", SqlDbType.Int);
+                    cmd.Parameters.Add("@Mark", SqlDbType.Int);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbHomeLanguage.Text, txtMarkHL.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbFAL.Text, txtMarkFAL.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbMaths.Text, txtMarkMaths.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        txtLO.Text, txtMarkLO.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbSubject1.Text, txtMark1.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbSubject2.Text, txtMark2.Text);
+
+                    SaveOneSubject(cmd, learnerID, sessionID,
+                        cmbSubject3.Text, txtMark3.Text);
+                }
+            }
+        }
+
+        private void SaveOneSubject(
+            SqlCommand cmd, int learnerID, int sessionID,
+            string subjectName, string markText)
+        {
+            // Ignore rows that have not been selected or entered.
+            if (string.IsNullOrWhiteSpace(subjectName) ||
+                string.IsNullOrWhiteSpace(markText))
+                return;
+
+            if (!int.TryParse(markText, out int mark) ||
+                mark < 0 || mark > 100)
+            {
+                throw new ArgumentException(
+                    "Enter a valid mark between 0 and 100 for "
+                    + subjectName + ".");
+            }
+
+            int subjectID = GetSubjectID(subjectName);
+
+            cmd.Parameters["@LearnerID"].Value = learnerID;
+            cmd.Parameters["@SubjectID"].Value = subjectID;
+            cmd.Parameters["@SessionID"].Value = sessionID;
+            cmd.Parameters["@Mark"].Value = mark;
+
+            cmd.ExecuteNonQuery();
+        }
+
+        private int GetSubjectID(string subjectName)
+        {
+            string dbSubjectName = subjectName.Trim();
+
+            if (dbSubjectName.EndsWith(" HL"))
+            {
+                dbSubjectName =
+                    dbSubjectName.Substring(0, dbSubjectName.Length - 3)
+                    + " Home Language";
+            }
+            else if (dbSubjectName.EndsWith(" FAL"))
+            {
+                dbSubjectName =
+                    dbSubjectName.Substring(0, dbSubjectName.Length - 4)
+                    + " First Additional Language";
+            }
+
+            using (SqlConnection connection = new SqlConnection(ConnStr))
+            {
+                connection.Open();
+
+                string sql = @"
+            SELECT SubjectID
+            FROM dbo.Subject
+            WHERE SubjectName = @SubjectName";
+
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+                    cmd.Parameters.Add("@SubjectName", SqlDbType.VarChar, 100)
+                        .Value = dbSubjectName;
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result == null || result == DBNull.Value)
+                    {
+                        throw new ArgumentException(
+                            "This subject is not configured in the database: "
+                            + subjectName);
+                    }
+
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+
 
         private void FuturePathForm_Load(object sender, EventArgs e)
         {
@@ -235,107 +370,42 @@ namespace project2
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!ValidateLearner())
-            {
                 return;
-            }
-            Learner learner = new Learner(txtLearnerName.Text, txtLearnerSurname.Text,
-                                          cmbGrade.Text, txtSchool.Text, cmbProvince.Text,
-                                          txtEmail.Text);
-            learnerManager.AddLearner(learner);
-            try { currentLearnerID = SaveLearner(learner); }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Could not save learner: " + ex.Message);
-                return;
-            }
-            MessageBox.Show("Learner Added Successfully!!");
-            FuturePathTabControl.SelectedTab = tabQuestionnaire;
-        }
 
-        private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
-                LoadQuestions();
-        }
-
-        private void btnSubmitQuestions_Click(object sender, EventArgs e)
-        {
-            if (currentLearnerID == 0)
-            {
-                MessageBox.Show("Please complete Learner Information first.");
-                return;
-            }
-
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select a faculty and qualification first.");
-                return;
-            }
-
-            var responses = new List<LearnerInterestResponse>();
-
-            foreach (Control control in flowQuestions.Controls)
-            {
-                if (control is NumericUpDown rating)
-                {
-                    responses.Add(new LearnerInterestResponse
-                    {
-                        LearnerID = currentLearnerID,
-                        InterestQuestionID = Convert.ToInt32(rating.Tag),
-                        ResponseValue = (int)rating.Value
-                    });
-                }
-            }
-
-            if (responses.Count == 0)
-            {
-                MessageBox.Show("Please complete the interest questionnaire.");
-                return;
-            }
+            Learner learner = new Learner(
+                txtLearnerName.Text,
+                txtLearnerSurname.Text,
+                cmbGrade.Text,
+                txtSchool.Text,
+                cmbProvince.Text,
+                txtEmail.Text
+            );
 
             try
             {
-                var dataAccess = new AdvisorySessionDataAccess();
+                // 1. Save the learner.
+                learnerManager.AddLearner(learner);
+                currentLearnerID = SaveLearner(learner);
 
-                // Step 1: Save the interest responses.
-                dataAccess.SaveResponses(currentLearnerID, responses);
+                // 2. Create one advisory session.
+                AdvisorySessionDataAccess dataAccess =
+                    new AdvisorySessionDataAccess();
 
-                // Step 2: Calculate and display the best matches.
-                DataTable scores = GetAlignmentScores(currentLearnerID);
+                currentSessionID = dataAccess.SaveSession(currentLearnerID);
 
-                string resultText = "Your best matches:\n";
+                // 3. Save the learner's subjects and marks.
+                SaveSubjectMarks(currentLearnerID, currentSessionID);
 
-                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
-                {
-                    resultText += (i + 1) + ". " +
-                        scores.Rows[i]["ProgrammeName"] + "\n";
-                }
+                MessageBox.Show("Learner and subject marks saved successfully!");
 
-                if (scores.Rows.Count == 0)
-                {
-                    resultText += "No matches were found. Please check the interest mappings.";
-                }
-
-                MessageBox.Show(resultText, "Interest Results");
-
-                // Step 3: Create the advisory session after showing results.
-                int sessionID = dataAccess.SaveSession(currentLearnerID);
-
-                // Step 4: Link the responses to the new session.
-                dataAccess.LinkResponsesToSession(currentLearnerID, sessionID);
-
-                MessageBox.Show(
-                    "Advisory session created successfully. Session ID: " + sessionID,
-                    "Success");
+                // 4. Continue to the questionnaire.
+                FuturePathTabControl.SelectedTab = tabQuestionnaire;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Could not complete the advising process: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    "Could not save the learner information:\n" + ex.Message
+                );
             }
         }
 
@@ -401,5 +471,102 @@ namespace project2
         {
 
         }
+
+        private void FuturePathTabControl_SelectedIndexChanged(
+    object sender, EventArgs e)
+        {
+            if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
+            {
+                LoadQuestions();
+            }
+        }
+
+        private void btnSubmitQuestions_Click(object sender, EventArgs e)
+        {
+            if (currentLearnerID <= 0 || currentSessionID <= 0)
+            {
+                MessageBox.Show(
+                    "Please submit the learner information first.");
+                return;
+            }
+
+            if (cmbFaculty.SelectedIndex == -1 ||
+                cmbQualification.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Please select a faculty and qualification first.");
+                return;
+            }
+
+            var responses = new List<LearnerInterestResponse>();
+
+            foreach (Control control in flowQuestions.Controls)
+            {
+                if (control is NumericUpDown rating && rating.Tag != null)
+                {
+                    responses.Add(new LearnerInterestResponse
+                    {
+                        LearnerID = currentLearnerID,
+                        InterestQuestionID = Convert.ToInt32(rating.Tag),
+                        ResponseValue = (int)rating.Value
+                    });
+                }
+            }
+
+            if (responses.Count == 0)
+            {
+                MessageBox.Show(
+                    "Please complete the interest questionnaire.");
+                return;
+            }
+
+            try
+            {
+                var dataAccess = new AdvisorySessionDataAccess();
+
+                // 1. Save the questionnaire responses.
+                dataAccess.SaveResponses(
+                    currentLearnerID,
+                    currentSessionID,
+                    responses);
+
+                // 2. Calculate programme matches.
+                DataTable scores = GetAlignmentScores(
+                    currentLearnerID,
+                    currentSessionID);
+
+                string resultText = "Your best matches:\n";
+
+                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
+                {
+                    resultText += (i + 1) + ". " +
+                        scores.Rows[i]["ProgrammeName"] + "\n";
+                }
+
+                if (scores.Rows.Count == 0)
+                {
+                    resultText +=
+                        "No matches were found. Please check the interest mappings.";
+                }
+
+
+                MessageBox.Show(resultText, "Interest Results");
+
+                MessageBox.Show(
+                    "Questionnaire submitted successfully.\nSession ID: "
+                    + currentSessionID,
+                    "Success");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Could not submit the questionnaire:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+        }
+
     }
 }
