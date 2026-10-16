@@ -131,7 +131,15 @@
     <Content Include="Database\QUERY23.sql" />
     <Content Include="Database\QUERY24.sql" />
     <Content Include="Database\QUERY25.sql" />
+    <Content Include="Database\QUERY26.sql" />
+    <Content Include="Database\QUERY27.sql" />
+    <Content Include="Database\QUERY28.sql" />
+    <Content Include="Database\QUERY29.sql" />
     <Content Include="Database\QUERY3.sql" />
+    <Content Include="Database\QUERY30.sql" />
+    <Content Include="Database\QUERY31.sql" />
+    <Content Include="Database\QUERY32.sql" />
+    <Content Include="Database\QUERY33.sql" />
     <Content Include="Database\QUERY4.sql" />
     <Content Include="Database\QUERY5.sql" />
     <Content Include="Database\QUERY6.sql" />

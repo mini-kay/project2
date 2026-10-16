@@ -48,48 +48,67 @@ namespace project2
             flowQuestions.WrapContents = false;
             flowQuestions.AutoScroll = true;
 
+
             foreach (InterestQuestion question in questions)
             {
-                flowQuestions.Controls.Add(new Label
+                var questionLabel = new Label
                 {
                     Text = question.QuestionText,
                     AutoSize = true,
-                    Margin = new Padding(3, 12, 3, 2)
-                });
+                    MaximumSize = new Size(600, 0),
+                    Margin = new Padding(3, 12, 3, 5)
+                };
+
+                var rating = new NumericUpDown
+                {
+                    Minimum = 1,
+                    Maximum = 5,
+                    Value = 3,
+                    Width = 70,
+                    Tag = question.InterestQuestionID,
+                    Margin = new Padding(3, 0, 3, 12)
+                };
+
+                flowQuestions.Controls.Add(questionLabel);
+                flowQuestions.Controls.Add(rating);
             }
-            
+
+
             flowQuestions.ResumeLayout();
             questionsLoaded = true;
         }
 
-        private DataTable GetAlignmentScores(int learnerID, int sessionID)
+        private DataTable GetAlignmentScores(int learnerID)
         {
             string sql = @"
-                SELECT dp.ProgrammeName, SUM(cat.Total * dim.Weight) AS Score
-                FROM DBO.DegreeInterestMapping dim
-                JOIN dbo.DegreeProgramme dp
-                    ON dp.DegreeProgrammeID = dim.DegreeProgrammeID
-                JOIN (
-                    SELECT q.InterestCategoryID, SUM(r.ResponseValue) AS Total
-                    FROM dbo.LearnerInterestResponse r
-                    JOIN dbo.InterestQuestion q
-                        ON q.InterestQuestionID = r.InterestQuestionID
-                    WHERE r.LearnerID = @LearnerID
-                        AND r.AdvisorySessionID = @SessionID
-                    GROUP BY q.InterestCategoryID
-                ) cat ON cat.InterestCategoryID = dim.InterestCategoryID
-                WHERE dp.IsActive = 1
-                GROUP BY dp.ProgrammeName
-                ORDER BY Score DESC;";
+        SELECT dp.ProgrammeName,
+               SUM(cat.Total * dim.Weight) AS Score
+        FROM dbo.DegreeInterestMapping dim
+        JOIN dbo.DegreeProgramme dp
+            ON dp.DegreeProgrammeID = dim.DegreeProgrammeID
+        JOIN (
+            SELECT q.InterestCategoryID,
+                   SUM(r.ResponseValue) AS Total
+            FROM dbo.LearnerInterestResponse r
+            JOIN dbo.InterestQuestion q
+                ON q.InterestQuestionID = r.InterestQuestionID
+            WHERE r.LearnerID = @LearnerID
+              AND r.AdvisorySessionID IS NULL
+            GROUP BY q.InterestCategoryID
+        ) cat ON cat.InterestCategoryID = dim.InterestCategoryID
+        WHERE dp.IsActive = 1
+        GROUP BY dp.ProgrammeName
+        ORDER BY Score DESC;";
 
             var results = new DataTable();
+
             using (var conn = new SqlConnection(ConnStr))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@LearnerID", learnerID);
-                cmd.Parameters.AddWithValue("@SessionID", sessionID);
                 new SqlDataAdapter(cmd).Fill(results);
             }
+
             return results;
         }
 
@@ -247,7 +266,15 @@ namespace project2
                 return;
             }
 
+            if (cmbFaculty.SelectedIndex == -1 ||
+                cmbQualification.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a faculty and qualification first.");
+                return;
+            }
+
             var responses = new List<LearnerInterestResponse>();
+
             foreach (Control control in flowQuestions.Controls)
             {
                 if (control is NumericUpDown rating)
@@ -260,12 +287,22 @@ namespace project2
                     });
                 }
             }
+
+            if (responses.Count == 0)
+            {
+                MessageBox.Show("Please complete the interest questionnaire.");
+                return;
+            }
+
             try
             {
-                int sessionID = new AdvisorySessionDataAccess()
-                    .SaveSession(currentLearnerID, responses);
+                var dataAccess = new AdvisorySessionDataAccess();
 
-                DataTable scores = GetAlignmentScores(currentLearnerID, sessionID);
+                // Step 1: Save the interest responses.
+                dataAccess.SaveResponses(currentLearnerID, responses);
+
+                // Step 2: Calculate and display the best matches.
+                DataTable scores = GetAlignmentScores(currentLearnerID);
 
                 string resultText = "Your best matches:\n";
 
@@ -275,12 +312,27 @@ namespace project2
                         scores.Rows[i]["ProgrammeName"] + "\n";
                 }
 
+                if (scores.Rows.Count == 0)
+                {
+                    resultText += "No matches were found. Please check the interest mappings.";
+                }
+
                 MessageBox.Show(resultText, "Interest Results");
+
+                // Step 3: Create the advisory session after showing results.
+                int sessionID = dataAccess.SaveSession(currentLearnerID);
+
+                // Step 4: Link the responses to the new session.
+                dataAccess.LinkResponsesToSession(currentLearnerID, sessionID);
+
+                MessageBox.Show(
+                    "Advisory session created successfully. Session ID: " + sessionID,
+                    "Success");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Could not save answers: " + ex.Message,
+                    "Could not complete the advising process: " + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
