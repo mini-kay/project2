@@ -218,6 +218,13 @@ namespace project2
                 MessageBox.Show("Please enter a valid email address");
                 return false;
             }
+            //validate faculty
+            if (cmbFaculty.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a Faculty");
+                cmbFaculty.Focus();
+                return false;
+            }
 
             //validate learner marks
            
