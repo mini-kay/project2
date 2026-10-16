@@ -14,10 +14,12 @@ namespace project2
         public List<InterestQuestion> GetAllQuestions()
         {
             var questions = new List<InterestQuestion>();
+
             const string query = @"
-                SELECT InterestQuestionID, InterestCatergoryID, QuestionText
-                FROM dbo.InterestQuestion
-                ORDER BY InterestQuestionID;";
+                    SELECT InterestQuestionID, InterestCategoryID, QuestionText
+                    FROM dbo.InterestQuestion
+                    ORDER BY InterestQuestionID;";
+
 
             using (SqlConnection  connection = databaseHelper.GetConnection())
             using (SqlCommand command = new SqlCommand (query, connection))
