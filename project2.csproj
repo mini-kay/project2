@@ -113,6 +113,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Database\backupQuery.sql" />
+    <Content Include="Database\newBackup.sql" />
     <Content Include="Database\QUERY1.sql" />
     <Content Include="Database\QUERY10.sql" />
     <Content Include="Database\QUERY11.sql" />

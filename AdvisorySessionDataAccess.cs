@@ -39,10 +39,14 @@ namespace project2
 
         public void SaveResponses(
     int learnerID,
+    int sessionID,
     List<LearnerInterestResponse> responses)
         {
             if (learnerID <= 0)
                 throw new ArgumentException("A valid learner ID is required.");
+
+            if (sessionID <= 0)
+                throw new ArgumentException("A valid session ID is required.");
 
             if (responses == null || responses.Count == 0)
                 throw new ArgumentException("At least one response is required.");
@@ -62,14 +66,21 @@ namespace project2
                             (LearnerID, InterestQuestionID,
                              AdvisorySessionID, ResponseValue)
                         VALUES
-                            (@LearnerID, @QuestionID, NULL, @ResponseValue);";
+                            (@LearnerID, @QuestionID,
+                             @SessionID, @ResponseValue);";
 
                             using (var cmd = new SqlCommand(
                                 sql, connection, transaction))
                             {
-                                cmd.Parameters.AddWithValue("@LearnerID", learnerID);
+                                cmd.Parameters.AddWithValue(
+                                    "@LearnerID", learnerID);
+
                                 cmd.Parameters.AddWithValue(
                                     "@QuestionID", response.InterestQuestionID);
+
+                                cmd.Parameters.AddWithValue(
+                                    "@SessionID", sessionID);
+
                                 cmd.Parameters.AddWithValue(
                                     "@ResponseValue", response.ResponseValue);
 
