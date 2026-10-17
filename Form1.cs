@@ -176,25 +176,8 @@ namespace project2
 
             return mark >= 0 && mark <= 100;
         }
-        //check if the learner has physics
-        private bool HasPhysicalSciences()
-        {
-            return cmbSubject1.Text.Contains("Physical") ||
-                   cmbSubject2.Text.Contains("Physical") ||
-                   cmbSubject3.Text.Contains("Physical");
-        }
-        //check if learner has life sciences
-        private bool HasLifeScience()
-        {
-            return cmbSubject1.Text.Contains("Life") ||
-                   cmbSubject2.Text.Contains("Life") ||
-                   cmbSubject3.Text.Contains("Life");
-        }
-        //check if learner has mathematics
-        private bool HasMathematics()
-        {
-            return cmbMaths.Text == "Mathematics";
-        }
+        
+        
         //get physics mark
         private int GetPhysicalScienceMark()
         {
@@ -599,15 +582,16 @@ namespace project2
 
             if (faculty.Contains("Engineering"))
             {
-                AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(
+                AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(                      
                                         mathsType,
-                                        HasPhysicalSciences(),
+                                        recommendationManager.HasPhysicalSciences(cmbSubject1.Text,cmbSubject2.Text,
+                                        cmbSubject3.Text),
                                         physicalScienceMark,
                                         mathsMark,
                                         average);
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
             }
             //Commerce Faculty
             else if (faculty.Contains("Commerce"))
@@ -615,7 +599,7 @@ namespace project2
                 AdvisoryResult result = recommendationManager.GenerateCommerceOutcome(mathsMark);
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
             }
 
 
@@ -626,7 +610,7 @@ namespace project2
                 AdvisoryResult result = recommendationManager.GenerateHumanitiesOutcome(homeLanguageMark);                         
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
 
             }
             // Science Faculty
@@ -634,29 +618,31 @@ namespace project2
             else if (faculty.Contains("Science"))
             {
                 AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
-                                        HasMathematics(),
-                                        HasPhysicalSciences(),
+                                        recommendationManager.HasMathematics(mathsType),
+                                         recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
                                         physicalScienceMark,
                                         mathsMark,
                                         average);
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
 
             }
             //Health Science Faculty
             else if (faculty.Contains("Health"))
             {
                 AdvisoryResult result = recommendationManager.GenerateHealthOutcome(
-                                        HasMathematics(),
-                                        HasLifeScience(),
+                                        recommendationManager.HasMathematics(mathsType),
+                                        recommendationManager.HasLifeScience(cmbSubject1.Text,cmbSubject2.Text,
+                                        cmbSubject3.Text),
                                         lifeScienceMark,
                                         mathsMark,
                                         homeLanguageMark,
                                         average);
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
 
             }
             //Law faculty
@@ -666,7 +652,7 @@ namespace project2
                                         homeLanguageMark);
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
             }
             
             }

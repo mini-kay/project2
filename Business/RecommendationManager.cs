@@ -8,6 +8,61 @@ namespace project2.Business
 {//handles recommendation and advisory logic
     internal class RecommendationManager
     {
+        //check if the learner has physics
+        public bool HasPhysicalSciences(string subject1, string subject2, string subject3)
+        {
+            return subject1.Contains("Physical") ||
+                   subject2.Contains("Physical") ||
+                   subject3.Contains("Physical");
+        }
+        //check if learner has life sciences
+        public bool HasLifeScience(string subject1, string subject2, string subject3)
+        {
+            return subject1.Contains("Life") ||
+                   subject2.Contains("Life") ||
+                   subject3.Contains("Life");
+        }
+        //check if learner has mathematics
+        public bool HasMathematics(string mathsType)
+        {
+            return mathsType == "Mathematics";
+        }
+        //get physics mark
+        private int GetPhysicalScienceMark(string subject1, string subject2, string subject3, string mark1,
+                                           string mark2, string mark3)
+
+        {
+            if (subject1.Contains("Physical"))
+            {
+                return Convert.ToInt32(mark1);
+            }
+            if (subject2.Contains("Physical"))
+            {
+                return Convert.ToInt32(mark2);
+            }
+            if (subject3.Contains("Physical"))
+            {
+                return Convert.ToInt32(mark3);
+            }
+            return 0;
+        }
+
+        private int GetLifeScienceMark(string subject1, string subject2, string subject3, string mark1,
+                                           string mark2, string mark3)
+        {
+            if (subject1.Contains("Life"))
+                return Convert.ToInt32(mark1);
+
+            if (subject2.Contains("Life"))
+                return Convert.ToInt32(mark2);
+
+            if (subject3.Contains("Life"))
+                return Convert.ToInt32(mark3);
+
+            return 0;
+        }
+
+
         //Engineering
         public AdvisoryResult GenerateEngineeringOutcome(string mathsType, bool hasPhysicalScience, int physicalScienceMark, int mathsMark, double average)
         {
