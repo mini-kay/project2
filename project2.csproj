@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Database\34AddMissingSubjects.sql" />
     <Content Include="Database\backupQuery.sql" />
     <Content Include="Database\newBackup.sql" />
     <Content Include="Database\QUERY1.sql" />
