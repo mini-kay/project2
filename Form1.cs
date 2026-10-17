@@ -173,7 +173,25 @@ namespace project2
 
             return mark >= 0 && mark <= 100;
         }
-
+        //check if the learner has physics
+        private bool HasPhysicalSciences()
+        {
+            return cmbSubject1.Text.Contains("Physical") ||
+                   cmbSubject2.Text.Contains("Physical") ||
+                   cmbSubject3.Text.Contains("Physical");
+        }
+        //check if learner has life sciences
+        private bool HasLifeScience()
+        {
+            return cmbSubject1.Text.Contains("Life") ||
+                   cmbSubject2.Text.Contains("Life") ||
+                   cmbSubject3.Text.Contains("Life");
+        }
+        //check if learner has mathematics
+        private bool HasMathematics()
+        {
+            return cmbMaths.Text == "Mathematics";
+        }
         private void SaveSubjectMarks(int learnerID, int sessionID)
         {
             using (SqlConnection connection = new SqlConnection(ConnStr))
@@ -503,7 +521,19 @@ namespace project2
             //get learner marks
             int mathsMark = Convert.ToInt32(txtMarkMaths.Text);
             int homeLanguageMark = Convert.ToInt32(txtMarkHL.Text);
-            
+
+            //calculate learner average
+            int average = (
+                Convert.ToInt32(txtMarkHL.Text) +
+                Convert.ToInt32(txtMarkFAL.Text) +
+                Convert.ToInt32(txtMarkMaths.Text) +
+                Convert.ToInt32(txtMark1.Text) +
+                Convert.ToInt32(txtMark2.Text) +
+                Convert.ToInt32(txtMark3.Text)
+                )/7;
+            //display average in Interest alignment box
+            txtInterestAlign.Text = "Overall Average: " + average + "%";
+
             //check qualification requirements
             {
                 //Engineering Faculty
@@ -514,10 +544,16 @@ namespace project2
                     if (mathsType != "Mathematics")
                     {
                         txtEligibilityResult.Text = "Not Currently Eligible";
-                        txtIdentifiedGaps.Text = "Engineering programmes require Mathematics";
+                        txtReason.Text = "Engineering programmes require Mathematics";
                         txtIdentifiedGaps.Text = "Mathematical Literacy or Technical Mathematics is not accepted";
                     }
-                     else if (mathsMark >= 70)
+                    else if (!HasPhysicalSciences())
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Physical Sciences is recommended for Engineering.";
+                        txtIdentifiedGaps.Text = "Consider taking Physical Sciences.";
+                    }
+                    else if (mathsMark >= 70)
                     {
                         txtEligibilityResult.Text = "Strong Match";
                         txtReason.Text = "Mathematics requirements have been met.";
@@ -612,6 +648,7 @@ namespace project2
                     {
                         txtEligibilityResult.Text = "Strong Match";
                         txtReason.Text = "Language requirement for Law has been met.";
+                        txtInterestAlign.Text = "Interest alignment based on questionnaire responses";
                         txtIdentifiedGaps.Text = "No major academic gaps identified.";
                     }
                     else
