@@ -110,15 +110,15 @@
             this.tabFundingInfo = new System.Windows.Forms.TabPage();
             this.btnContinue2 = new System.Windows.Forms.Button();
             this.btnBack3 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.gepboxFundingOpps = new System.Windows.Forms.GroupBox();
+            this.grpFundingDetails = new System.Windows.Forms.GroupBox();
+            this.txtFundingDetails = new System.Windows.Forms.TextBox();
+            this.grpboxFundingOpps = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbFundingType = new System.Windows.Forms.ListBox();
             this.grpboxPrompt = new System.Windows.Forms.GroupBox();
             this.rdbNo = new System.Windows.Forms.RadioButton();
             this.rdbYes = new System.Windows.Forms.RadioButton();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.grpSubjects.SuspendLayout();
@@ -138,8 +138,8 @@
             this.grpboxRecExplain.SuspendLayout();
             this.grpboxRecProgrammes.SuspendLayout();
             this.tabFundingInfo.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.gepboxFundingOpps.SuspendLayout();
+            this.grpFundingDetails.SuspendLayout();
+            this.grpboxFundingOpps.SuspendLayout();
             this.grpboxPrompt.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1168,8 +1168,8 @@
             // 
             this.tabFundingInfo.Controls.Add(this.btnContinue2);
             this.tabFundingInfo.Controls.Add(this.btnBack3);
-            this.tabFundingInfo.Controls.Add(this.groupBox2);
-            this.tabFundingInfo.Controls.Add(this.gepboxFundingOpps);
+            this.tabFundingInfo.Controls.Add(this.grpFundingDetails);
+            this.tabFundingInfo.Controls.Add(this.grpboxFundingOpps);
             this.tabFundingInfo.Controls.Add(this.grpboxPrompt);
             this.tabFundingInfo.Controls.Add(this.label3);
             this.tabFundingInfo.Location = new System.Drawing.Point(4, 29);
@@ -1201,40 +1201,40 @@
             this.btnBack3.Text = "Back";
             this.btnBack3.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // grpFundingDetails
             // 
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Location = new System.Drawing.Point(795, 155);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(334, 349);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Funding Details";
+            this.grpFundingDetails.Controls.Add(this.txtFundingDetails);
+            this.grpFundingDetails.Location = new System.Drawing.Point(795, 155);
+            this.grpFundingDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpFundingDetails.Name = "grpFundingDetails";
+            this.grpFundingDetails.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpFundingDetails.Size = new System.Drawing.Size(334, 349);
+            this.grpFundingDetails.TabIndex = 8;
+            this.grpFundingDetails.TabStop = false;
+            this.grpFundingDetails.Text = "Funding Details";
             // 
-            // textBox3
+            // txtFundingDetails
             // 
-            this.textBox3.Location = new System.Drawing.Point(30, 69);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(280, 241);
-            this.textBox3.TabIndex = 0;
+            this.txtFundingDetails.Location = new System.Drawing.Point(30, 69);
+            this.txtFundingDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtFundingDetails.Multiline = true;
+            this.txtFundingDetails.Name = "txtFundingDetails";
+            this.txtFundingDetails.ReadOnly = true;
+            this.txtFundingDetails.Size = new System.Drawing.Size(280, 241);
+            this.txtFundingDetails.TabIndex = 0;
             // 
-            // gepboxFundingOpps
+            // grpboxFundingOpps
             // 
-            this.gepboxFundingOpps.Controls.Add(this.label5);
-            this.gepboxFundingOpps.Controls.Add(this.listBox1);
-            this.gepboxFundingOpps.Location = new System.Drawing.Point(402, 155);
-            this.gepboxFundingOpps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gepboxFundingOpps.Name = "gepboxFundingOpps";
-            this.gepboxFundingOpps.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gepboxFundingOpps.Size = new System.Drawing.Size(334, 312);
-            this.gepboxFundingOpps.TabIndex = 7;
-            this.gepboxFundingOpps.TabStop = false;
-            this.gepboxFundingOpps.Text = "Funding Opportunits";
+            this.grpboxFundingOpps.Controls.Add(this.label5);
+            this.grpboxFundingOpps.Controls.Add(this.lbFundingType);
+            this.grpboxFundingOpps.Location = new System.Drawing.Point(402, 155);
+            this.grpboxFundingOpps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxFundingOpps.Name = "grpboxFundingOpps";
+            this.grpboxFundingOpps.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxFundingOpps.Size = new System.Drawing.Size(334, 312);
+            this.grpboxFundingOpps.TabIndex = 7;
+            this.grpboxFundingOpps.TabStop = false;
+            this.grpboxFundingOpps.Text = "Funding Opportunities";
             // 
             // label5
             // 
@@ -1246,25 +1246,25 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "Funding Name:";
             // 
-            // listBox1
+            // lbFundingType
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Items.AddRange(new object[] {
+            this.lbFundingType.FormattingEnabled = true;
+            this.lbFundingType.ItemHeight = 20;
+            this.lbFundingType.Items.AddRange(new object[] {
             "Faculty Merit Award",
             "Faculty Bursasry",
             "NSFAS Support"});
-            this.listBox1.Location = new System.Drawing.Point(9, 103);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(314, 144);
-            this.listBox1.TabIndex = 0;
+            this.lbFundingType.Location = new System.Drawing.Point(9, 103);
+            this.lbFundingType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lbFundingType.Name = "lbFundingType";
+            this.lbFundingType.Size = new System.Drawing.Size(314, 144);
+            this.lbFundingType.TabIndex = 0;
             // 
             // grpboxPrompt
             // 
             this.grpboxPrompt.Controls.Add(this.rdbNo);
             this.grpboxPrompt.Controls.Add(this.rdbYes);
-            this.grpboxPrompt.Controls.Add(this.label4);
+            this.grpboxPrompt.Controls.Add(this.lblFundingQ);
             this.grpboxPrompt.Location = new System.Drawing.Point(46, 218);
             this.grpboxPrompt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxPrompt.Name = "grpboxPrompt";
@@ -1297,15 +1297,15 @@
             this.rdbYes.Text = "Yes";
             this.rdbYes.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // lblFundingQ
             // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(9, 40);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(281, 50);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Would you like to view funding opportunities related to you selected study pathwa" +
+            this.lblFundingQ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblFundingQ.Location = new System.Drawing.Point(9, 40);
+            this.lblFundingQ.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFundingQ.Name = "lblFundingQ";
+            this.lblFundingQ.Size = new System.Drawing.Size(281, 50);
+            this.lblFundingQ.TabIndex = 0;
+            this.lblFundingQ.Text = "Would you like to view funding opportunities related to you selected study pathwa" +
     "y";
             // 
             // label3
@@ -1359,10 +1359,10 @@
             this.grpboxRecProgrammes.ResumeLayout(false);
             this.grpboxRecProgrammes.PerformLayout();
             this.tabFundingInfo.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.gepboxFundingOpps.ResumeLayout(false);
-            this.gepboxFundingOpps.PerformLayout();
+            this.grpFundingDetails.ResumeLayout(false);
+            this.grpFundingDetails.PerformLayout();
+            this.grpboxFundingOpps.ResumeLayout(false);
+            this.grpboxFundingOpps.PerformLayout();
             this.grpboxPrompt.ResumeLayout(false);
             this.grpboxPrompt.PerformLayout();
             this.ResumeLayout(false);
@@ -1452,16 +1452,16 @@
         private System.Windows.Forms.TabPage tabFundingInfo;
         private System.Windows.Forms.GroupBox grpboxPrompt;
         private System.Windows.Forms.RadioButton rdbYes;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblFundingQ;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rdbNo;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox gepboxFundingOpps;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.GroupBox grpFundingDetails;
+        private System.Windows.Forms.GroupBox grpboxFundingOpps;
+        private System.Windows.Forms.ListBox lbFundingType;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnContinue2;
         private System.Windows.Forms.Button btnBack3;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.ToolTip toolTip1;
     }
 }
