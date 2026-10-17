@@ -85,7 +85,7 @@
             this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
             this.tabAdvisoryOutcome = new System.Windows.Forms.TabPage();
-            this.btnViewRecs = new System.Windows.Forms.Button();
+            this.btnContinueToFunding = new System.Windows.Forms.Button();
             this.btnBack1 = new System.Windows.Forms.Button();
             this.grpboxReason = new System.Windows.Forms.GroupBox();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -109,7 +109,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabFundingInfo = new System.Windows.Forms.TabPage();
             this.btnContinue2 = new System.Windows.Forms.Button();
-            this.btnBack3 = new System.Windows.Forms.Button();
+            this.btnBackFunding = new System.Windows.Forms.Button();
             this.grpFundingDetails = new System.Windows.Forms.GroupBox();
             this.txtFundingDetails = new System.Windows.Forms.TextBox();
             this.grpboxFundingOpps = new System.Windows.Forms.GroupBox();
@@ -121,6 +121,7 @@
             this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnViewAlternatives = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
@@ -247,17 +248,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -286,17 +286,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -325,17 +324,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -897,7 +895,8 @@
             // 
             // tabAdvisoryOutcome
             // 
-            this.tabAdvisoryOutcome.Controls.Add(this.btnViewRecs);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnViewAlternatives);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnContinueToFunding);
             this.tabAdvisoryOutcome.Controls.Add(this.btnBack1);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxReason);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxEligibilityResult);
@@ -914,16 +913,16 @@
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
             this.tabAdvisoryOutcome.UseVisualStyleBackColor = true;
             // 
-            // btnViewRecs
+            // btnContinueToFunding
             // 
-            this.btnViewRecs.Location = new System.Drawing.Point(842, 598);
-            this.btnViewRecs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnViewRecs.Name = "btnViewRecs";
-            this.btnViewRecs.Size = new System.Drawing.Size(246, 35);
-            this.btnViewRecs.TabIndex = 9;
-            this.btnViewRecs.Text = "View Recommendations";
-            this.btnViewRecs.UseVisualStyleBackColor = true;
-            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
+            this.btnContinueToFunding.Location = new System.Drawing.Point(858, 630);
+            this.btnContinueToFunding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnContinueToFunding.Name = "btnContinueToFunding";
+            this.btnContinueToFunding.Size = new System.Drawing.Size(195, 35);
+            this.btnContinueToFunding.TabIndex = 10;
+            this.btnContinueToFunding.Text = "Continue to Funding";
+            this.btnContinueToFunding.UseVisualStyleBackColor = true;
+            this.btnContinueToFunding.Click += new System.EventHandler(this.btnContinueToFunding_Click);
             // 
             // btnBack1
             // 
@@ -1167,7 +1166,7 @@
             // tabFundingInfo
             // 
             this.tabFundingInfo.Controls.Add(this.btnContinue2);
-            this.tabFundingInfo.Controls.Add(this.btnBack3);
+            this.tabFundingInfo.Controls.Add(this.btnBackFunding);
             this.tabFundingInfo.Controls.Add(this.grpFundingDetails);
             this.tabFundingInfo.Controls.Add(this.grpboxFundingOpps);
             this.tabFundingInfo.Controls.Add(this.grpboxPrompt);
@@ -1191,15 +1190,16 @@
             this.btnContinue2.Text = "Continue";
             this.btnContinue2.UseVisualStyleBackColor = true;
             // 
-            // btnBack3
+            // btnBackFunding
             // 
-            this.btnBack3.Location = new System.Drawing.Point(134, 589);
-            this.btnBack3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnBack3.Name = "btnBack3";
-            this.btnBack3.Size = new System.Drawing.Size(112, 35);
-            this.btnBack3.TabIndex = 9;
-            this.btnBack3.Text = "Back";
-            this.btnBack3.UseVisualStyleBackColor = true;
+            this.btnBackFunding.Location = new System.Drawing.Point(134, 589);
+            this.btnBackFunding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnBackFunding.Name = "btnBackFunding";
+            this.btnBackFunding.Size = new System.Drawing.Size(112, 35);
+            this.btnBackFunding.TabIndex = 9;
+            this.btnBackFunding.Text = "Back";
+            this.btnBackFunding.UseVisualStyleBackColor = true;
+            this.btnBackFunding.Click += new System.EventHandler(this.btnBackFunding_Click);
             // 
             // grpFundingDetails
             // 
@@ -1252,13 +1252,14 @@
             this.lbFundingType.ItemHeight = 20;
             this.lbFundingType.Items.AddRange(new object[] {
             "Faculty Merit Award",
-            "Faculty Bursasry",
+            "Faculty Bursary",
             "NSFAS Support"});
             this.lbFundingType.Location = new System.Drawing.Point(9, 103);
             this.lbFundingType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbFundingType.Name = "lbFundingType";
             this.lbFundingType.Size = new System.Drawing.Size(314, 144);
             this.lbFundingType.TabIndex = 0;
+            this.lbFundingType.SelectedIndexChanged += new System.EventHandler(this.lbFundingType_SelectedIndexChanged);
             // 
             // grpboxPrompt
             // 
@@ -1284,6 +1285,7 @@
             this.rdbNo.TabStop = true;
             this.rdbNo.Text = "No";
             this.rdbNo.UseVisualStyleBackColor = true;
+            this.rdbNo.CheckedChanged += new System.EventHandler(this.rdbNo_CheckedChanged);
             // 
             // rdbYes
             // 
@@ -1296,6 +1298,7 @@
             this.rdbYes.TabStop = true;
             this.rdbYes.Text = "Yes";
             this.rdbYes.UseVisualStyleBackColor = true;
+            this.rdbYes.CheckedChanged += new System.EventHandler(this.rdbYes_CheckedChanged);
             // 
             // lblFundingQ
             // 
@@ -1320,6 +1323,16 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Funding Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnViewAlternatives
+            // 
+            this.btnViewAlternatives.Location = new System.Drawing.Point(858, 570);
+            this.btnViewAlternatives.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnViewAlternatives.Name = "btnViewAlternatives";
+            this.btnViewAlternatives.Size = new System.Drawing.Size(195, 35);
+            this.btnViewAlternatives.TabIndex = 11;
+            this.btnViewAlternatives.Text = "View Alternatives";
+            this.btnViewAlternatives.UseVisualStyleBackColor = true;
             // 
             // FuturePathForm
             // 
@@ -1438,7 +1451,6 @@
         private System.Windows.Forms.GroupBox grpboxInterestAlignment;
         private System.Windows.Forms.TextBox txtInterestAlign;
         private System.Windows.Forms.TextBox txtQualifications;
-        private System.Windows.Forms.Button btnViewRecs;
         private System.Windows.Forms.Button btnBack1;
         private System.Windows.Forms.TabPage tabAltRecs;
         private System.Windows.Forms.Label label2;
@@ -1460,9 +1472,11 @@
         private System.Windows.Forms.ListBox lbFundingType;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnContinue2;
-        private System.Windows.Forms.Button btnBack3;
+        private System.Windows.Forms.Button btnBackFunding;
         private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnContinueToFunding;
+        private System.Windows.Forms.Button btnViewAlternatives;
     }
 }
 
