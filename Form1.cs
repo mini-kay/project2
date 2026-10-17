@@ -11,12 +11,15 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Text;
 using System.Diagnostics.Eventing.Reader;
+using project2.Business;
 
 namespace project2
 {
     public partial class FuturePathForm : Form
     {
         LearnerManager learnerManager = new LearnerManager();
+        private Learner learner;
+        private RecommendationManager recommendationManager = new RecommendationManager();
 
         public FuturePathForm()
         {
@@ -173,55 +176,7 @@ namespace project2
 
             return mark >= 0 && mark <= 100;
         }
-        //check if the learner has physics
-        private bool HasPhysicalSciences()
-        {
-            return cmbSubject1.Text.Contains("Physical") ||
-                   cmbSubject2.Text.Contains("Physical") ||
-                   cmbSubject3.Text.Contains("Physical");
-        }
-        //check if learner has life sciences
-        private bool HasLifeScience()
-        {
-            return cmbSubject1.Text.Contains("Life") ||
-                   cmbSubject2.Text.Contains("Life") ||
-                   cmbSubject3.Text.Contains("Life");
-        }
-        //check if learner has mathematics
-        private bool HasMathematics()
-        {
-            return cmbMaths.Text == "Mathematics";
-        }
-        //get physics mark
-        private int GetPhysicalScienceMark()
-        {
-            if (cmbSubject1.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark1.Text);
-            }
-            if (cmbSubject2.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark2.Text);
-            }
-            if (cmbSubject3.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark3.Text);
-            }
-            return 0;
-        }
-        //get life science mark
-        private int GetLifeScienceMark()
-        {
-            if (cmbSubject1.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark1.Text);
-            if (cmbSubject2.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark2.Text);
-            if (cmbSubject3.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark3.Text);
-            return 0;
-        }
-        
-        
+
         private void SaveSubjectMarks(int learnerID, int sessionID)
         {
             using (SqlConnection connection = new SqlConnection(ConnStr))
@@ -528,7 +483,7 @@ namespace project2
             }
             return true;
         }
-        //valdate mark textboxes
+        //validate mark textboxes
         private bool ValidateMark(TextBox txtMark, string subject)
         {
             int mark;
@@ -559,13 +514,25 @@ namespace project2
         //using the learner's qualification and marks
         private void DisplayAdvisoryOutcome()
         {
-            int physicalScienceMark = GetPhysicalScienceMark();
-            int lifeScienceMark = GetLifeScienceMark();
+            int physicalScienceMark = recommendationManager.GetPhysicalScienceMark(
+                                      cmbSubject1.Text,
+                                      cmbSubject2.Text,
+                                      cmbSubject3.Text,
+                                      txtMark1.Text,
+                                      txtMark2.Text,
+                                      txtMark3.Text);
+            int lifeScienceMark = recommendationManager.GetLifeScienceMark(
+                                      cmbSubject1.Text,
+                                      cmbSubject2.Text,
+                                      cmbSubject3.Text,
+                                      txtMark1.Text,
+                                      txtMark2.Text,
+                                      txtMark3.Text);
             //show the qualification selected by the learner
-            txtQualifications.Text = cmbQualification.Text;
+            txtQualifications.Text = learner.Qualification;
 
             //get qualification and marks
-            string faculty = cmbFaculty.Text;
+            string faculty = learner.Faculty;
 
             //get the type of maths that was selected
             string mathsType = cmbMaths.Text;
@@ -574,16 +541,16 @@ namespace project2
             int mathsMark = Convert.ToInt32(txtMarkMaths.Text);
             int homeLanguageMark = Convert.ToInt32(txtMarkHL.Text);
 
-            //calculate learner average (aps)
-            int average = (
-                Convert.ToInt32(txtMarkHL.Text) +
-                Convert.ToInt32(txtMarkFAL.Text) +
-                Convert.ToInt32(txtMarkMaths.Text) +
-                Convert.ToInt32(txtMarkLO.Text) +
-                Convert.ToInt32(txtMark1.Text) +
-                Convert.ToInt32(txtMark2.Text) +
-                Convert.ToInt32(txtMark3.Text)
-                ) / 7;
+            //calculate learner average 
+            int average = recommendationManager.CalculateAverage(Convert.ToInt32(txtMarkHL.Text),
+                                                                 Convert.ToInt32(txtMarkFAL.Text),
+                                                                 Convert.ToInt32(txtMarkMaths.Text),
+                                                                 Convert.ToInt32(txtMarkLO.Text),
+                                                                 Convert.ToInt32(txtMark1.Text),
+                                                                 Convert.ToInt32(txtMark2.Text),
+                                                                 Convert.ToInt32(txtMark3.Text));
+                                                                 
+                                                                 
 
             //display average in Interest alignment box
             txtInterestAlign.Text = "Overall Average: " + average + " %";
@@ -591,209 +558,85 @@ namespace project2
 
 
             //check qualification requirements
-            
-                //Engineering Faculty
 
-                if (faculty.Contains("Engineering"))
-                {
-                //engineering reguires Mathematics
-                if (mathsType != "Mathematics")
-                {
-                    txtEligibilityResult.Text = "Not Currently Eligible";
-                    txtReason.Text = "Engineering programmes require Mathematics.";
-                    txtIdentifiedGaps.Text = "Mathematical Literacy or Technical Mathematics is not accepted";
-                }
-                //physics subject is missing
-                else if (!HasPhysicalSciences())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Physical Sciences is recommended for Engineering.";
-                    txtIdentifiedGaps.Text = "Physical Sciences subject is required.";
-                }
-                //physics mark is below what is needed
-                else if (physicalScienceMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Physical Sciences mark is below the recommended level.";
-                    txtIdentifiedGaps.Text = " Improve Physical Sciences performnce.";
-                }
-                //strong match
-                    else if (mathsMark >= 70 && average >= 60)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Mathematics requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                    }
-                //math mark too low
-                    else if (mathsMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Mathematics is below the preffered Engineering requirement.";
-                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-                    }
+            //Engineering Faculty
 
-                 //maths mark is too low
-                    else
-                    {
-                        txtEligibilityResult.Text = "Not currently eligible";
-                        txtReason.Text = "Engineering requires strong Mathematics result.";
-                        txtIdentifiedGaps.Text = "Mathematics mark needs improvement.";
-
-                    }
-
-
-                }
-                //Commerce Faculty
-                else if (faculty.Contains("Commerce"))
-                {
-                    if (mathsMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Commerce requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major gaps identified.";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Commerce programmes recommend stronger Mathematics results.";
-                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-
-                    }
-                }
-                //Humanities Faculty
-                else if (faculty.Contains("Humanities"))
-                {
-                    if (homeLanguageMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Language Requirement has been met.";
-                        txtIdentifiedGaps.Text = "No major gaps identified";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Home Language mark is below the requirement.";
-                        txtIdentifiedGaps.Text = "Improve Home Language.";
-                    }
-                }
-                // Science Faculty
-
-                else if (faculty.Contains("Science"))
-                {
-                    //Science requires Mathematics
-                    if (!HasMathematics())
-                    {
-                        txtEligibilityResult.Text = "Not Currently Eligible";
-                        txtReason.Text = "Science programmes require Mathematics.";
-                        txtIdentifiedGaps.Text = "Mathematics subject is required.";
-                    }
-                    //Physics is recommended
-                    else if (!HasPhysicalSciences())
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Physical Sciences is required for Science programmes.";
-                        txtIdentifiedGaps.Text = "Physical Sciences is a required subject.";
-                    }
-                    //subjects exist but mark is below needed criteria
-                    else if (physicalScienceMark < 60)
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Physical Sciences mark is below the recommended level.";
-                        txtIdentifiedGaps.Text = "Improve Physical Sciences performance.";
-                    }
-                    //strong match
-                    else if (mathsMark >= 60 && average >= 55)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Science requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Science programmes requires stronger mathematics.";
-                        txtIdentifiedGaps.Text = "Improve Mathematic Performance.";
-                    }
-                }
-                //Health Science Faculty
-
-
-                else if (faculty.Contains("Health"))
-                {
-                //Life Sciences Missing
-                if (!HasLifeScience())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Health Sciences generally requires Life Sciences.";
-                    txtIdentifiedGaps.Text = "Life Science subject missing";
-
-                }
-                else if (!HasMathematics())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Health Sciences generally requires Mathematics.";
-                    txtIdentifiedGaps.Text = "Mathematics subject is needed";
-                }
-                //Life Science mark below what is needed
-                else if (lifeScienceMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Life Sciences mark is below the recommended level.";
-                    txtIdentifiedGaps.Text = "Improve Life Science performance.";
-                }
-                //math mark below what is needed
-                else if (mathsMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Mathematics is below recommended level.";
-                    txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-                }
-                //strong match
-                else if (mathsMark >= 60 && homeLanguageMark >= 50 && average >= 60)
-                {
-                    txtEligibilityResult.Text = "Strong Match";
-                    txtReason.Text = "Health Science requirement have been met.";
-                    txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                }
-                //anything else
-                else 
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Some Health Science requirements need improvement .";
-                    txtIdentifiedGaps.Text = "Improve Mathematics and Language performance.";
-                }
-                }
-                //Law faculty
-                else if (faculty.Contains("Law"))
-                {
-                    if (homeLanguageMark >= 60)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Language requirement for Law has been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Law programmes require strong language performace.";
-                        txtIdentifiedGaps.Text = "Improve Home Language.";
-                    }
-                }
-                //Default outcome
-                else
-                {
-                    txtEligibilityResult.Text = "More information needed";
-                    txtReason.Text = "Faculty requirements could not be determined.";
-                    txtIdentifiedGaps.Text = "Please select a faculty.";
-                }
+            if (faculty.Contains("Engineering"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(
+                                        mathsType,
+                                        recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
+                                        physicalScienceMark,
+                                        mathsMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+            }
+            //Commerce Faculty
+            else if (faculty.Contains("Commerce"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateCommerceOutcome(mathsMark);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
             }
 
 
 
-      
+            //Humanities Faculty
+            else if (faculty.Contains("Humanities"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateHumanitiesOutcome(homeLanguageMark);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
 
-        
+            }
+            // Science Faculty
+
+            else if (faculty.Contains("Science"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
+                                        recommendationManager.HasMathematics(mathsType),
+                                         recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
+                                        physicalScienceMark,
+                                        mathsMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+
+            }
+            //Health Science Faculty
+            else if (faculty.Contains("Health"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateHealthOutcome(
+                                        recommendationManager.HasMathematics(mathsType),
+                                        recommendationManager.HasLifeScience(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
+                                        lifeScienceMark,
+                                        mathsMark,
+                                        homeLanguageMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+
+            }
+            //Law faculty
+            else if (faculty.Contains("Law"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateLawOutcome(
+                                        homeLanguageMark);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+            }
+
+        }
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
@@ -804,7 +647,7 @@ namespace project2
         {
             
         }
-
+        //stays
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (radLearner.Checked)
@@ -831,19 +674,21 @@ namespace project2
                 MessageBox.Show("Please select a role first.");
             }
         }
-
+        //stays
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!ValidateLearner())
                 return;
 
-            Learner learner = new Learner(
+             learner = new Learner(
                 txtLearnerName.Text,
                 txtLearnerSurname.Text,
                 cmbGrade.Text,
                 txtSchool.Text,
                 cmbProvince.Text,
-                txtEmail.Text
+                txtEmail.Text,
+                cmbFaculty.Text,
+                cmbQualification.Text
             );
 
             try
@@ -950,11 +795,10 @@ namespace project2
                 return;
             }
 
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
+            if (cmbFaculty.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Please select a faculty and qualification first.");
+                    "Please select a faculty first.");
                 return;
             }
 

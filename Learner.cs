@@ -16,6 +16,9 @@ namespace project2
         private string _province;
 
         public string _email;
+        private string _faculty;
+        private string _qualification;
+    
 
        
         public string FirstName
@@ -49,6 +52,16 @@ namespace project2
             get { return _email; }
             set { _email = value; }
         }
+        public string Faculty
+        {
+            get { return _faculty; }
+            set { _faculty = value; }
+        }
+        public string Qualification
+        {
+            get { return _qualification; }
+            set { _qualification = value; }
+        }
 
         public Learner()
         { 
@@ -58,9 +71,12 @@ namespace project2
             _schoolName = string.Empty;
             _province = string.Empty;
             _email = string.Empty;
+            _faculty = string.Empty;
+            _qualification = string.Empty;
 
         }
-        public  Learner(string firstName, string lastName,string grade, string schoolName, string province ,string email)
+        public  Learner(string firstName, string lastName,string grade, string schoolName, string province ,string email,
+                         string faculty, string qualification)
         {
             
             _firstName = firstName;
@@ -69,6 +85,9 @@ namespace project2
             _schoolName = schoolName;
             _province = province;
             _email = email;
+            _faculty = faculty;
+            _qualification = qualification;
+            
 
         }
 
@@ -76,7 +95,8 @@ namespace project2
         {
             return $"First Name: {_firstName}\n" + $"Last Name: {_lastName}\n" +
                     $"Grade: {_grade}\n" + $"School Name: {_schoolName}\n" +
-                    $"Province: {_province}\n" + $"Email: {_email}";
+                    $"Province: {_province}\n" + $"Email: {_email}\n" +
+                    $"Faculty: {_faculty}\n" + $"Qualification: {_qualification}\n";
         }
     }
 }
