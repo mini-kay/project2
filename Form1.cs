@@ -625,11 +625,10 @@ namespace project2
                 return;
             }
 
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
+            if (cmbFaculty.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Please select a faculty and qualification first.");
+                    "Please select a faculty first.");
                 return;
             }
 
@@ -745,6 +744,14 @@ namespace project2
             // Put cursor back in first textbox
             txtLearnerName.Focus();
         }
+
+        private void btnViewRecs_Click(object sender, EventArgs e)
+        {
+            //display Advisory Information
+            DisplayAdvisoryOutcome();
+        }
+
+        
     }
     }
 

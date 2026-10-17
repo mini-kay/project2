@@ -227,11 +227,11 @@
             this.grpSubjects.Controls.Add(this.txtMarkFAL);
             this.grpSubjects.Controls.Add(this.txtMarkHL);
             this.grpSubjects.Controls.Add(this.txtLO);
-            this.grpSubjects.Location = new System.Drawing.Point(621, 29);
+            this.grpSubjects.Location = new System.Drawing.Point(485, 29);
             this.grpSubjects.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpSubjects.Name = "grpSubjects";
             this.grpSubjects.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpSubjects.Size = new System.Drawing.Size(448, 388);
+            this.grpSubjects.Size = new System.Drawing.Size(666, 388);
             this.grpSubjects.TabIndex = 5;
             this.grpSubjects.TabStop = false;
             this.grpSubjects.Text = "Enter your 7 best subjects";
@@ -242,66 +242,37 @@
             this.cmbSubject3.FormattingEnabled = true;
             this.cmbSubject3.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject3.Location = new System.Drawing.Point(207, 315);
+            this.cmbSubject3.Location = new System.Drawing.Point(265, 317);
             this.cmbSubject3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject3.Name = "cmbSubject3";
-            this.cmbSubject3.Size = new System.Drawing.Size(148, 28);
+            this.cmbSubject3.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject3.TabIndex = 28;
             // 
             // cmbSubject2
@@ -310,66 +281,37 @@
             this.cmbSubject2.FormattingEnabled = true;
             this.cmbSubject2.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject2.Location = new System.Drawing.Point(207, 274);
+            this.cmbSubject2.Location = new System.Drawing.Point(265, 275);
             this.cmbSubject2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject2.Name = "cmbSubject2";
-            this.cmbSubject2.Size = new System.Drawing.Size(148, 28);
+            this.cmbSubject2.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject2.TabIndex = 27;
             // 
             // cmbSubject1
@@ -378,66 +320,37 @@
             this.cmbSubject1.FormattingEnabled = true;
             this.cmbSubject1.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject1.Location = new System.Drawing.Point(207, 235);
+            this.cmbSubject1.Location = new System.Drawing.Point(265, 237);
             this.cmbSubject1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject1.Name = "cmbSubject1";
-            this.cmbSubject1.Size = new System.Drawing.Size(148, 28);
+            this.cmbSubject1.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject1.TabIndex = 26;
             // 
             // cmbMaths
@@ -448,10 +361,10 @@
             "Mathematics",
             "Mathematical Literacy",
             "Technical Mathematics"});
-            this.cmbMaths.Location = new System.Drawing.Point(207, 155);
+            this.cmbMaths.Location = new System.Drawing.Point(265, 157);
             this.cmbMaths.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbMaths.Name = "cmbMaths";
-            this.cmbMaths.Size = new System.Drawing.Size(148, 28);
+            this.cmbMaths.Size = new System.Drawing.Size(335, 28);
             this.cmbMaths.TabIndex = 25;
             // 
             // cmbFAL
@@ -470,10 +383,10 @@
             "SiSwati FAL",
             "Tshivenda FAL",
             "Xitsonga FAL"});
-            this.cmbFAL.Location = new System.Drawing.Point(207, 109);
+            this.cmbFAL.Location = new System.Drawing.Point(265, 111);
             this.cmbFAL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbFAL.Name = "cmbFAL";
-            this.cmbFAL.Size = new System.Drawing.Size(148, 28);
+            this.cmbFAL.Size = new System.Drawing.Size(335, 28);
             this.cmbFAL.TabIndex = 24;
             // 
             // cmbHomeLanguage
@@ -492,16 +405,16 @@
             "SiSwati HL",
             "Tshivenda HL",
             "Xitsonga HL"});
-            this.cmbHomeLanguage.Location = new System.Drawing.Point(207, 62);
+            this.cmbHomeLanguage.Location = new System.Drawing.Point(265, 65);
             this.cmbHomeLanguage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbHomeLanguage.Name = "cmbHomeLanguage";
-            this.cmbHomeLanguage.Size = new System.Drawing.Size(148, 28);
+            this.cmbHomeLanguage.Size = new System.Drawing.Size(335, 28);
             this.cmbHomeLanguage.TabIndex = 23;
             // 
             // lblMark
             // 
             this.lblMark.AutoSize = true;
-            this.lblMark.Location = new System.Drawing.Point(393, 25);
+            this.lblMark.Location = new System.Drawing.Point(604, 24);
             this.lblMark.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMark.Name = "lblMark";
             this.lblMark.Size = new System.Drawing.Size(44, 20);
@@ -511,7 +424,7 @@
             // lblSubject
             // 
             this.lblSubject.AutoSize = true;
-            this.lblSubject.Location = new System.Drawing.Point(248, 25);
+            this.lblSubject.Location = new System.Drawing.Point(408, 24);
             this.lblSubject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubject.Name = "lblSubject";
             this.lblSubject.Size = new System.Drawing.Size(63, 20);
@@ -590,7 +503,7 @@
             // 
             // txtMark3
             // 
-            this.txtMark3.Location = new System.Drawing.Point(387, 315);
+            this.txtMark3.Location = new System.Drawing.Point(608, 319);
             this.txtMark3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark3.Name = "txtMark3";
             this.txtMark3.Size = new System.Drawing.Size(50, 26);
@@ -598,7 +511,7 @@
             // 
             // txtMark2
             // 
-            this.txtMark2.Location = new System.Drawing.Point(387, 275);
+            this.txtMark2.Location = new System.Drawing.Point(608, 277);
             this.txtMark2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark2.Name = "txtMark2";
             this.txtMark2.Size = new System.Drawing.Size(50, 26);
@@ -606,7 +519,7 @@
             // 
             // txtMark1
             // 
-            this.txtMark1.Location = new System.Drawing.Point(387, 235);
+            this.txtMark1.Location = new System.Drawing.Point(608, 239);
             this.txtMark1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark1.Name = "txtMark1";
             this.txtMark1.Size = new System.Drawing.Size(50, 26);
@@ -614,7 +527,7 @@
             // 
             // txtMarkLO
             // 
-            this.txtMarkLO.Location = new System.Drawing.Point(387, 195);
+            this.txtMarkLO.Location = new System.Drawing.Point(608, 198);
             this.txtMarkLO.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkLO.Name = "txtMarkLO";
             this.txtMarkLO.Size = new System.Drawing.Size(50, 26);
@@ -622,7 +535,7 @@
             // 
             // txtMarkMaths
             // 
-            this.txtMarkMaths.Location = new System.Drawing.Point(387, 155);
+            this.txtMarkMaths.Location = new System.Drawing.Point(608, 159);
             this.txtMarkMaths.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkMaths.Name = "txtMarkMaths";
             this.txtMarkMaths.Size = new System.Drawing.Size(50, 26);
@@ -630,7 +543,7 @@
             // 
             // txtMarkFAL
             // 
-            this.txtMarkFAL.Location = new System.Drawing.Point(387, 109);
+            this.txtMarkFAL.Location = new System.Drawing.Point(608, 113);
             this.txtMarkFAL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkFAL.Name = "txtMarkFAL";
             this.txtMarkFAL.Size = new System.Drawing.Size(50, 26);
@@ -638,7 +551,7 @@
             // 
             // txtMarkHL
             // 
-            this.txtMarkHL.Location = new System.Drawing.Point(387, 63);
+            this.txtMarkHL.Location = new System.Drawing.Point(608, 65);
             this.txtMarkHL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkHL.Name = "txtMarkHL";
             this.txtMarkHL.Size = new System.Drawing.Size(50, 26);
@@ -646,11 +559,11 @@
             // 
             // txtLO
             // 
-            this.txtLO.Location = new System.Drawing.Point(207, 195);
+            this.txtLO.Location = new System.Drawing.Point(265, 197);
             this.txtLO.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLO.Name = "txtLO";
             this.txtLO.ReadOnly = true;
-            this.txtLO.Size = new System.Drawing.Size(148, 26);
+            this.txtLO.Size = new System.Drawing.Size(335, 26);
             this.txtLO.TabIndex = 3;
             this.txtLO.Text = "Life Orientation";
             // 
@@ -756,11 +669,11 @@
             this.grpFaculty.Controls.Add(this.lblQualification);
             this.grpFaculty.Controls.Add(this.cmbFaculty);
             this.grpFaculty.Controls.Add(this.lblFaculty);
-            this.grpFaculty.Location = new System.Drawing.Point(250, 426);
+            this.grpFaculty.Location = new System.Drawing.Point(63, 427);
             this.grpFaculty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpFaculty.Name = "grpFaculty";
             this.grpFaculty.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpFaculty.Size = new System.Drawing.Size(568, 165);
+            this.grpFaculty.Size = new System.Drawing.Size(952, 165);
             this.grpFaculty.TabIndex = 15;
             this.grpFaculty.TabStop = false;
             this.grpFaculty.Text = "Faculty && Qualification";
@@ -784,7 +697,7 @@
             this.cmbQualification.Location = new System.Drawing.Point(339, 98);
             this.cmbQualification.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbQualification.Name = "cmbQualification";
-            this.cmbQualification.Size = new System.Drawing.Size(218, 28);
+            this.cmbQualification.Size = new System.Drawing.Size(331, 28);
             this.cmbQualification.TabIndex = 16;
             // 
             // lblQualification
@@ -808,10 +721,10 @@
             "Humanities",
             "Law",
             "Science"});
-            this.cmbFaculty.Location = new System.Drawing.Point(339, 35);
+            this.cmbFaculty.Location = new System.Drawing.Point(339, 37);
             this.cmbFaculty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbFaculty.Name = "cmbFaculty";
-            this.cmbFaculty.Size = new System.Drawing.Size(148, 28);
+            this.cmbFaculty.Size = new System.Drawing.Size(331, 28);
             this.cmbFaculty.TabIndex = 14;
             // 
             // lblFaculty
