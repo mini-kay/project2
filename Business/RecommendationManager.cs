@@ -8,6 +8,20 @@ namespace project2.Business
 {//handles recommendation and advisory logic
     internal class RecommendationManager
     {
+        //calculate learner average
+        public int CalculateAverage(
+               int homeLanguage,
+               int fal,
+               int maths,
+               int lifeOrientation,
+               int subject1,
+               int subject2,
+               int subject3)
+        {
+            return (homeLanguage + fal + maths + lifeOrientation +
+                    subject1 + subject2 + subject3) / 7;
+        }
+        
         //check if the learner has physics
         public bool HasPhysicalSciences(string subject1, string subject2, string subject3)
         {
@@ -28,7 +42,7 @@ namespace project2.Business
             return mathsType == "Mathematics";
         }
         //get physics mark
-        private int GetPhysicalScienceMark(string subject1, string subject2, string subject3, string mark1,
+        public int GetPhysicalScienceMark(string subject1, string subject2, string subject3, string mark1,
                                            string mark2, string mark3)
 
         {
@@ -47,7 +61,7 @@ namespace project2.Business
             return 0;
         }
 
-        private int GetLifeScienceMark(string subject1, string subject2, string subject3, string mark1,
+        public int GetLifeScienceMark(string subject1, string subject2, string subject3, string mark1,
                                            string mark2, string mark3)
         {
             if (subject1.Contains("Life"))
