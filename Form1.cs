@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Text;
+using System.Diagnostics.Eventing.Reader;
 
 namespace project2
 {
@@ -416,7 +417,7 @@ namespace project2
             {
                 return false;
             }
-            if (!ValidateMark(txtMark3, "Suject 3"))
+            if (!ValidateMark(txtMark3, "Subject 3"))
             {
                 return false;
             }
@@ -425,7 +426,6 @@ namespace project2
             {
                 return false;
             }
-            //valdate enter
 
             return true;
         }
@@ -486,6 +486,156 @@ namespace project2
             }
             return true;
         }
+        //Display learner advisory outcomes
+        //method populates the advisory outcome tab
+        //using the learner's qualification and marks
+        private void DisplayAdvisoryOutcome()
+        {
+            //show the qualification selected by the learner
+            txtQualifications.Text = cmbQualification.Text;
+
+            //get qualification and marks
+            string faculty = cmbFaculty.Text;
+
+            //get the type of maths that was selected
+            string mathsType = cmbMaths.Text;
+
+            //get learner marks
+            int mathsMark = Convert.ToInt32(txtMarkMaths.Text);
+            int homeLanguageMark = Convert.ToInt32(txtMarkHL.Text);
+            
+            //check qualification requirements
+            {
+                //Engineering Faculty
+                //engineering requires pure maths
+                
+                if (faculty.Contains("Engineering"))
+                {
+                    if (mathsType != "Mathematics")
+                    {
+                        txtEligibilityResult.Text = "Not Currently Eligible";
+                        txtIdentifiedGaps.Text = "Engineering programmes require Mathematics";
+                        txtIdentifiedGaps.Text = "Mathematical Literacy or Technical Mathematics is not accepted";
+                    }
+                     else if (mathsMark >= 70)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Mathematics requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else if (mathsMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Mathematics is below the preffered Engineering requirement.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Not currently eligible";
+                        txtReason.Text = "Engineering requires strong Mathematics result.";
+                        txtIdentifiedGaps.Text = "Mathematics mark needs improvement.";
+
+                    }
+
+
+                }
+                //Commerce Faculty
+                else if (faculty.Contains("Commerce"))
+                {
+                    if (mathsMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Commerce requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Commerce programmes recommend stronger Mathematics results.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
+
+                    }
+                }
+                //Humanities Faculty
+                else if (faculty.Contains("Humanities"))
+                {
+                    if (homeLanguageMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Language Requirement has been met.";
+                        txtIdentifiedGaps.Text = "No major gaps identified";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Home Language mark is below the requirement.";
+                        txtIdentifiedGaps.Text = "Improve Home Language.";
+                    }
+                }
+                // Science Faculty
+                else if (faculty.Contains("Science"))
+                {
+                    if (mathsMark >= 60)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Science requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Science programmes requires stronger mathematics.";
+                        txtIdentifiedGaps.Text = "Improve Mathematic Performance.";
+                    }
+                }
+                //Health Science Faculty
+                else if (faculty.Contains("Health"))
+                {
+                    if (mathsMark >= 60 && homeLanguageMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Health Sciences requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Health Science require stronger academic results.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics and Language performance.";
+                    }
+                }
+                //Law faculty
+                else if (faculty.Contains("Law"))
+                {
+                    if (homeLanguageMark >= 60)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Language requirement for Law has been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Law programmes require strong language performace.";
+                        txtIdentifiedGaps.Text = "Improve Home Language.";
+                    }
+                }
+                //Default outcome
+                else
+                {
+                    txtEligibilityResult.Text = "More information needed";
+                    txtReason.Text = "Faculty requirements could not be determined.";
+                    txtIdentifiedGaps.Text = "Please select a faculty.";
+                }
+            }
+
+
+
+
+
+        }
+
         
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
@@ -744,6 +894,12 @@ namespace project2
 
             // Put cursor back in first textbox
             txtLearnerName.Focus();
+        }
+
+        private void btnViewRecs_Click(object sender, EventArgs e)
+        {
+            //display Advisory Information
+            DisplayAdvisoryOutcome();
         }
     }
     }

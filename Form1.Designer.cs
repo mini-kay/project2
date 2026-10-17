@@ -1026,6 +1026,7 @@
             this.btnViewRecs.TabIndex = 9;
             this.btnViewRecs.Text = "View Recommendations";
             this.btnViewRecs.UseVisualStyleBackColor = true;
+            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
             // 
             // btnBack1
             // 
