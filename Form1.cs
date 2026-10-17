@@ -11,12 +11,15 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Text;
 using System.Diagnostics.Eventing.Reader;
+using project2.Business;
 
 namespace project2
 {
     public partial class FuturePathForm : Form
     {
         LearnerManager learnerManager = new LearnerManager();
+        private Learner learner;
+        private RecommendationManager recommendationManager = new RecommendationManager();
 
         public FuturePathForm()
         {
@@ -528,7 +531,7 @@ namespace project2
             }
             return true;
         }
-        //valdate mark textboxes
+        //validate mark textboxes
         private bool ValidateMark(TextBox txtMark, string subject)
         {
             int mark;
@@ -562,10 +565,10 @@ namespace project2
             int physicalScienceMark = GetPhysicalScienceMark();
             int lifeScienceMark = GetLifeScienceMark();
             //show the qualification selected by the learner
-            txtQualifications.Text = cmbQualification.Text;
+            txtQualifications.Text = learner.Qualification;
 
             //get qualification and marks
-            string faculty = cmbFaculty.Text;
+            string faculty = learner.Faculty;
 
             //get the type of maths that was selected
             string mathsType = cmbMaths.Text;
@@ -591,202 +594,81 @@ namespace project2
 
 
             //check qualification requirements
+
+            //Engineering Faculty
+
+            if (faculty.Contains("Engineering"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(
+                                        mathsType,
+                                        HasPhysicalSciences(),
+                                        physicalScienceMark,
+                                        mathsMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+            }
+            //Commerce Faculty
+            else if (faculty.Contains("Commerce"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateCommerceOutcome(mathsMark);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+            }
+
+
+
+            //Humanities Faculty
+            else if (faculty.Contains("Humanities"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateHumanitiesOutcome(homeLanguageMark);                         
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+
+            }
+            // Science Faculty
+
+            else if (faculty.Contains("Science"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
+                                        HasMathematics(),
+                                        HasPhysicalSciences(),
+                                        physicalScienceMark,
+                                        mathsMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+
+            }
+            //Health Science Faculty
+            else if (faculty.Contains("Health"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateHealthOutcome(
+                                        HasMathematics(),
+                                        HasLifeScience(),
+                                        lifeScienceMark,
+                                        mathsMark,
+                                        homeLanguageMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+
+            }
+            //Law faculty
+            else if (faculty.Contains("Law"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateLawOutcome(
+                                        homeLanguageMark);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.Reason;
+            }
             
-                //Engineering Faculty
-
-                if (faculty.Contains("Engineering"))
-                {
-                //engineering reguires Mathematics
-                if (mathsType != "Mathematics")
-                {
-                    txtEligibilityResult.Text = "Not Currently Eligible";
-                    txtReason.Text = "Engineering programmes require Mathematics.";
-                    txtIdentifiedGaps.Text = "Mathematical Literacy or Technical Mathematics is not accepted";
-                }
-                //physics subject is missing
-                else if (!HasPhysicalSciences())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Physical Sciences is recommended for Engineering.";
-                    txtIdentifiedGaps.Text = "Physical Sciences subject is required.";
-                }
-                //physics mark is below what is needed
-                else if (physicalScienceMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Physical Sciences mark is below the recommended level.";
-                    txtIdentifiedGaps.Text = " Improve Physical Sciences performnce.";
-                }
-                //strong match
-                    else if (mathsMark >= 70 && average >= 60)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Mathematics requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                    }
-                //math mark too low
-                    else if (mathsMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Mathematics is below the preffered Engineering requirement.";
-                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-                    }
-
-                 //maths mark is too low
-                    else
-                    {
-                        txtEligibilityResult.Text = "Not currently eligible";
-                        txtReason.Text = "Engineering requires strong Mathematics result.";
-                        txtIdentifiedGaps.Text = "Mathematics mark needs improvement.";
-
-                    }
-
-
-                }
-                //Commerce Faculty
-                else if (faculty.Contains("Commerce"))
-                {
-                    if (mathsMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Commerce requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major gaps identified.";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Commerce programmes recommend stronger Mathematics results.";
-                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-
-                    }
-                }
-                //Humanities Faculty
-                else if (faculty.Contains("Humanities"))
-                {
-                    if (homeLanguageMark >= 50)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Language Requirement has been met.";
-                        txtIdentifiedGaps.Text = "No major gaps identified";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Home Language mark is below the requirement.";
-                        txtIdentifiedGaps.Text = "Improve Home Language.";
-                    }
-                }
-                // Science Faculty
-
-                else if (faculty.Contains("Science"))
-                {
-                    //Science requires Mathematics
-                    if (!HasMathematics())
-                    {
-                        txtEligibilityResult.Text = "Not Currently Eligible";
-                        txtReason.Text = "Science programmes require Mathematics.";
-                        txtIdentifiedGaps.Text = "Mathematics subject is required.";
-                    }
-                    //Physics is recommended
-                    else if (!HasPhysicalSciences())
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Physical Sciences is required for Science programmes.";
-                        txtIdentifiedGaps.Text = "Physical Sciences is a required subject.";
-                    }
-                    //subjects exist but mark is below needed criteria
-                    else if (physicalScienceMark < 60)
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Physical Sciences mark is below the recommended level.";
-                        txtIdentifiedGaps.Text = "Improve Physical Sciences performance.";
-                    }
-                    //strong match
-                    else if (mathsMark >= 60 && average >= 55)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Science requirements have been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Science programmes requires stronger mathematics.";
-                        txtIdentifiedGaps.Text = "Improve Mathematic Performance.";
-                    }
-                }
-                //Health Science Faculty
-
-
-                else if (faculty.Contains("Health"))
-                {
-                //Life Sciences Missing
-                if (!HasLifeScience())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Health Sciences generally requires Life Sciences.";
-                    txtIdentifiedGaps.Text = "Life Science subject missing";
-
-                }
-                else if (!HasMathematics())
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Health Sciences generally requires Mathematics.";
-                    txtIdentifiedGaps.Text = "Mathematics subject is needed";
-                }
-                //Life Science mark below what is needed
-                else if (lifeScienceMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = " Life Sciences mark is below the recommended level.";
-                    txtIdentifiedGaps.Text = "Improve Life Science performance.";
-                }
-                //math mark below what is needed
-                else if (mathsMark < 60)
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Mathematics is below recommended level.";
-                    txtIdentifiedGaps.Text = "Improve Mathematics performance.";
-                }
-                //strong match
-                else if (mathsMark >= 60 && homeLanguageMark >= 50 && average >= 60)
-                {
-                    txtEligibilityResult.Text = "Strong Match";
-                    txtReason.Text = "Health Science requirement have been met.";
-                    txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                }
-                //anything else
-                else 
-                {
-                    txtEligibilityResult.Text = "Possible Match";
-                    txtReason.Text = "Some Health Science requirements need improvement .";
-                    txtIdentifiedGaps.Text = "Improve Mathematics and Language performance.";
-                }
-                }
-                //Law faculty
-                else if (faculty.Contains("Law"))
-                {
-                    if (homeLanguageMark >= 60)
-                    {
-                        txtEligibilityResult.Text = "Strong Match";
-                        txtReason.Text = "Language requirement for Law has been met.";
-                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
-                    }
-                    else
-                    {
-                        txtEligibilityResult.Text = "Possible Match";
-                        txtReason.Text = "Law programmes require strong language performace.";
-                        txtIdentifiedGaps.Text = "Improve Home Language.";
-                    }
-                }
-                //Default outcome
-                else
-                {
-                    txtEligibilityResult.Text = "More information needed";
-                    txtReason.Text = "Faculty requirements could not be determined.";
-                    txtIdentifiedGaps.Text = "Please select a faculty.";
-                }
             }
 
 
@@ -804,7 +686,7 @@ namespace project2
         {
             
         }
-
+        //stays
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (radLearner.Checked)
@@ -831,19 +713,21 @@ namespace project2
                 MessageBox.Show("Please select a role first.");
             }
         }
-
+        //stays
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!ValidateLearner())
                 return;
 
-            Learner learner = new Learner(
+             learner = new Learner(
                 txtLearnerName.Text,
                 txtLearnerSurname.Text,
                 cmbGrade.Text,
                 txtSchool.Text,
                 cmbProvince.Text,
-                txtEmail.Text
+                txtEmail.Text,
+                cmbFaculty.Text,
+                cmbQualification.Text
             );
 
             try

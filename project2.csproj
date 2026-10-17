@@ -55,6 +55,10 @@
     </Compile>
     <Compile Include="AdvisorySession.cs" />
     <Compile Include="AdvisorySessionDataAccess.cs" />
+    <Compile Include="Business\AlternativeProgrammeResult.cs" />
+    <Compile Include="Business\AlternativeProgrammeManager.cs" />
+    <Compile Include="Business\AdvisoryResult.cs" />
+    <Compile Include="Business\RecommendationManager.cs" />
     <Compile Include="Career Advisor.cs">
       <SubType>Form</SubType>
     </Compile>
