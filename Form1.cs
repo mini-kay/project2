@@ -243,21 +243,40 @@ namespace project2
             cmd.ExecuteNonQuery();
         }
 
+
         private int GetSubjectID(string subjectName)
         {
             string dbSubjectName = subjectName.Trim();
 
+            // Convert Home Language abbreviations.
             if (dbSubjectName.EndsWith(" HL"))
             {
                 dbSubjectName =
                     dbSubjectName.Substring(0, dbSubjectName.Length - 3)
                     + " Home Language";
             }
+            // Convert First Additional Language abbreviations.
             else if (dbSubjectName.EndsWith(" FAL"))
             {
                 dbSubjectName =
                     dbSubjectName.Substring(0, dbSubjectName.Length - 4)
                     + " First Additional Language";
+            }
+
+            // Match abbreviated names used in the subject dropdowns.
+            switch (dbSubjectName)
+            {
+                case "Computer Applications Technology (CAT)":
+                    dbSubjectName = "Computer Applications Technology";
+                    break;
+
+                case "Information Technology (IT)":
+                    dbSubjectName = "Information Technology";
+                    break;
+
+                case "Engineering Graphics and Design (EGD)":
+                    dbSubjectName = "Engineering Graphics and Design";
+                    break;
             }
 
             using (SqlConnection connection = new SqlConnection(ConnStr))
@@ -280,13 +299,14 @@ namespace project2
                     {
                         throw new ArgumentException(
                             "This subject is not configured in the database: "
-                            + subjectName);
+                            + dbSubjectName);
                     }
 
                     return Convert.ToInt32(result);
                 }
             }
         }
+
 
 
         private void FuturePathForm_Load(object sender, EventArgs e)
@@ -373,7 +393,25 @@ namespace project2
             {
                 FuturePathTabControl.SelectedTab = tabLearnerInfo;
             }
-            
+            else if (radAdministrator.Checked)
+            {
+                using (Administrator adminForm = new Administrator())
+                {
+                    adminForm.ShowDialog();
+                }
+            }
+            else if (radCareerAdvisor.Checked)
+            {
+                MessageBox.Show(
+                    "Career Advisor login will be implemented later.",
+                    "Coming Soon",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please select a role first.");
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

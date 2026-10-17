@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabUserAccounts = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.grpboxAdminFunctions = new System.Windows.Forms.GroupBox();
+            this.btnUserAcc = new System.Windows.Forms.Button();
             this.btnInterestQs = new System.Windows.Forms.Button();
             this.btnManageReqs = new System.Windows.Forms.Button();
             this.btnManageFunding = new System.Windows.Forms.Button();
@@ -62,8 +63,19 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnUserAcc = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblUsername = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.lblRole = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.btnCreateAccount = new System.Windows.Forms.Button();
+            this.btnToggleStatus = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.cmbRole = new System.Windows.Forms.ComboBox();
+            this.dgvUserAccounts = new System.Windows.Forms.DataGridView();
+            this.tabUserAccounts.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.grpboxAdminFunctions.SuspendLayout();
             this.grpboxAdministrator.SuspendLayout();
@@ -72,17 +84,20 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserAccounts)).BeginInit();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabUserAccounts
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabAdvisorySum);
-            this.tabControl1.Location = new System.Drawing.Point(21, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(758, 451);
-            this.tabControl1.TabIndex = 1;
+            this.tabUserAccounts.Controls.Add(this.tabPage1);
+            this.tabUserAccounts.Controls.Add(this.tabAdvisorySum);
+            this.tabUserAccounts.Controls.Add(this.tabPage2);
+            this.tabUserAccounts.Location = new System.Drawing.Point(21, 0);
+            this.tabUserAccounts.Name = "tabUserAccounts";
+            this.tabUserAccounts.SelectedIndex = 0;
+            this.tabUserAccounts.Size = new System.Drawing.Size(758, 451);
+            this.tabUserAccounts.TabIndex = 1;
             // 
             // tabPage1
             // 
@@ -100,9 +115,9 @@
             // 
             // btnLogOut
             // 
-            this.btnLogOut.Location = new System.Drawing.Point(620, 377);
+            this.btnLogOut.Location = new System.Drawing.Point(630, 386);
             this.btnLogOut.Name = "btnLogOut";
-            this.btnLogOut.Size = new System.Drawing.Size(75, 23);
+            this.btnLogOut.Size = new System.Drawing.Size(84, 30);
             this.btnLogOut.TabIndex = 7;
             this.btnLogOut.Text = "Log Out";
             this.btnLogOut.UseVisualStyleBackColor = true;
@@ -114,12 +129,22 @@
             this.grpboxAdminFunctions.Controls.Add(this.btnManageReqs);
             this.grpboxAdminFunctions.Controls.Add(this.btnManageFunding);
             this.grpboxAdminFunctions.Controls.Add(this.btnManageDocs);
-            this.grpboxAdminFunctions.Location = new System.Drawing.Point(363, 80);
+            this.grpboxAdminFunctions.Location = new System.Drawing.Point(401, 80);
             this.grpboxAdminFunctions.Name = "grpboxAdminFunctions";
             this.grpboxAdminFunctions.Size = new System.Drawing.Size(264, 284);
             this.grpboxAdminFunctions.TabIndex = 6;
             this.grpboxAdminFunctions.TabStop = false;
             this.grpboxAdminFunctions.Text = "Administrator Functions";
+            // 
+            // btnUserAcc
+            // 
+            this.btnUserAcc.BackColor = System.Drawing.Color.AliceBlue;
+            this.btnUserAcc.Location = new System.Drawing.Point(31, 234);
+            this.btnUserAcc.Name = "btnUserAcc";
+            this.btnUserAcc.Size = new System.Drawing.Size(199, 34);
+            this.btnUserAcc.TabIndex = 4;
+            this.btnUserAcc.Text = "Manage User Accounts";
+            this.btnUserAcc.UseVisualStyleBackColor = false;
             // 
             // btnInterestQs
             // 
@@ -170,10 +195,10 @@
             this.grpboxAdministrator.Controls.Add(this.label1);
             this.grpboxAdministrator.Location = new System.Drawing.Point(24, 80);
             this.grpboxAdministrator.Name = "grpboxAdministrator";
-            this.grpboxAdministrator.Size = new System.Drawing.Size(200, 187);
+            this.grpboxAdministrator.Size = new System.Drawing.Size(232, 219);
             this.grpboxAdministrator.TabIndex = 5;
             this.grpboxAdministrator.TabStop = false;
-            this.grpboxAdministrator.Text = "Adnistrator Login";
+            this.grpboxAdministrator.Text = "Administrator Login";
             // 
             // textBox2
             // 
@@ -191,7 +216,7 @@
             // 
             // btnAdminLogin
             // 
-            this.btnAdminLogin.Location = new System.Drawing.Point(58, 140);
+            this.btnAdminLogin.Location = new System.Drawing.Point(58, 161);
             this.btnAdminLogin.Name = "btnAdminLogin";
             this.btnAdminLogin.Size = new System.Drawing.Size(75, 23);
             this.btnAdminLogin.TabIndex = 2;
@@ -225,7 +250,7 @@
             this.lblAccess.Name = "lblAccess";
             this.lblAccess.Size = new System.Drawing.Size(750, 28);
             this.lblAccess.TabIndex = 4;
-            this.lblAccess.Text = "Career Advisor Dasboard";
+            this.lblAccess.Text = "Administrator Dasboard";
             this.lblAccess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabAdvisorySum
@@ -421,25 +446,133 @@
             this.label3.Text = "Advisory Summary";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnUserAcc
+            // tabPage2
             // 
-            this.btnUserAcc.BackColor = System.Drawing.Color.AliceBlue;
-            this.btnUserAcc.Location = new System.Drawing.Point(31, 234);
-            this.btnUserAcc.Name = "btnUserAcc";
-            this.btnUserAcc.Size = new System.Drawing.Size(199, 34);
-            this.btnUserAcc.TabIndex = 4;
-            this.btnUserAcc.Text = "Manage User Accounts";
-            this.btnUserAcc.UseVisualStyleBackColor = false;
+            this.tabPage2.Controls.Add(this.dgvUserAccounts);
+            this.tabPage2.Controls.Add(this.cmbRole);
+            this.tabPage2.Controls.Add(this.btnRefresh);
+            this.tabPage2.Controls.Add(this.btnClose);
+            this.tabPage2.Controls.Add(this.btnToggleStatus);
+            this.tabPage2.Controls.Add(this.btnCreateAccount);
+            this.tabPage2.Controls.Add(this.txtUsername);
+            this.tabPage2.Controls.Add(this.txtPassword);
+            this.tabPage2.Controls.Add(this.lblRole);
+            this.tabPage2.Controls.Add(this.lblPassword);
+            this.tabPage2.Controls.Add(this.lblUsername);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(750, 425);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Manage User Accounts";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Location = new System.Drawing.Point(35, 57);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(55, 13);
+            this.lblUsername.TabIndex = 0;
+            this.lblUsername.Text = "Username";
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(35, 112);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(53, 13);
+            this.lblPassword.TabIndex = 1;
+            this.lblPassword.Text = "Password";
+            // 
+            // lblRole
+            // 
+            this.lblRole.AutoSize = true;
+            this.lblRole.Location = new System.Drawing.Point(35, 167);
+            this.lblRole.Name = "lblRole";
+            this.lblRole.Size = new System.Drawing.Size(29, 13);
+            this.lblRole.TabIndex = 2;
+            this.lblRole.Text = "Role";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(150, 112);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.TabIndex = 3;
+            this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(150, 57);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(100, 20);
+            this.txtUsername.TabIndex = 4;
+            // 
+            // btnCreateAccount
+            // 
+            this.btnCreateAccount.Location = new System.Drawing.Point(38, 246);
+            this.btnCreateAccount.Name = "btnCreateAccount";
+            this.btnCreateAccount.Size = new System.Drawing.Size(94, 24);
+            this.btnCreateAccount.TabIndex = 5;
+            this.btnCreateAccount.Text = "Create Account";
+            this.btnCreateAccount.UseVisualStyleBackColor = true;
+            // 
+            // btnToggleStatus
+            // 
+            this.btnToggleStatus.Location = new System.Drawing.Point(535, 326);
+            this.btnToggleStatus.Name = "btnToggleStatus";
+            this.btnToggleStatus.Size = new System.Drawing.Size(124, 33);
+            this.btnToggleStatus.TabIndex = 6;
+            this.btnToggleStatus.Text = "Deactivate/ Activate";
+            this.btnToggleStatus.UseVisualStyleBackColor = true;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(286, 367);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 7;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(129, 367);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 8;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // cmbRole
+            // 
+            this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRole.FormattingEnabled = true;
+            this.cmbRole.Location = new System.Drawing.Point(129, 167);
+            this.cmbRole.Name = "cmbRole";
+            this.cmbRole.Size = new System.Drawing.Size(121, 21);
+            this.cmbRole.TabIndex = 9;
+            // 
+            // dgvUserAccounts
+            // 
+            this.dgvUserAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUserAccounts.Location = new System.Drawing.Point(413, 6);
+            this.dgvUserAccounts.Name = "dgvUserAccounts";
+            this.dgvUserAccounts.Size = new System.Drawing.Size(331, 304);
+            this.dgvUserAccounts.TabIndex = 10;
             // 
             // Administrator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabUserAccounts);
             this.Name = "Administrator";
             this.Text = "Administrator";
-            this.tabControl1.ResumeLayout(false);
+            this.tabUserAccounts.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.grpboxAdminFunctions.ResumeLayout(false);
             this.grpboxAdministrator.ResumeLayout(false);
@@ -453,13 +586,16 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserAccounts)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabUserAccounts;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.GroupBox grpboxAdminFunctions;
@@ -494,5 +630,17 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnUserAcc;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label lblRole;
+        private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.DataGridView dgvUserAccounts;
+        private System.Windows.Forms.ComboBox cmbRole;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnToggleStatus;
+        private System.Windows.Forms.Button btnCreateAccount;
+        private System.Windows.Forms.TextBox txtUsername;
     }
 }
