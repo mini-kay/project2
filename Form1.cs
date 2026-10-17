@@ -751,7 +751,11 @@ namespace project2
             DisplayAdvisoryOutcome();
         }
 
-        
+        //Resolving missing method conflict so we can merge
+        private void DisplayAdvisoryOutcome()
+        {
+            //TO DO: 
+        }
     }
     }
 
