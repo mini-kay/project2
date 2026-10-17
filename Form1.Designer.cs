@@ -1021,6 +1021,7 @@
             this.btnBack1.TabIndex = 8;
             this.btnBack1.Text = "Back";
             this.btnBack1.UseVisualStyleBackColor = true;
+            this.btnBack1.Click += new System.EventHandler(this.btnBack1_Click);
             // 
             // grpboxReason
             // 
