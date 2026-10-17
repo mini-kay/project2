@@ -53,6 +53,12 @@
     <Compile Include="Administrator.Designer.cs">
       <DependentUpon>Administrator.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdvisorySession.cs" />
+    <Compile Include="AdvisorySessionDataAccess.cs" />
+    <Compile Include="Business\AlternativeProgrammeResult.cs" />
+    <Compile Include="Business\AlternativeProgrammeManager.cs" />
+    <Compile Include="Business\AdvisoryResult.cs" />
+    <Compile Include="Business\RecommendationManager.cs" />
     <Compile Include="Career Advisor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,7 +66,11 @@
       <DependentUpon>Career Advisor.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="InterestCategory.cs" />
+    <Compile Include="InterestQuestion.cs" />
+    <Compile Include="InterestQuestionDataAccess.cs" />
     <Compile Include="LearnerDataAccess.cs" />
+    <Compile Include="LearnerInterestResponse.cs" />
     <Compile Include="LearnerManager.cs" />
     <Compile Include="Learner.cs" />
     <Compile Include="Form1.cs">
@@ -106,7 +116,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Database\34AddMissingSubjects.sql" />
     <Content Include="Database\backupQuery.sql" />
+    <Content Include="Database\newBackup.sql" />
     <Content Include="Database\QUERY1.sql" />
     <Content Include="Database\QUERY10.sql" />
     <Content Include="Database\QUERY11.sql" />
@@ -125,7 +137,15 @@
     <Content Include="Database\QUERY23.sql" />
     <Content Include="Database\QUERY24.sql" />
     <Content Include="Database\QUERY25.sql" />
+    <Content Include="Database\QUERY26.sql" />
+    <Content Include="Database\QUERY27.sql" />
+    <Content Include="Database\QUERY28.sql" />
+    <Content Include="Database\QUERY29.sql" />
     <Content Include="Database\QUERY3.sql" />
+    <Content Include="Database\QUERY30.sql" />
+    <Content Include="Database\QUERY31.sql" />
+    <Content Include="Database\QUERY32.sql" />
+    <Content Include="Database\QUERY33.sql" />
     <Content Include="Database\QUERY4.sql" />
     <Content Include="Database\QUERY5.sql" />
     <Content Include="Database\QUERY6.sql" />
