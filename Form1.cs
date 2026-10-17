@@ -950,11 +950,10 @@ namespace project2
                 return;
             }
 
-            if (cmbFaculty.SelectedIndex == -1 ||
-                cmbQualification.SelectedIndex == -1)
+            if (cmbFaculty.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Please select a faculty and qualification first.");
+                    "Please select a faculty first.");
                 return;
             }
 
@@ -1077,6 +1076,12 @@ namespace project2
             DisplayAdvisoryOutcome();
         }
 
+        //Resolving missing method conflict so we can merge
+        private void DisplayAdvisoryOutcome()
+        {
+            //TO DO: 
+        }
+        
         private void btnBack1_Click(object sender, EventArgs e)
         {
             //Return to questionnaire tab
