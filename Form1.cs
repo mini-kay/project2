@@ -213,7 +213,13 @@ namespace project2
             {
                 FuturePathTabControl.SelectedTab = tabLearnerInfo;
             }
-            
+
+            else if (radCareerAdvisor.Checked)
+            {
+                Career_Advisor careerAdvisorForm = new Career_Advisor();
+                careerAdvisorForm.Show();
+                this.Hide();
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -304,6 +310,11 @@ namespace project2
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radCareerAdvisor_CheckedChanged(object sender, EventArgs e)
         {
 
         }
