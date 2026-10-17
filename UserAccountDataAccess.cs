@@ -59,11 +59,23 @@ namespace project2
                     return command.ExecuteNonQuery() == 1;
                 }
             }
-            catch (SqlException)
+
+
+
+            catch (SqlException ex)
             {
-                // For example, the username may already exist.
-                return false;
+                if (ex.Number == 2601 || ex.Number == 2627)
+                {
+                    throw new InvalidOperationException(
+                        "An account with this username already exists. " +
+                        "Please choose another username.", ex);
+                }
+
+                throw;
             }
+
+
+
         }
 
         public bool VerifyLogin(
@@ -113,5 +125,48 @@ namespace project2
                 }
             }
         }
+
+
+        public DataTable GetAccounts()
+        {
+            string query = @"
+        SELECT UserAccountID, Username, Role, IsActive
+        FROM dbo.UserAccount
+        ORDER BY Username;";
+
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = databaseHelper.GetConnection())
+            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                adapter.Fill(table);
+            }
+
+            return table;
+        }
+
+        public bool SetAccountActive(int userAccountID, bool isActive)
+        {
+            string query = @"
+        UPDATE dbo.UserAccount
+        SET IsActive = @IsActive
+        WHERE UserAccountID = @UserAccountID;";
+
+            using (SqlConnection connection = databaseHelper.GetConnection())
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.Add("@IsActive", SqlDbType.Bit)
+                    .Value = isActive;
+
+                command.Parameters.Add("@UserAccountID", SqlDbType.Int)
+                    .Value = userAccountID;
+
+                connection.Open();
+
+                return command.ExecuteNonQuery() == 1;
+            }
+        }
+
     }
 }
