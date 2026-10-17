@@ -177,55 +177,7 @@ namespace project2
 
             return mark >= 0 && mark <= 100;
         }
-        //check if the learner has physics
-        private bool HasPhysicalSciences()
-        {
-            return cmbSubject1.Text.Contains("Physical") ||
-                   cmbSubject2.Text.Contains("Physical") ||
-                   cmbSubject3.Text.Contains("Physical");
-        }
-        //check if learner has life sciences
-        private bool HasLifeScience()
-        {
-            return cmbSubject1.Text.Contains("Life") ||
-                   cmbSubject2.Text.Contains("Life") ||
-                   cmbSubject3.Text.Contains("Life");
-        }
-        //check if learner has mathematics
-        private bool HasMathematics()
-        {
-            return cmbMaths.Text == "Mathematics";
-        }
-        //get physics mark
-        private int GetPhysicalScienceMark()
-        {
-            if (cmbSubject1.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark1.Text);
-            }
-            if (cmbSubject2.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark2.Text);
-            }
-            if (cmbSubject3.Text.Contains("Physical"))
-            {
-                return Convert.ToInt32(txtMark3.Text);
-            }
-            return 0;
-        }
-        //get life science mark
-        private int GetLifeScienceMark()
-        {
-            if (cmbSubject1.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark1.Text);
-            if (cmbSubject2.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark2.Text);
-            if (cmbSubject3.Text.Contains("Life"))
-                return Convert.ToInt32(txtMark3.Text);
-            return 0;
-        }
-        
-        
+
         private void SaveSubjectMarks(int learnerID, int sessionID)
         {
             using (SqlConnection connection = new SqlConnection(ConnStr))
@@ -567,8 +519,20 @@ namespace project2
         //using the learner's qualification and marks
         private void DisplayAdvisoryOutcome()
         {
-            int physicalScienceMark = GetPhysicalScienceMark();
-            int lifeScienceMark = GetLifeScienceMark();
+            int physicalScienceMark = recommendationManager.GetPhysicalScienceMark(
+                                      cmbSubject1.Text,
+                                      cmbSubject2.Text,
+                                      cmbSubject3.Text,
+                                      txtMark1.Text,
+                                      txtMark2.Text,
+                                      txtMark3.Text);
+            int lifeScienceMark = recommendationManager.GetLifeScienceMark(
+                                      cmbSubject1.Text,
+                                      cmbSubject2.Text,
+                                      cmbSubject3.Text,
+                                      txtMark1.Text,
+                                      txtMark2.Text,
+                                      txtMark3.Text);
             //show the qualification selected by the learner
             txtQualifications.Text = learner.Qualification;
 
@@ -582,16 +546,16 @@ namespace project2
             int mathsMark = Convert.ToInt32(txtMarkMaths.Text);
             int homeLanguageMark = Convert.ToInt32(txtMarkHL.Text);
 
-            //calculate learner average (aps)
-            int average = (
-                Convert.ToInt32(txtMarkHL.Text) +
-                Convert.ToInt32(txtMarkFAL.Text) +
-                Convert.ToInt32(txtMarkMaths.Text) +
-                Convert.ToInt32(txtMarkLO.Text) +
-                Convert.ToInt32(txtMark1.Text) +
-                Convert.ToInt32(txtMark2.Text) +
-                Convert.ToInt32(txtMark3.Text)
-                ) / 7;
+            //calculate learner average 
+            int average = recommendationManager.CalculateAverage(Convert.ToInt32(txtMarkHL.Text),
+                                                                 Convert.ToInt32(txtMarkFAL.Text),
+                                                                 Convert.ToInt32(txtMarkMaths.Text),
+                                                                 Convert.ToInt32(txtMarkLO.Text),
+                                                                 Convert.ToInt32(txtMark1.Text),
+                                                                 Convert.ToInt32(txtMark2.Text),
+                                                                 Convert.ToInt32(txtMark3.Text));
+                                                                 
+                                                                 
 
             //display average in Interest alignment box
             txtInterestAlign.Text = "Overall Average: " + average + " %";
@@ -606,7 +570,8 @@ namespace project2
             {
                 AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(
                                         mathsType,
-                                        HasPhysicalSciences(),
+                                        recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
                                         physicalScienceMark,
                                         mathsMark,
                                         average);
@@ -673,14 +638,8 @@ namespace project2
                 txtReason.Text = result.Reason;
                 txtIdentifiedGaps.Text = result.IdentifiedGaps;
             }
-            
-            }
 
-
-
-      
-
-        
+        }
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
