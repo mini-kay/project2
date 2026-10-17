@@ -737,6 +737,7 @@
             this.btnClear.TabIndex = 17;
             this.btnClear.Text = "Clear All";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSubmit
             // 
@@ -769,33 +770,17 @@
             this.cmbQualification.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbQualification.FormattingEnabled = true;
             this.cmbQualification.Items.AddRange(new object[] {
-            "Bachelor of Business Science (BBusSci) and Bachelor of Commerce (BCom) - All stre" +
-                "ams except Acturial Science (ActSci), Computer Science (ComSci), Statistics & Da" +
-                "ta Science",
-            "BBusSci and Bcom - ONLY ComSci and Statistics & Data Science",
-            "BBusSci and BCom - ONLY ActSci and Quantitative Finance",
-            "BSc Engineering (Civil Engineering)",
-            "Bsc Engineering (Electrical, Electrical & Computer, Mechatronics)",
-            "BSc Construction Studies",
-            "BSc Property Studies",
-            "BSc Architectural Studies",
-            "BSc Engineering (Chemical Engineering)",
-            "BSc Engineering (Mechanical, Mechanical & Mechatronic Engineering)",
-            "BSc Geomatics",
-            "Bachelor of Medicine and Bachelor of Surgery (MBChB)",
-            "BSc in Physiotherapy",
-            "BSc in Occupational Therapy",
-            "BSc in Audiology",
-            "BSc in Speech-Language Pathology",
-            "Bachelor of Arts (BA) and Bachelor of Social Science (BSocSci)",
-            "BA in Fine Art",
-            "BSocSci in Philosophy, Politics and Economics (PPE)",
-            "BA in Theatre and Performance",
-            "Bachelor of Social Work (BSW)",
-            "Bachelor of Music (BMus)",
-            "Bachelor of Laws (LLB)",
-            "Bachelor of Sciences (majors to be picked later)",
-            "NOT SURE YET"});
+            "Bachelor of Arts",
+            "Bachelor of Business Science",
+            "Bachelor of Commerce (BCom) General",
+            "BCom Accounting",
+            "BCom Information Systems",
+            "Bachelor of Health Sciences",
+            "Bachelor of Laws",
+            "Bachelor of Science (BSc) Computer Science",
+            "BSc Biological Sciences",
+            "BSc Engineering (Mechanical Engineering)",
+            "Bachelor of Social Science"});
             this.cmbQualification.Location = new System.Drawing.Point(339, 98);
             this.cmbQualification.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbQualification.Name = "cmbQualification";
@@ -818,7 +803,7 @@
             this.cmbFaculty.FormattingEnabled = true;
             this.cmbFaculty.Items.AddRange(new object[] {
             "Commerce",
-            "Engineering",
+            "Engineering and the Built Environment",
             "Health Sciences",
             "Humanities",
             "Law",
@@ -970,7 +955,7 @@
             this.tabQuestionnaire.Controls.Add(this.flowQuestions);
             this.tabQuestionnaire.Location = new System.Drawing.Point(4, 29);
             this.tabQuestionnaire.Name = "tabQuestionnaire";
-            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3);
             this.tabQuestionnaire.Size = new System.Drawing.Size(1159, 744);
             this.tabQuestionnaire.TabIndex = 2;
             this.tabQuestionnaire.Text = "Interest Questionnaire";
@@ -1025,6 +1010,7 @@
             this.btnViewRecs.TabIndex = 9;
             this.btnViewRecs.Text = "View Recommendations";
             this.btnViewRecs.UseVisualStyleBackColor = true;
+            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
             // 
             // btnBack1
             // 

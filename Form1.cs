@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Text;
+using System.Diagnostics.Eventing.Reader;
 
 namespace project2
 {
@@ -172,7 +173,25 @@ namespace project2
 
             return mark >= 0 && mark <= 100;
         }
-
+        //check if the learner has physics
+        private bool HasPhysicalSciences()
+        {
+            return cmbSubject1.Text.Contains("Physical") ||
+                   cmbSubject2.Text.Contains("Physical") ||
+                   cmbSubject3.Text.Contains("Physical");
+        }
+        //check if learner has life sciences
+        private bool HasLifeScience()
+        {
+            return cmbSubject1.Text.Contains("Life") ||
+                   cmbSubject2.Text.Contains("Life") ||
+                   cmbSubject3.Text.Contains("Life");
+        }
+        //check if learner has mathematics
+        private bool HasMathematics()
+        {
+            return cmbMaths.Text == "Mathematics";
+        }
         private void SaveSubjectMarks(int learnerID, int sessionID)
         {
             using (SqlConnection connection = new SqlConnection(ConnStr))
@@ -325,42 +344,58 @@ namespace project2
             
             if (txtLearnerName.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter a First Name");
+                MessageBox.Show("Please enter First Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerName.Focus();
                 return false;
                
             }
             if (txtLearnerName.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("First Name cannot contain numbers");
+                MessageBox.Show("First name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerName.Focus();
                 return false;
             }
             if (txtLearnerSurname.Text.Trim() == "")
             {
-                MessageBox.Show("Please eneter a Last Name");
+                MessageBox.Show("Please enter your Last Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerSurname.Focus();
                 return false;
             }
             if(txtLearnerSurname.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("Last Name cannot contain numbers");
+                MessageBox.Show("Last Name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerSurname.Focus();
                 return false;
             }
+            if (cmbGrade.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a grade", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbGrade.Focus();
+                return false;
+            }
+            
             if (txtSchool.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter a School Name");
+                MessageBox.Show("Please enter a School", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSchool.Focus();
                 return false;
             }
             if (txtSchool.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("School Name cannot contain digits");
+                MessageBox.Show("School Name cannot contain digits","Validation Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSchool.Focus();
+                return false;
             }
             if (cmbProvince.Text == "")
             {
-                MessageBox.Show("Please select a Province");
+                MessageBox.Show("Please select a Province", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbProvince.Focus();
                 return false;
             }
             if (txtEmail.Text != "" && !txtEmail.Text.Contains("@"))
             {
-                MessageBox.Show("Please enter a valid email address");
+                MessageBox.Show("Please enter a valid email address", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
                 return false;
             }
             //validate faculty
@@ -368,14 +403,297 @@ namespace project2
             {
                 MessageBox.Show("Please select a Faculty");
                 cmbFaculty.Focus();
+                cmbFaculty.Focus();
+                return false;
+            }
+            //validate marks info
+            if (!ValidateSubject(cmbHomeLanguage, "Home Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkHL, "Home language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbFAL, "First Additional Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkFAL, "First Additional language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkLO, "Life Orientation"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject1, "Subject 1"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark1, "Subject 1"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject2,"Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark2, "Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject3, "Subject 3"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark3, "Subject 3"))
+            {
+                return false;
+            }
+            //adding duplicate checks
+            if (!ValidateDuplicateSubjects())
+            {
                 return false;
             }
 
             return true;
         }
-        //add focus to this!
-        //improve messageboxes
-        //also check spelling
+        //check that a subject has been selected
+        private bool ValidateSubject(ComboBox cmbSubject, string subjectName)
+        {
+            if (cmbSubject.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select " + subjectName, "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbSubject.Focus();
+                return false;
+            }
+            return true;
+        }
+        //prevents duplicates
+        private bool ValidateDuplicateSubjects()
+        {
+            List<string> subjects = new List<string>()
+            {
+                cmbHomeLanguage.Text,
+                cmbFAL.Text,
+                cmbMaths.Text,
+                cmbSubject1.Text,
+                cmbSubject2.Text,
+                cmbSubject3.Text
+            };
+            subjects = subjects.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            if (subjects.Count != subjects.Distinct().Count())
+            {
+                MessageBox.Show("Duplicate subjects are not allowed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+        }
+        //valdate mark textboxes
+        private bool ValidateMark(TextBox txtMark, string subject)
+        {
+            int mark;
+            if (string.IsNullOrWhiteSpace(txtMark.Text))
+            {
+                MessageBox.Show("Please enter a mark for " + subject, "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+
+            }
+            if (!int.TryParse(txtMark.Text, out mark))
+            {
+                MessageBox.Show("Mark must be a number " ,"Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+            }
+            if (mark < 0 || mark > 100)
+            {
+                MessageBox.Show("Mark must be between 0 and 100 ", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+
+            }
+            return true;
+        }
+        //Display learner advisory outcomes
+        //method populates the advisory outcome tab
+        //using the learner's qualification and marks
+        private void DisplayAdvisoryOutcome()
+        {
+            //show the qualification selected by the learner
+            txtQualifications.Text = cmbQualification.Text;
+
+            //get qualification and marks
+            string faculty = cmbFaculty.Text;
+
+            //get the type of maths that was selected
+            string mathsType = cmbMaths.Text;
+
+            //get learner marks
+            int mathsMark = Convert.ToInt32(txtMarkMaths.Text);
+            int homeLanguageMark = Convert.ToInt32(txtMarkHL.Text);
+
+            //calculate learner average
+            int average = (
+                Convert.ToInt32(txtMarkHL.Text) +
+                Convert.ToInt32(txtMarkFAL.Text) +
+                Convert.ToInt32(txtMarkMaths.Text) +
+                Convert.ToInt32(txtMark1.Text) +
+                Convert.ToInt32(txtMark2.Text) +
+                Convert.ToInt32(txtMark3.Text)
+                )/7;
+            //display average in Interest alignment box
+            txtInterestAlign.Text = "Overall Average: " + average + "%";
+
+            //check qualification requirements
+            {
+                //Engineering Faculty
+                //engineering requires pure maths
+                
+                if (faculty.Contains("Engineering"))
+                {
+                    if (mathsType != "Mathematics")
+                    {
+                        txtEligibilityResult.Text = "Not Currently Eligible";
+                        txtReason.Text = "Engineering programmes require Mathematics";
+                        txtIdentifiedGaps.Text = "Mathematical Literacy or Technical Mathematics is not accepted";
+                    }
+                    else if (!HasPhysicalSciences())
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Physical Sciences is recommended for Engineering.";
+                        txtIdentifiedGaps.Text = "Consider taking Physical Sciences.";
+                    }
+                    else if (mathsMark >= 70)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Mathematics requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else if (mathsMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Mathematics is below the preffered Engineering requirement.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Not currently eligible";
+                        txtReason.Text = "Engineering requires strong Mathematics result.";
+                        txtIdentifiedGaps.Text = "Mathematics mark needs improvement.";
+
+                    }
+
+
+                }
+                //Commerce Faculty
+                else if (faculty.Contains("Commerce"))
+                {
+                    if (mathsMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Commerce requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Commerce programmes recommend stronger Mathematics results.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics performance.";
+
+                    }
+                }
+                //Humanities Faculty
+                else if (faculty.Contains("Humanities"))
+                {
+                    if (homeLanguageMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Language Requirement has been met.";
+                        txtIdentifiedGaps.Text = "No major gaps identified";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Home Language mark is below the requirement.";
+                        txtIdentifiedGaps.Text = "Improve Home Language.";
+                    }
+                }
+                // Science Faculty
+                else if (faculty.Contains("Science"))
+                {
+                    if (mathsMark >= 60)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Science requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Science programmes requires stronger mathematics.";
+                        txtIdentifiedGaps.Text = "Improve Mathematic Performance.";
+                    }
+                }
+                //Health Science Faculty
+                else if (faculty.Contains("Health"))
+                {
+                    if (mathsMark >= 60 && homeLanguageMark >= 50)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Health Sciences requirements have been met.";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Health Science require stronger academic results.";
+                        txtIdentifiedGaps.Text = "Improve Mathematics and Language performance.";
+                    }
+                }
+                //Law faculty
+                else if (faculty.Contains("Law"))
+                {
+                    if (homeLanguageMark >= 60)
+                    {
+                        txtEligibilityResult.Text = "Strong Match";
+                        txtReason.Text = "Language requirement for Law has been met.";
+                        txtInterestAlign.Text = "Interest alignment based on questionnaire responses";
+                        txtIdentifiedGaps.Text = "No major academic gaps identified.";
+                    }
+                    else
+                    {
+                        txtEligibilityResult.Text = "Possible Match";
+                        txtReason.Text = "Law programmes require strong language performace.";
+                        txtIdentifiedGaps.Text = "Improve Home Language.";
+                    }
+                }
+                //Default outcome
+                else
+                {
+                    txtEligibilityResult.Text = "More information needed";
+                    txtReason.Text = "Faculty requirements could not be determined.";
+                    txtIdentifiedGaps.Text = "Please select a faculty.";
+                }
+            }
+
+
+
+
+
+        }
+
+        
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
@@ -614,5 +932,50 @@ namespace project2
         {
 
         }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+        }
+            private void btnClearAll_Click(object sender, EventArgs e)
+        {
+            // Learner information
+            txtLearnerName.Clear();
+            txtLearnerSurname.Clear();
+            txtSchool.Clear();
+            txtEmail.Clear();
+
+            // ComboBoxes
+            cmbGrade.SelectedIndex = -1;
+            cmbProvince.SelectedIndex = -1;
+            cmbFaculty.SelectedIndex = -1;
+            cmbQualification.SelectedIndex = -1;
+
+            cmbHomeLanguage.SelectedIndex = -1;
+            cmbFAL.SelectedIndex = -1;
+            cmbMaths.SelectedIndex = -1;
+
+            cmbSubject1.SelectedIndex = -1;
+            cmbSubject2.SelectedIndex = -1;
+            cmbSubject3.SelectedIndex = -1;
+
+            // Marks
+            txtMarkHL.Clear();
+            txtMarkFAL.Clear();
+            txtMarkMaths.Clear();
+            txtMarkLO.Clear();
+            txtMark1.Clear();
+            txtMark2.Clear();
+            txtMark3.Clear();
+
+            // Put cursor back in first textbox
+            txtLearnerName.Focus();
+        }
+
+        private void btnViewRecs_Click(object sender, EventArgs e)
+        {
+            //display Advisory Information
+            DisplayAdvisoryOutcome();
+        }
     }
-}
+    }
+
