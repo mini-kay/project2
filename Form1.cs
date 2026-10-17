@@ -305,42 +305,58 @@ namespace project2
             
             if (txtLearnerName.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter a First Name");
+                MessageBox.Show("Please enter First Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerName.Focus();
                 return false;
                
             }
             if (txtLearnerName.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("First Name cannot contain numbers");
+                MessageBox.Show("First name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerName.Focus();
                 return false;
             }
             if (txtLearnerSurname.Text.Trim() == "")
             {
-                MessageBox.Show("Please eneter a Last Name");
+                MessageBox.Show("Please enter your Last Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerSurname.Focus();
                 return false;
             }
             if(txtLearnerSurname.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("Last Name cannot contain numbers");
+                MessageBox.Show("Last Name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLearnerSurname.Focus();
                 return false;
             }
+            if (cmbGrade.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a grade", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbGrade.Focus();
+                return false;
+            }
+            
             if (txtSchool.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter a School Name");
+                MessageBox.Show("Please enter a School", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSchool.Focus();
                 return false;
             }
             if (txtSchool.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("School Name cannot contain digits");
+                MessageBox.Show("School Name cannot contain digits","Validation Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSchool.Focus();
+                return false;
             }
             if (cmbProvince.Text == "")
             {
-                MessageBox.Show("Please select a Province");
+                MessageBox.Show("Please select a Province", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbProvince.Focus();
                 return false;
             }
             if (txtEmail.Text != "" && !txtEmail.Text.Contains("@"))
             {
-                MessageBox.Show("Please enter a valid email address");
+                MessageBox.Show("Please enter a valid email address", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
                 return false;
             }
             //validate faculty
@@ -348,14 +364,129 @@ namespace project2
             {
                 MessageBox.Show("Please select a Faculty");
                 cmbFaculty.Focus();
+                cmbFaculty.Focus();
                 return false;
             }
+            //validate marks info
+            if (!ValidateSubject(cmbHomeLanguage, "Home Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkHL, "Home language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbFAL, "First Additional Language"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkFAL, "First Additional language"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkMaths, "Mathematics"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMarkLO, "Life Orientation"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject1, "Subject 1"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark1, "Subject 1"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject2,"Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark2, "Subject 2"))
+            {
+                return false;
+            }
+            if (!ValidateSubject(cmbSubject3, "Subject 3"))
+            {
+                return false;
+            }
+            if (!ValidateMark(txtMark3, "Suject 3"))
+            {
+                return false;
+            }
+            //adding duplicate checks
+            if (!ValidateDuplicateSubjects())
+            {
+                return false;
+            }
+            //valdate enter
 
             return true;
         }
-        //add focus to this!
-        //improve messageboxes
-        //also check spelling
+        //check that a subject has been selected
+        private bool ValidateSubject(ComboBox cmbSubject, string subjectName)
+        {
+            if (cmbSubject.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select " + subjectName, "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbSubject.Focus();
+                return false;
+            }
+            return true;
+        }
+        //prevents duplicates
+        private bool ValidateDuplicateSubjects()
+        {
+            List<string> subjects = new List<string>()
+            {
+                cmbHomeLanguage.Text,
+                cmbFAL.Text,
+                cmbMaths.Text,
+                cmbSubject1.Text,
+                cmbSubject2.Text,
+                cmbSubject3.Text
+            };
+            subjects = subjects.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            if (subjects.Count != subjects.Distinct().Count())
+            {
+                MessageBox.Show("Duplicate subjects are not allowed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+        }
+        //valdate mark textboxes
+        private bool ValidateMark(TextBox txtMark, string subject)
+        {
+            int mark;
+            if (string.IsNullOrWhiteSpace(txtMark.Text))
+            {
+                MessageBox.Show("Please enter a mark for " + subject, "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+
+            }
+            if (!int.TryParse(txtMark.Text, out mark))
+            {
+                MessageBox.Show("Mark must be a number " ,"Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+            }
+            if (mark < 0 || mark > 100)
+            {
+                MessageBox.Show("Mark must be between 0 and 100 ", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMark.Focus();
+                return false;
+
+            }
+            return true;
+        }
+        
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
@@ -576,5 +707,44 @@ namespace project2
         {
 
         }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+        }
+            private void btnClearAll_Click(object sender, EventArgs e)
+        {
+            // Learner information
+            txtLearnerName.Clear();
+            txtLearnerSurname.Clear();
+            txtSchool.Clear();
+            txtEmail.Clear();
+
+            // ComboBoxes
+            cmbGrade.SelectedIndex = -1;
+            cmbProvince.SelectedIndex = -1;
+            cmbFaculty.SelectedIndex = -1;
+            cmbQualification.SelectedIndex = -1;
+
+            cmbHomeLanguage.SelectedIndex = -1;
+            cmbFAL.SelectedIndex = -1;
+            cmbMaths.SelectedIndex = -1;
+
+            cmbSubject1.SelectedIndex = -1;
+            cmbSubject2.SelectedIndex = -1;
+            cmbSubject3.SelectedIndex = -1;
+
+            // Marks
+            txtMarkHL.Clear();
+            txtMarkFAL.Clear();
+            txtMarkMaths.Clear();
+            txtMarkLO.Clear();
+            txtMark1.Clear();
+            txtMark2.Clear();
+            txtMark3.Clear();
+
+            // Put cursor back in first textbox
+            txtLearnerName.Focus();
+        }
     }
-}
+    }
+

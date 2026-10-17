@@ -737,6 +737,7 @@
             this.btnClear.TabIndex = 17;
             this.btnClear.Text = "Clear All";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSubmit
             // 
@@ -970,7 +971,7 @@
             this.tabQuestionnaire.Controls.Add(this.flowQuestions);
             this.tabQuestionnaire.Location = new System.Drawing.Point(4, 29);
             this.tabQuestionnaire.Name = "tabQuestionnaire";
-            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3);
             this.tabQuestionnaire.Size = new System.Drawing.Size(1159, 744);
             this.tabQuestionnaire.TabIndex = 2;
             this.tabQuestionnaire.Text = "Interest Questionnaire";

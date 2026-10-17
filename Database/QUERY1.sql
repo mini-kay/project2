@@ -1,4 +1,6 @@
-﻿
+﻿CREATE DATABASE FuturePathDB;
+GO
+
 USE FuturePathDB;
 GO
 
