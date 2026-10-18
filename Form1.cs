@@ -25,6 +25,9 @@ namespace project2
         public FuturePathForm()
         {
             InitializeComponent();
+            FuturePathTabControl.Appearance = TabAppearance.FlatButtons;
+            FuturePathTabControl.ItemSize = new Size(0, 1);
+            FuturePathTabControl.SizeMode = TabSizeMode.Fixed;
         }
         #region Interest Questionnaire
         private const string ConnStr =
@@ -34,6 +37,7 @@ namespace project2
 
         private void LoadQuestions()
         {
+            flowQuestions.Controls.Clear();
             if (questionsLoaded) return;
 
             List<InterestQuestion> questions;
@@ -642,6 +646,10 @@ namespace project2
 
         }
 
+        
+        //stays
+
+
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
             
@@ -651,7 +659,7 @@ namespace project2
         {
             
         }
-        //stays
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (radLearner.Checked)
@@ -667,11 +675,10 @@ namespace project2
             }
             else if (radCareerAdvisor.Checked)
             {
-                MessageBox.Show(
-                    "Career Advisor login will be implemented later.",
-                    "Coming Soon",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                using (Career_Advisor advisorForm = new Career_Advisor())
+                {
+                    advisorForm.ShowDialog();
+                }
             }
             else
             {
@@ -776,10 +783,7 @@ namespace project2
         }
 
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void FuturePathTabControl_SelectedIndexChanged(
     object sender, EventArgs e)
@@ -863,16 +867,7 @@ namespace project2
             }
 
         }
-
-        private void tabLearnerInfo_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnClear_Click(object sender, EventArgs e)
-        {
-        }
-            private void btnClearAll_Click(object sender, EventArgs e)
         {
             // Learner information
             txtLearnerName.Clear();
@@ -905,7 +900,13 @@ namespace project2
 
             // Put cursor back in first textbox
             txtLearnerName.Focus();
+        
+
         }
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+        }
+            
 
         
 
@@ -974,6 +975,11 @@ namespace project2
         private void btnFundingInfo_Click(object sender, EventArgs e)
         {
             FuturePathTabControl.SelectedTab = tabFundingInfo;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
     }
