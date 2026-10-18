@@ -16,9 +16,10 @@ namespace project2
             var questions = new List<InterestQuestion>();
 
             const string query = @"
-                    SELECT InterestQuestionID, InterestCategoryID, QuestionText
-                    FROM dbo.InterestQuestion
-                    ORDER BY InterestQuestionID;";
+                SELECT InterestQuestionID, InterestCategoryID, QuestionText
+                FROM dbo.InterestQuestion
+                WHERE IsActive = 1
+                ORDER BY InterestQuestionID;";
 
 
             using (SqlConnection  connection = databaseHelper.GetConnection())
