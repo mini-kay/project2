@@ -930,6 +930,7 @@ namespace project2
         private void rdbYes_CheckedChanged(object sender, EventArgs e)
         {
             if (!rdbYes.Checked) return;
+            if (learner == null) return; //no learner yet, nothing to look up.
 
             lbFundingType.DataSource = null;
             var options = fundingManager.GetFundingForFaculty(GetFundingFacultyKeyword());
