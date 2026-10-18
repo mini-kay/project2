@@ -667,11 +667,9 @@ namespace project2
             }
             else if (radCareerAdvisor.Checked)
             {
-                MessageBox.Show(
-                    "Career Advisor login will be implemented later.",
-                    "Coming Soon",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                Career_Advisor careerAdvisorForm = new Career_Advisor();
+                careerAdvisorForm.Show();
+                this.Hide();
             }
             else
             {
