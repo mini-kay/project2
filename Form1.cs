@@ -20,6 +20,7 @@ namespace project2
         LearnerManager learnerManager = new LearnerManager();
         private Learner learner;
         private RecommendationManager recommendationManager = new RecommendationManager();
+        private FundingManager fundingManager = new FundingManager();
 
         public FuturePathForm()
         {
@@ -315,6 +316,9 @@ namespace project2
 
         private void FuturePathForm_Load(object sender, EventArgs e)
         {
+            radLearner.Checked = false;
+            radCareerAdvisor.Checked = false;
+            radAdministrator.Checked = false;
             MessageBox.Show("Please take note of the system functionality below, then click OK to select how you would like to access the system.\n\n" +
                 "Future Path is a student advising system designed to help Grade 11 and Grade 12 learners explore possible study pathways after school.\n\n" +
                 "This System allows you to: \n" +
@@ -594,22 +598,7 @@ namespace project2
                 txtIdentifiedGaps.Text = result.IdentifiedGaps;
 
             }
-            // Science Faculty
 
-            else if (faculty.Contains("Science"))
-            {
-                AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
-                                        recommendationManager.HasMathematics(mathsType),
-                                         recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
-                                        cmbSubject3.Text),
-                                        physicalScienceMark,
-                                        mathsMark,
-                                        average);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
-
-            }
             //Health Science Faculty
             else if (faculty.Contains("Health"))
             {
@@ -624,8 +613,23 @@ namespace project2
                 txtEligibilityResult.Text = result.EligibilityResult;
                 txtReason.Text = result.Reason;
                 txtIdentifiedGaps.Text = result.IdentifiedGaps;
-
             }
+
+            // Science Faculty
+            else if (faculty.Contains("Science"))
+            {
+                AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
+                                        recommendationManager.HasMathematics(mathsType),
+                                         recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
+                                        cmbSubject3.Text),
+                                        physicalScienceMark,
+                                        mathsMark,
+                                        average);
+                txtEligibilityResult.Text = result.EligibilityResult;
+                txtReason.Text = result.Reason;
+                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+            }
+            
             //Law faculty
             else if (faculty.Contains("Law"))
             {
@@ -826,40 +830,28 @@ namespace project2
 
             try
             {
-                var dataAccess = new AdvisorySessionDataAccess();
-
-                // 1. Save the questionnaire responses.
-                dataAccess.SaveResponses(
-                    currentLearnerID,
-                    currentSessionID,
-                    responses);
-
-                // 2. Calculate programme matches.
+                // Calculate programme matches.
                 DataTable scores = GetAlignmentScores(
                     currentLearnerID,
                     currentSessionID);
 
-                string resultText = "Your best matches:\n";
+                string matches = "Your best matches:\r\n";
 
                 for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
                 {
-                    resultText += (i + 1) + ". " +
-                        scores.Rows[i]["ProgrammeName"] + "\n";
+                    matches += (i + 1) + ". " +
+                        scores.Rows[i]["ProgrammeName"] + "\r\n";
                 }
 
                 if (scores.Rows.Count == 0)
                 {
-                    resultText +=
-                        "No matches were found. Please check the interest mappings.";
+                    matches += "No matches were found. Please check the interest mappings.";
                 }
 
-
-                MessageBox.Show(resultText, "Interest Results");
-
-                MessageBox.Show(
-                    "Questionnaire submitted successfully.\nSession ID: "
-                    + currentSessionID,
-                    "Success");
+                // Fill the Advisory Outcome tab, then show it
+                DisplayAdvisoryOutcome();
+                txtInterestAlign.Text = matches + "\r\n" + txtInterestAlign.Text;
+                FuturePathTabControl.SelectedTab = tabAdvisoryOutcome;
             }
             catch (Exception ex)
             {
@@ -915,16 +907,72 @@ namespace project2
             txtLearnerName.Focus();
         }
 
-        private void btnViewRecs_Click(object sender, EventArgs e)
-        {
-            //display Advisory Information
-            DisplayAdvisoryOutcome();
-        }
+        
 
         private void btnBack1_Click(object sender, EventArgs e)
         {
             //Return to questionnaire tab
             FuturePathTabControl.SelectedTab = tabQuestionnaire;
+        }
+
+        private string GetFundingFacultyKeyword()
+        {
+            string faculty = learner.Faculty;
+            if (faculty.Contains("Engineering")) return "Engineering and the built Environment";
+            if (faculty.Contains("Commerce")) return "Commerce";
+            if (faculty.Contains("Humanities")) return "Humanities";
+            if (faculty.Contains("Health")) return "Health Sciences";
+            if (faculty.Contains("Science")) return "Science";
+            if (faculty.Contains("Law")) return "Law";
+            return faculty;
+        }
+
+        private void rdbYes_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!rdbYes.Checked) return;
+
+            lbFundingType.DataSource = null;
+            var options = fundingManager.GetFundingForFaculty(GetFundingFacultyKeyword());
+
+            if (options.Count == 0)
+            {
+                txtFundingDetails.Text = "No funding options are currently open for this faculty,";
+                return;
+            }
+            lbFundingType.DataSource = options;
+            lbFundingType.DisplayMember = "FundingName";
+        }
+
+        private void rdbNo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!rdbNo.Checked) return;
+            lbFundingType.DataSource = null;
+            txtFundingDetails.Clear();
+        }
+
+        private void lbFundingType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var f = lbFundingType.SelectedItem as FundingOption;
+            if (f == null) return;
+
+            txtFundingDetails.Text =
+                "Type: " + f.FundingType + "\r\n" +
+                "Faculty: " + f.LinkedFaculty + "\r\n" +
+                "Based on: " + f.FundingBasis + "\r\n" +
+                "Eligibility description: " + f.EligibilityDescription + "\r\n" +
+                "Required documents: " + f.RequiredDocuments + "\r\n" +
+                "Closing date: " + (string.IsNullOrEmpty(f.ClosingDate) ? "Not specified" : f.ClosingDate) + "\r\n" + "\r\n" +
+                "Contact: " + f.ContactInfo;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FuturePathTabControl.SelectedTab = tabAltRecs;
+        }
+
+        private void btnFundingInfo_Click(object sender, EventArgs e)
+        {
+            FuturePathTabControl.SelectedTab = tabFundingInfo;
         }
     }
     }

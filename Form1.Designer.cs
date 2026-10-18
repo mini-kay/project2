@@ -85,7 +85,6 @@
             this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
             this.tabAdvisoryOutcome = new System.Windows.Forms.TabPage();
-            this.btnViewRecs = new System.Windows.Forms.Button();
             this.btnBack1 = new System.Windows.Forms.Button();
             this.grpboxReason = new System.Windows.Forms.GroupBox();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -121,6 +120,8 @@
             this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnFundingInfo = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
@@ -247,17 +248,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -286,17 +286,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -325,17 +324,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -888,16 +886,16 @@
             // flowQuestions
             // 
             this.flowQuestions.AutoScroll = true;
-            this.flowQuestions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowQuestions.Location = new System.Drawing.Point(3, 3);
             this.flowQuestions.Name = "flowQuestions";
             this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
-            this.flowQuestions.Size = new System.Drawing.Size(1153, 738);
+            this.flowQuestions.Size = new System.Drawing.Size(1153, 687);
             this.flowQuestions.TabIndex = 0;
             // 
             // tabAdvisoryOutcome
             // 
-            this.tabAdvisoryOutcome.Controls.Add(this.btnViewRecs);
+            this.tabAdvisoryOutcome.Controls.Add(this.button1);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnFundingInfo);
             this.tabAdvisoryOutcome.Controls.Add(this.btnBack1);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxReason);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxEligibilityResult);
@@ -914,25 +912,14 @@
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
             this.tabAdvisoryOutcome.UseVisualStyleBackColor = true;
             // 
-            // btnViewRecs
-            // 
-            this.btnViewRecs.Location = new System.Drawing.Point(842, 598);
-            this.btnViewRecs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnViewRecs.Name = "btnViewRecs";
-            this.btnViewRecs.Size = new System.Drawing.Size(246, 35);
-            this.btnViewRecs.TabIndex = 9;
-            this.btnViewRecs.Text = "View Recommendations";
-            this.btnViewRecs.UseVisualStyleBackColor = true;
-            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
-            // 
             // btnBack1
             // 
-            this.btnBack1.Location = new System.Drawing.Point(906, 509);
+            this.btnBack1.Location = new System.Drawing.Point(890, 621);
             this.btnBack1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack1.Name = "btnBack1";
-            this.btnBack1.Size = new System.Drawing.Size(112, 35);
+            this.btnBack1.Size = new System.Drawing.Size(127, 55);
             this.btnBack1.TabIndex = 8;
-            this.btnBack1.Text = "Back";
+            this.btnBack1.Text = "Return to Questionnaire";
             this.btnBack1.UseVisualStyleBackColor = true;
             this.btnBack1.Click += new System.EventHandler(this.btnBack1_Click);
             // 
@@ -990,7 +977,7 @@
             this.grpboxIdentifiedGaps.Size = new System.Drawing.Size(291, 285);
             this.grpboxIdentifiedGaps.TabIndex = 6;
             this.grpboxIdentifiedGaps.TabStop = false;
-            this.grpboxIdentifiedGaps.Text = "Identifies Gaps";
+            this.grpboxIdentifiedGaps.Text = "Identified Gaps";
             // 
             // txtIdentifiedGaps
             // 
@@ -1252,13 +1239,14 @@
             this.lbFundingType.ItemHeight = 20;
             this.lbFundingType.Items.AddRange(new object[] {
             "Faculty Merit Award",
-            "Faculty Bursasry",
+            "Faculty Bursary",
             "NSFAS Support"});
             this.lbFundingType.Location = new System.Drawing.Point(9, 103);
             this.lbFundingType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbFundingType.Name = "lbFundingType";
             this.lbFundingType.Size = new System.Drawing.Size(314, 144);
             this.lbFundingType.TabIndex = 0;
+            this.lbFundingType.SelectedIndexChanged += new System.EventHandler(this.lbFundingType_SelectedIndexChanged);
             // 
             // grpboxPrompt
             // 
@@ -1284,6 +1272,7 @@
             this.rdbNo.TabStop = true;
             this.rdbNo.Text = "No";
             this.rdbNo.UseVisualStyleBackColor = true;
+            this.rdbNo.CheckedChanged += new System.EventHandler(this.rdbNo_CheckedChanged);
             // 
             // rdbYes
             // 
@@ -1296,6 +1285,7 @@
             this.rdbYes.TabStop = true;
             this.rdbYes.Text = "Yes";
             this.rdbYes.UseVisualStyleBackColor = true;
+            this.rdbYes.CheckedChanged += new System.EventHandler(this.rdbYes_CheckedChanged);
             // 
             // lblFundingQ
             // 
@@ -1320,6 +1310,26 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Funding Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnFundingInfo
+            // 
+            this.btnFundingInfo.Location = new System.Drawing.Point(899, 447);
+            this.btnFundingInfo.Name = "btnFundingInfo";
+            this.btnFundingInfo.Size = new System.Drawing.Size(112, 55);
+            this.btnFundingInfo.TabIndex = 9;
+            this.btnFundingInfo.Text = "Proceed to Funding Info";
+            this.btnFundingInfo.UseVisualStyleBackColor = true;
+            this.btnFundingInfo.Click += new System.EventHandler(this.btnFundingInfo_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(890, 528);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(130, 55);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "View Alternative Choices";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FuturePathForm
             // 
@@ -1438,7 +1448,6 @@
         private System.Windows.Forms.GroupBox grpboxInterestAlignment;
         private System.Windows.Forms.TextBox txtInterestAlign;
         private System.Windows.Forms.TextBox txtQualifications;
-        private System.Windows.Forms.Button btnViewRecs;
         private System.Windows.Forms.Button btnBack1;
         private System.Windows.Forms.TabPage tabAltRecs;
         private System.Windows.Forms.Label label2;
@@ -1463,6 +1472,8 @@
         private System.Windows.Forms.Button btnBack3;
         private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnFundingInfo;
+        private System.Windows.Forms.Button button1;
     }
 }
 
