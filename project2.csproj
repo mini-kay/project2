@@ -58,8 +58,6 @@
     <Compile Include="Business\AlternativeProgrammeResult.cs" />
     <Compile Include="Business\AlternativeProgrammeManager.cs" />
     <Compile Include="Business\AdvisoryResult.cs" />
-    <Compile Include="Business\FundingManager.cs" />
-    <Compile Include="Business\FundingOption.cs" />
     <Compile Include="Business\RecommendationManager.cs" />
     <Compile Include="Career Advisor.cs">
       <SubType>Form</SubType>
@@ -119,7 +117,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Database\34AddMissingSubjects.sql" />
-    <Content Include="Database\35FundingOptions.sql" />
     <Content Include="Database\backupQuery.sql" />
     <Content Include="Database\newBackup.sql" />
     <Content Include="Database\QUERY1.sql" />
@@ -155,7 +152,6 @@
     <Content Include="Database\QUERY7.sql" />
     <Content Include="Database\QUERY8.sql" />
     <Content Include="Database\QUERY9.sql" />
-    <Content Include="Scripts\fixEGD.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

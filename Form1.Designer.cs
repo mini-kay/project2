@@ -85,7 +85,7 @@
             this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
             this.tabAdvisoryOutcome = new System.Windows.Forms.TabPage();
-            this.btnContinueToFunding = new System.Windows.Forms.Button();
+            this.btnViewRecs = new System.Windows.Forms.Button();
             this.btnBack1 = new System.Windows.Forms.Button();
             this.grpboxReason = new System.Windows.Forms.GroupBox();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -109,23 +109,18 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabFundingInfo = new System.Windows.Forms.TabPage();
             this.btnContinue2 = new System.Windows.Forms.Button();
-            this.btnBackFunding = new System.Windows.Forms.Button();
+            this.btnBack3 = new System.Windows.Forms.Button();
             this.grpFundingDetails = new System.Windows.Forms.GroupBox();
             this.txtFundingDetails = new System.Windows.Forms.TextBox();
             this.grpboxFundingOpps = new System.Windows.Forms.GroupBox();
-            this.btnBack3 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.gepboxFundingOpps = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbFundingType = new System.Windows.Forms.ListBox();
             this.grpboxPrompt = new System.Windows.Forms.GroupBox();
             this.rdbNo = new System.Windows.Forms.RadioButton();
             this.rdbYes = new System.Windows.Forms.RadioButton();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnViewAlternatives = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
@@ -143,8 +138,8 @@
             this.grpboxRecExplain.SuspendLayout();
             this.grpboxRecProgrammes.SuspendLayout();
             this.tabFundingInfo.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.gepboxFundingOpps.SuspendLayout();
+            this.grpFundingDetails.SuspendLayout();
+            this.grpboxFundingOpps.SuspendLayout();
             this.grpboxPrompt.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,10 +147,10 @@
             // 
             this.radLearner.AutoSize = true;
             this.radLearner.Checked = true;
-            this.radLearner.Location = new System.Drawing.Point(51, 230);
-            this.radLearner.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radLearner.Location = new System.Drawing.Point(57, 288);
+            this.radLearner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radLearner.Name = "radLearner";
-            this.radLearner.Size = new System.Drawing.Size(74, 20);
+            this.radLearner.Size = new System.Drawing.Size(89, 24);
             this.radLearner.TabIndex = 0;
             this.radLearner.TabStop = true;
             this.radLearner.Text = "Learner";
@@ -165,22 +160,21 @@
             // radCareerAdvisor
             // 
             this.radCareerAdvisor.AutoSize = true;
-            this.radCareerAdvisor.Location = new System.Drawing.Point(383, 230);
-            this.radCareerAdvisor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radCareerAdvisor.Location = new System.Drawing.Point(430, 288);
+            this.radCareerAdvisor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radCareerAdvisor.Name = "radCareerAdvisor";
-            this.radCareerAdvisor.Size = new System.Drawing.Size(118, 20);
+            this.radCareerAdvisor.Size = new System.Drawing.Size(138, 24);
             this.radCareerAdvisor.TabIndex = 1;
             this.radCareerAdvisor.Text = "Career Advisor";
             this.radCareerAdvisor.UseVisualStyleBackColor = true;
-            this.radCareerAdvisor.CheckedChanged += new System.EventHandler(this.radCareerAdvisor_CheckedChanged);
             // 
             // radAdministrator
             // 
             this.radAdministrator.AutoSize = true;
-            this.radAdministrator.Location = new System.Drawing.Point(776, 230);
-            this.radAdministrator.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radAdministrator.Location = new System.Drawing.Point(873, 288);
+            this.radAdministrator.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radAdministrator.Name = "radAdministrator";
-            this.radAdministrator.Size = new System.Drawing.Size(106, 20);
+            this.radAdministrator.Size = new System.Drawing.Size(128, 24);
             this.radAdministrator.TabIndex = 2;
             this.radAdministrator.Text = "Administrator";
             this.radAdministrator.UseVisualStyleBackColor = true;
@@ -188,10 +182,10 @@
             // lblGrade
             // 
             this.lblGrade.AutoSize = true;
-            this.lblGrade.Location = new System.Drawing.Point(5, 124);
+            this.lblGrade.Location = new System.Drawing.Point(6, 155);
             this.lblGrade.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGrade.Name = "lblGrade";
-            this.lblGrade.Size = new System.Drawing.Size(113, 16);
+            this.lblGrade.Size = new System.Drawing.Size(133, 20);
             this.lblGrade.TabIndex = 3;
             this.lblGrade.Text = "Select your grade";
             // 
@@ -202,10 +196,10 @@
             this.cmbGrade.Items.AddRange(new object[] {
             "Grade 11",
             "Grade 12"});
-            this.cmbGrade.Location = new System.Drawing.Point(168, 121);
-            this.cmbGrade.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbGrade.Location = new System.Drawing.Point(189, 151);
+            this.cmbGrade.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbGrade.Name = "cmbGrade";
-            this.cmbGrade.Size = new System.Drawing.Size(132, 24);
+            this.cmbGrade.Size = new System.Drawing.Size(148, 28);
             this.cmbGrade.TabIndex = 4;
             // 
             // grpSubjects
@@ -233,11 +227,11 @@
             this.grpSubjects.Controls.Add(this.txtMarkFAL);
             this.grpSubjects.Controls.Add(this.txtMarkHL);
             this.grpSubjects.Controls.Add(this.txtLO);
-            this.grpSubjects.Location = new System.Drawing.Point(552, 23);
-            this.grpSubjects.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpSubjects.Location = new System.Drawing.Point(485, 29);
+            this.grpSubjects.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpSubjects.Name = "grpSubjects";
-            this.grpSubjects.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpSubjects.Size = new System.Drawing.Size(399, 310);
+            this.grpSubjects.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpSubjects.Size = new System.Drawing.Size(666, 388);
             this.grpSubjects.TabIndex = 5;
             this.grpSubjects.TabStop = false;
             this.grpSubjects.Text = "Enter your 7 best subjects";
@@ -248,67 +242,37 @@
             this.cmbSubject3.FormattingEnabled = true;
             this.cmbSubject3.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-            "Engineering Graphics and Design",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject3.Location = new System.Drawing.Point(184, 252);
-            this.cmbSubject3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSubject3.Location = new System.Drawing.Point(265, 317);
+            this.cmbSubject3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject3.Name = "cmbSubject3";
-            this.cmbSubject3.Size = new System.Drawing.Size(132, 24);
+            this.cmbSubject3.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject3.TabIndex = 28;
             // 
             // cmbSubject2
@@ -317,68 +281,37 @@
             this.cmbSubject2.FormattingEnabled = true;
             this.cmbSubject2.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-
-            "Engineering Graphics and Design",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject2.Location = new System.Drawing.Point(184, 219);
-            this.cmbSubject2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSubject2.Location = new System.Drawing.Point(265, 275);
+            this.cmbSubject2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject2.Name = "cmbSubject2";
-            this.cmbSubject2.Size = new System.Drawing.Size(132, 24);
+            this.cmbSubject2.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject2.TabIndex = 27;
             // 
             // cmbSubject1
@@ -387,69 +320,37 @@
             this.cmbSubject1.FormattingEnabled = true;
             this.cmbSubject1.Items.AddRange(new object[] {
             "Accounting",
-            "",
             "Agricultural Management Practices",
-            "",
             "Agricultural Sciences",
-            "",
             "Agricultural Technology",
-            "",
             "Business Studies",
-            "",
             "Civil Technology",
-
-            "",
             "Computer Applications Technology (CAT)",
-            "",
             "Consumer Studies",
-            "",
             "Dance Studies",
-            "",
             "Design",
-            "",
             "Dramatic Arts",
-            "",
             "Economics",
-            "",
             "Electrical Technology",
-            "Engineering Graphics and Design",
-            "",
-            "Engineering Graphics and Design (EGD)",
-            "",
             "Geography",
-            "",
             "History",
-            "",
             "Hospitality Studies",
-
-            "",
             "Information Technology (IT)",
-            "",
             "Life Sciences",
-            "",
             "Marine Sciences",
-            "",
             "Maritime Economics",
-            "",
             "Mechanical Technology",
-            "",
             "Music",
-            "",
             "Nautical Sciences",
-            "",
             "Physical Sciences",
-            "",
             "Religion Studies",
-            "",
             "Technical Sciences",
-            "",
             "Tourism",
-            "",
             "Visual Arts"});
-            this.cmbSubject1.Location = new System.Drawing.Point(184, 188);
-            this.cmbSubject1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSubject1.Location = new System.Drawing.Point(265, 237);
+            this.cmbSubject1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbSubject1.Name = "cmbSubject1";
-            this.cmbSubject1.Size = new System.Drawing.Size(132, 24);
+            this.cmbSubject1.Size = new System.Drawing.Size(335, 28);
             this.cmbSubject1.TabIndex = 26;
             // 
             // cmbMaths
@@ -460,10 +361,10 @@
             "Mathematics",
             "Mathematical Literacy",
             "Technical Mathematics"});
-            this.cmbMaths.Location = new System.Drawing.Point(184, 124);
-            this.cmbMaths.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbMaths.Location = new System.Drawing.Point(265, 157);
+            this.cmbMaths.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbMaths.Name = "cmbMaths";
-            this.cmbMaths.Size = new System.Drawing.Size(132, 24);
+            this.cmbMaths.Size = new System.Drawing.Size(335, 28);
             this.cmbMaths.TabIndex = 25;
             // 
             // cmbFAL
@@ -482,10 +383,10 @@
             "SiSwati FAL",
             "Tshivenda FAL",
             "Xitsonga FAL"});
-            this.cmbFAL.Location = new System.Drawing.Point(184, 87);
-            this.cmbFAL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbFAL.Location = new System.Drawing.Point(265, 111);
+            this.cmbFAL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbFAL.Name = "cmbFAL";
-            this.cmbFAL.Size = new System.Drawing.Size(132, 24);
+            this.cmbFAL.Size = new System.Drawing.Size(335, 28);
             this.cmbFAL.TabIndex = 24;
             // 
             // cmbHomeLanguage
@@ -504,165 +405,165 @@
             "SiSwati HL",
             "Tshivenda HL",
             "Xitsonga HL"});
-            this.cmbHomeLanguage.Location = new System.Drawing.Point(184, 49);
-            this.cmbHomeLanguage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbHomeLanguage.Location = new System.Drawing.Point(265, 65);
+            this.cmbHomeLanguage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbHomeLanguage.Name = "cmbHomeLanguage";
-            this.cmbHomeLanguage.Size = new System.Drawing.Size(132, 24);
+            this.cmbHomeLanguage.Size = new System.Drawing.Size(335, 28);
             this.cmbHomeLanguage.TabIndex = 23;
             // 
             // lblMark
             // 
             this.lblMark.AutoSize = true;
-            this.lblMark.Location = new System.Drawing.Point(349, 20);
+            this.lblMark.Location = new System.Drawing.Point(604, 24);
             this.lblMark.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMark.Name = "lblMark";
-            this.lblMark.Size = new System.Drawing.Size(37, 16);
+            this.lblMark.Size = new System.Drawing.Size(44, 20);
             this.lblMark.TabIndex = 22;
             this.lblMark.Text = "Mark";
             // 
             // lblSubject
             // 
             this.lblSubject.AutoSize = true;
-            this.lblSubject.Location = new System.Drawing.Point(220, 20);
+            this.lblSubject.Location = new System.Drawing.Point(408, 24);
             this.lblSubject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubject.Name = "lblSubject";
-            this.lblSubject.Size = new System.Drawing.Size(52, 16);
+            this.lblSubject.Size = new System.Drawing.Size(63, 20);
             this.lblSubject.TabIndex = 21;
             this.lblSubject.Text = "Subject";
             // 
             // lblSubject3
             // 
             this.lblSubject3.AutoSize = true;
-            this.lblSubject3.Location = new System.Drawing.Point(8, 256);
+            this.lblSubject3.Location = new System.Drawing.Point(9, 320);
             this.lblSubject3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubject3.Name = "lblSubject3";
-            this.lblSubject3.Size = new System.Drawing.Size(59, 16);
+            this.lblSubject3.Size = new System.Drawing.Size(72, 20);
             this.lblSubject3.TabIndex = 20;
             this.lblSubject3.Text = "Subject3";
             // 
             // lblSubject2
             // 
             this.lblSubject2.AutoSize = true;
-            this.lblSubject2.Location = new System.Drawing.Point(8, 223);
+            this.lblSubject2.Location = new System.Drawing.Point(9, 278);
             this.lblSubject2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubject2.Name = "lblSubject2";
-            this.lblSubject2.Size = new System.Drawing.Size(59, 16);
+            this.lblSubject2.Size = new System.Drawing.Size(72, 20);
             this.lblSubject2.TabIndex = 19;
             this.lblSubject2.Text = "Subject2";
             // 
             // lblSubject1
             // 
             this.lblSubject1.AutoSize = true;
-            this.lblSubject1.Location = new System.Drawing.Point(8, 192);
+            this.lblSubject1.Location = new System.Drawing.Point(9, 240);
             this.lblSubject1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubject1.Name = "lblSubject1";
-            this.lblSubject1.Size = new System.Drawing.Size(59, 16);
+            this.lblSubject1.Size = new System.Drawing.Size(72, 20);
             this.lblSubject1.TabIndex = 18;
             this.lblSubject1.Text = "Subject1";
             // 
             // lblLO
             // 
             this.lblLO.AutoSize = true;
-            this.lblLO.Location = new System.Drawing.Point(8, 160);
+            this.lblLO.Location = new System.Drawing.Point(9, 200);
             this.lblLO.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLO.Name = "lblLO";
-            this.lblLO.Size = new System.Drawing.Size(95, 16);
+            this.lblLO.Size = new System.Drawing.Size(117, 20);
             this.lblLO.TabIndex = 17;
             this.lblLO.Text = "Life Orientation";
             // 
             // lblMaths
             // 
             this.lblMaths.AutoSize = true;
-            this.lblMaths.Location = new System.Drawing.Point(8, 128);
+            this.lblMaths.Location = new System.Drawing.Point(9, 160);
             this.lblMaths.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMaths.Name = "lblMaths";
-            this.lblMaths.Size = new System.Drawing.Size(43, 16);
+            this.lblMaths.Size = new System.Drawing.Size(53, 20);
             this.lblMaths.TabIndex = 16;
             this.lblMaths.Text = "Maths";
             // 
             // lblFAL
             // 
             this.lblFAL.AutoSize = true;
-            this.lblFAL.Location = new System.Drawing.Point(8, 91);
+            this.lblFAL.Location = new System.Drawing.Point(9, 114);
             this.lblFAL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFAL.Name = "lblFAL";
-            this.lblFAL.Size = new System.Drawing.Size(159, 16);
+            this.lblFAL.Size = new System.Drawing.Size(190, 20);
             this.lblFAL.TabIndex = 15;
             this.lblFAL.Text = "First Additional Language";
             // 
             // lblHL
             // 
             this.lblHL.AutoSize = true;
-            this.lblHL.Location = new System.Drawing.Point(8, 54);
+            this.lblHL.Location = new System.Drawing.Point(9, 68);
             this.lblHL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblHL.Name = "lblHL";
-            this.lblHL.Size = new System.Drawing.Size(108, 16);
+            this.lblHL.Size = new System.Drawing.Size(128, 20);
             this.lblHL.TabIndex = 14;
             this.lblHL.Text = "Home Language";
             // 
             // txtMark3
             // 
-            this.txtMark3.Location = new System.Drawing.Point(344, 252);
-            this.txtMark3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMark3.Location = new System.Drawing.Point(608, 319);
+            this.txtMark3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark3.Name = "txtMark3";
-            this.txtMark3.Size = new System.Drawing.Size(45, 22);
+            this.txtMark3.Size = new System.Drawing.Size(50, 26);
             this.txtMark3.TabIndex = 13;
             // 
             // txtMark2
             // 
-            this.txtMark2.Location = new System.Drawing.Point(344, 220);
-            this.txtMark2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMark2.Location = new System.Drawing.Point(608, 277);
+            this.txtMark2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark2.Name = "txtMark2";
-            this.txtMark2.Size = new System.Drawing.Size(45, 22);
+            this.txtMark2.Size = new System.Drawing.Size(50, 26);
             this.txtMark2.TabIndex = 12;
             // 
             // txtMark1
             // 
-            this.txtMark1.Location = new System.Drawing.Point(344, 188);
-            this.txtMark1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMark1.Location = new System.Drawing.Point(608, 239);
+            this.txtMark1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMark1.Name = "txtMark1";
-            this.txtMark1.Size = new System.Drawing.Size(45, 22);
+            this.txtMark1.Size = new System.Drawing.Size(50, 26);
             this.txtMark1.TabIndex = 11;
             // 
             // txtMarkLO
             // 
-            this.txtMarkLO.Location = new System.Drawing.Point(344, 156);
-            this.txtMarkLO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMarkLO.Location = new System.Drawing.Point(608, 198);
+            this.txtMarkLO.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkLO.Name = "txtMarkLO";
-            this.txtMarkLO.Size = new System.Drawing.Size(45, 22);
+            this.txtMarkLO.Size = new System.Drawing.Size(50, 26);
             this.txtMarkLO.TabIndex = 10;
             // 
             // txtMarkMaths
             // 
-            this.txtMarkMaths.Location = new System.Drawing.Point(344, 124);
-            this.txtMarkMaths.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMarkMaths.Location = new System.Drawing.Point(608, 159);
+            this.txtMarkMaths.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkMaths.Name = "txtMarkMaths";
-            this.txtMarkMaths.Size = new System.Drawing.Size(45, 22);
+            this.txtMarkMaths.Size = new System.Drawing.Size(50, 26);
             this.txtMarkMaths.TabIndex = 9;
             // 
             // txtMarkFAL
             // 
-            this.txtMarkFAL.Location = new System.Drawing.Point(344, 87);
-            this.txtMarkFAL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMarkFAL.Location = new System.Drawing.Point(608, 113);
+            this.txtMarkFAL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkFAL.Name = "txtMarkFAL";
-            this.txtMarkFAL.Size = new System.Drawing.Size(45, 22);
+            this.txtMarkFAL.Size = new System.Drawing.Size(50, 26);
             this.txtMarkFAL.TabIndex = 8;
             // 
             // txtMarkHL
             // 
-            this.txtMarkHL.Location = new System.Drawing.Point(344, 50);
-            this.txtMarkHL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMarkHL.Location = new System.Drawing.Point(608, 65);
+            this.txtMarkHL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMarkHL.Name = "txtMarkHL";
-            this.txtMarkHL.Size = new System.Drawing.Size(45, 22);
+            this.txtMarkHL.Size = new System.Drawing.Size(50, 26);
             this.txtMarkHL.TabIndex = 7;
             // 
             // txtLO
             // 
-            this.txtLO.Location = new System.Drawing.Point(184, 156);
-            this.txtLO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLO.Location = new System.Drawing.Point(265, 197);
+            this.txtLO.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLO.Name = "txtLO";
             this.txtLO.ReadOnly = true;
-            this.txtLO.Size = new System.Drawing.Size(132, 22);
+            this.txtLO.Size = new System.Drawing.Size(335, 26);
             this.txtLO.TabIndex = 3;
             this.txtLO.Text = "Life Orientation";
             // 
@@ -674,11 +575,11 @@
             this.FuturePathTabControl.Controls.Add(this.tabAdvisoryOutcome);
             this.FuturePathTabControl.Controls.Add(this.tabAltRecs);
             this.FuturePathTabControl.Controls.Add(this.tabFundingInfo);
-            this.FuturePathTabControl.Location = new System.Drawing.Point(16, 15);
-            this.FuturePathTabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FuturePathTabControl.Location = new System.Drawing.Point(18, 18);
+            this.FuturePathTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FuturePathTabControl.Name = "FuturePathTabControl";
             this.FuturePathTabControl.SelectedIndex = 0;
-            this.FuturePathTabControl.Size = new System.Drawing.Size(1030, 622);
+            this.FuturePathTabControl.Size = new System.Drawing.Size(1167, 777);
             this.FuturePathTabControl.TabIndex = 6;
             this.FuturePathTabControl.SelectedIndexChanged += new System.EventHandler(this.FuturePathTabControl_SelectedIndexChanged);
             // 
@@ -689,11 +590,11 @@
             this.tabRoleSelection.Controls.Add(this.radLearner);
             this.tabRoleSelection.Controls.Add(this.radCareerAdvisor);
             this.tabRoleSelection.Controls.Add(this.radAdministrator);
-            this.tabRoleSelection.Location = new System.Drawing.Point(4, 25);
-            this.tabRoleSelection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabRoleSelection.Location = new System.Drawing.Point(4, 29);
+            this.tabRoleSelection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabRoleSelection.Name = "tabRoleSelection";
-            this.tabRoleSelection.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabRoleSelection.Size = new System.Drawing.Size(1029, 593);
+            this.tabRoleSelection.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabRoleSelection.Size = new System.Drawing.Size(1159, 744);
             this.tabRoleSelection.TabIndex = 0;
             this.tabRoleSelection.Text = "Role Selection";
             this.tabRoleSelection.UseVisualStyleBackColor = true;
@@ -701,10 +602,10 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(383, 394);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Location = new System.Drawing.Point(430, 492);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(100, 28);
+            this.btnLogin.Size = new System.Drawing.Size(112, 35);
             this.btnLogin.TabIndex = 4;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -715,10 +616,10 @@
             this.lblAccess.BackColor = System.Drawing.Color.LightBlue;
             this.lblAccess.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblAccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccess.Location = new System.Drawing.Point(5, 34);
+            this.lblAccess.Location = new System.Drawing.Point(6, 43);
             this.lblAccess.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAccess.Name = "lblAccess";
-            this.lblAccess.Size = new System.Drawing.Size(1026, 34);
+            this.lblAccess.Size = new System.Drawing.Size(1154, 42);
             this.lblAccess.TabIndex = 3;
             this.lblAccess.Text = "How would you like to access the system?";
             this.lblAccess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -730,31 +631,33 @@
             this.tabLearnerInfo.Controls.Add(this.grpFaculty);
             this.tabLearnerInfo.Controls.Add(this.grpLearnerInfo);
             this.tabLearnerInfo.Controls.Add(this.grpSubjects);
-            this.tabLearnerInfo.Location = new System.Drawing.Point(4, 25);
-            this.tabLearnerInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabLearnerInfo.Location = new System.Drawing.Point(4, 29);
+            this.tabLearnerInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabLearnerInfo.Name = "tabLearnerInfo";
-            this.tabLearnerInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabLearnerInfo.Size = new System.Drawing.Size(1022, 593);
+            this.tabLearnerInfo.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabLearnerInfo.Size = new System.Drawing.Size(1159, 744);
             this.tabLearnerInfo.TabIndex = 1;
             this.tabLearnerInfo.Text = "Learner Information";
             this.tabLearnerInfo.UseVisualStyleBackColor = true;
+            this.tabLearnerInfo.Click += new System.EventHandler(this.tabLearnerInfo_Click);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(552, 503);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Location = new System.Drawing.Point(621, 629);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(100, 28);
+            this.btnClear.Size = new System.Drawing.Size(112, 35);
             this.btnClear.TabIndex = 17;
             this.btnClear.Text = "Clear All";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(256, 503);
-            this.btnSubmit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSubmit.Location = new System.Drawing.Point(288, 629);
+            this.btnSubmit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(100, 28);
+            this.btnSubmit.Size = new System.Drawing.Size(112, 35);
             this.btnSubmit.TabIndex = 16;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
@@ -766,11 +669,11 @@
             this.grpFaculty.Controls.Add(this.lblQualification);
             this.grpFaculty.Controls.Add(this.cmbFaculty);
             this.grpFaculty.Controls.Add(this.lblFaculty);
-            this.grpFaculty.Location = new System.Drawing.Point(223, 341);
-            this.grpFaculty.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpFaculty.Location = new System.Drawing.Point(63, 427);
+            this.grpFaculty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpFaculty.Name = "grpFaculty";
-            this.grpFaculty.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpFaculty.Size = new System.Drawing.Size(505, 132);
+            this.grpFaculty.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpFaculty.Size = new System.Drawing.Size(952, 165);
             this.grpFaculty.TabIndex = 15;
             this.grpFaculty.TabStop = false;
             this.grpFaculty.Text = "Faculty && Qualification";
@@ -780,46 +683,30 @@
             this.cmbQualification.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbQualification.FormattingEnabled = true;
             this.cmbQualification.Items.AddRange(new object[] {
-            "Bachelor of Business Science (BBusSci) and Bachelor of Commerce (BCom) - All stre" +
-                "ams except Acturial Science (ActSci), Computer Science (ComSci), Statistics & Da" +
-                "ta Science",
-            "BBusSci and Bcom - ONLY ComSci and Statistics & Data Science",
-            "BBusSci and BCom - ONLY ActSci and Quantitative Finance",
-            "BSc Engineering (Civil Engineering)",
-            "Bsc Engineering (Electrical, Electrical & Computer, Mechatronics)",
-            "BSc Construction Studies",
-            "BSc Property Studies",
-            "BSc Architectural Studies",
-            "BSc Engineering (Chemical Engineering)",
-            "BSc Engineering (Mechanical, Mechanical & Mechatronic Engineering)",
-            "BSc Geomatics",
-            "Bachelor of Medicine and Bachelor of Surgery (MBChB)",
-            "BSc in Physiotherapy",
-            "BSc in Occupational Therapy",
-            "BSc in Audiology",
-            "BSc in Speech-Language Pathology",
-            "Bachelor of Arts (BA) and Bachelor of Social Science (BSocSci)",
-            "BA in Fine Art",
-            "BSocSci in Philosophy, Politics and Economics (PPE)",
-            "BA in Theatre and Performance",
-            "Bachelor of Social Work (BSW)",
-            "Bachelor of Music (BMus)",
-            "Bachelor of Laws (LLB)",
-            "Bachelor of Sciences (majors to be picked later)",
-            "NOT SURE YET"});
-            this.cmbQualification.Location = new System.Drawing.Point(301, 79);
-            this.cmbQualification.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            "Bachelor of Arts",
+            "Bachelor of Business Science",
+            "Bachelor of Commerce (BCom) General",
+            "BCom Accounting",
+            "BCom Information Systems",
+            "Bachelor of Health Sciences",
+            "Bachelor of Laws",
+            "Bachelor of Science (BSc) Computer Science",
+            "BSc Biological Sciences",
+            "BSc Engineering (Mechanical Engineering)",
+            "Bachelor of Social Science"});
+            this.cmbQualification.Location = new System.Drawing.Point(339, 98);
+            this.cmbQualification.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbQualification.Name = "cmbQualification";
-            this.cmbQualification.Size = new System.Drawing.Size(132, 24);
+            this.cmbQualification.Size = new System.Drawing.Size(331, 28);
             this.cmbQualification.TabIndex = 16;
             // 
             // lblQualification
             // 
             this.lblQualification.AutoSize = true;
-            this.lblQualification.Location = new System.Drawing.Point(8, 82);
+            this.lblQualification.Location = new System.Drawing.Point(9, 103);
             this.lblQualification.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblQualification.Name = "lblQualification";
-            this.lblQualification.Size = new System.Drawing.Size(239, 16);
+            this.lblQualification.Size = new System.Drawing.Size(285, 20);
             this.lblQualification.TabIndex = 15;
             this.lblQualification.Text = "Select Preferred Qualification (optional)";
             // 
@@ -829,24 +716,24 @@
             this.cmbFaculty.FormattingEnabled = true;
             this.cmbFaculty.Items.AddRange(new object[] {
             "Commerce",
-            "Engineering",
+            "Engineering and the Built Environment",
             "Health Sciences",
             "Humanities",
             "Law",
             "Science"});
-            this.cmbFaculty.Location = new System.Drawing.Point(301, 28);
-            this.cmbFaculty.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbFaculty.Location = new System.Drawing.Point(339, 37);
+            this.cmbFaculty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbFaculty.Name = "cmbFaculty";
-            this.cmbFaculty.Size = new System.Drawing.Size(132, 24);
+            this.cmbFaculty.Size = new System.Drawing.Size(331, 28);
             this.cmbFaculty.TabIndex = 14;
             // 
             // lblFaculty
             // 
             this.lblFaculty.AutoSize = true;
-            this.lblFaculty.Location = new System.Drawing.Point(8, 32);
+            this.lblFaculty.Location = new System.Drawing.Point(9, 40);
             this.lblFaculty.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFaculty.Name = "lblFaculty";
-            this.lblFaculty.Size = new System.Drawing.Size(150, 16);
+            this.lblFaculty.Size = new System.Drawing.Size(179, 20);
             this.lblFaculty.TabIndex = 7;
             this.lblFaculty.Text = "Select Preferred Faculty";
             // 
@@ -864,40 +751,40 @@
             this.grpLearnerInfo.Controls.Add(this.lblSchool);
             this.grpLearnerInfo.Controls.Add(this.lblGrade);
             this.grpLearnerInfo.Controls.Add(this.cmbGrade);
-            this.grpLearnerInfo.Location = new System.Drawing.Point(56, 23);
-            this.grpLearnerInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpLearnerInfo.Location = new System.Drawing.Point(63, 29);
+            this.grpLearnerInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpLearnerInfo.Name = "grpLearnerInfo";
-            this.grpLearnerInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpLearnerInfo.Size = new System.Drawing.Size(309, 310);
+            this.grpLearnerInfo.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpLearnerInfo.Size = new System.Drawing.Size(348, 388);
             this.grpLearnerInfo.TabIndex = 14;
             this.grpLearnerInfo.TabStop = false;
             this.grpLearnerInfo.Text = "Learner Information";
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(167, 263);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEmail.Location = new System.Drawing.Point(188, 329);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(132, 22);
+            this.txtEmail.Size = new System.Drawing.Size(148, 26);
             this.txtEmail.TabIndex = 15;
             // 
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(3, 267);
+            this.lblEmail.Location = new System.Drawing.Point(3, 334);
             this.lblEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(156, 32);
+            this.lblEmail.Size = new System.Drawing.Size(184, 40);
             this.lblEmail.TabIndex = 14;
             this.lblEmail.Text = "Enter your email address\r\n(optional)";
             // 
             // lblLearnerName
             // 
             this.lblLearnerName.AutoSize = true;
-            this.lblLearnerName.Location = new System.Drawing.Point(3, 32);
+            this.lblLearnerName.Location = new System.Drawing.Point(3, 40);
             this.lblLearnerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLearnerName.Name = "lblLearnerName";
-            this.lblLearnerName.Size = new System.Drawing.Size(127, 16);
+            this.lblLearnerName.Size = new System.Drawing.Size(156, 20);
             this.lblLearnerName.TabIndex = 6;
             this.lblLearnerName.Text = "Enter your first name";
             // 
@@ -915,63 +802,63 @@
             "Northern Cape",
             "North West",
             "Western Cape"});
-            this.cmbProvince.Location = new System.Drawing.Point(168, 217);
-            this.cmbProvince.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbProvince.Location = new System.Drawing.Point(189, 271);
+            this.cmbProvince.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbProvince.Name = "cmbProvince";
-            this.cmbProvince.Size = new System.Drawing.Size(132, 24);
+            this.cmbProvince.Size = new System.Drawing.Size(148, 28);
             this.cmbProvince.TabIndex = 13;
             // 
             // txtLearnerName
             // 
-            this.txtLearnerName.Location = new System.Drawing.Point(167, 28);
-            this.txtLearnerName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLearnerName.Location = new System.Drawing.Point(188, 35);
+            this.txtLearnerName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLearnerName.Name = "txtLearnerName";
-            this.txtLearnerName.Size = new System.Drawing.Size(132, 22);
+            this.txtLearnerName.Size = new System.Drawing.Size(148, 26);
             this.txtLearnerName.TabIndex = 7;
             // 
             // lblProvince
             // 
             this.lblProvince.AutoSize = true;
-            this.lblProvince.Location = new System.Drawing.Point(3, 220);
+            this.lblProvince.Location = new System.Drawing.Point(3, 275);
             this.lblProvince.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProvince.Name = "lblProvince";
-            this.lblProvince.Size = new System.Drawing.Size(129, 16);
+            this.lblProvince.Size = new System.Drawing.Size(151, 20);
             this.lblProvince.TabIndex = 12;
             this.lblProvince.Text = "Select your province";
             // 
             // lblLearnerSurname
             // 
             this.lblLearnerSurname.AutoSize = true;
-            this.lblLearnerSurname.Location = new System.Drawing.Point(4, 78);
+            this.lblLearnerSurname.Location = new System.Drawing.Point(4, 97);
             this.lblLearnerSurname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLearnerSurname.Name = "lblLearnerSurname";
-            this.lblLearnerSurname.Size = new System.Drawing.Size(128, 16);
+            this.lblLearnerSurname.Size = new System.Drawing.Size(155, 20);
             this.lblLearnerSurname.TabIndex = 8;
             this.lblLearnerSurname.Text = "Enter your last name";
             // 
             // txtSchool
             // 
-            this.txtSchool.Location = new System.Drawing.Point(168, 167);
-            this.txtSchool.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSchool.Location = new System.Drawing.Point(189, 209);
+            this.txtSchool.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtSchool.Name = "txtSchool";
-            this.txtSchool.Size = new System.Drawing.Size(132, 22);
+            this.txtSchool.Size = new System.Drawing.Size(148, 26);
             this.txtSchool.TabIndex = 11;
             // 
             // txtLearnerSurname
             // 
-            this.txtLearnerSurname.Location = new System.Drawing.Point(168, 74);
-            this.txtLearnerSurname.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLearnerSurname.Location = new System.Drawing.Point(189, 92);
+            this.txtLearnerSurname.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLearnerSurname.Name = "txtLearnerSurname";
-            this.txtLearnerSurname.Size = new System.Drawing.Size(132, 22);
+            this.txtLearnerSurname.Size = new System.Drawing.Size(148, 26);
             this.txtLearnerSurname.TabIndex = 9;
             // 
             // lblSchool
             // 
             this.lblSchool.AutoSize = true;
-            this.lblSchool.Location = new System.Drawing.Point(3, 171);
+            this.lblSchool.Location = new System.Drawing.Point(3, 214);
             this.lblSchool.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSchool.Name = "lblSchool";
-            this.lblSchool.Size = new System.Drawing.Size(147, 16);
+            this.lblSchool.Size = new System.Drawing.Size(176, 20);
             this.lblSchool.TabIndex = 10;
             this.lblSchool.Text = "Enter your school name";
             // 
@@ -979,11 +866,10 @@
             // 
             this.tabQuestionnaire.Controls.Add(this.btnSubmitQuestions);
             this.tabQuestionnaire.Controls.Add(this.flowQuestions);
-            this.tabQuestionnaire.Location = new System.Drawing.Point(4, 25);
-            this.tabQuestionnaire.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabQuestionnaire.Location = new System.Drawing.Point(4, 29);
             this.tabQuestionnaire.Name = "tabQuestionnaire";
-            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabQuestionnaire.Size = new System.Drawing.Size(1029, 593);
+            this.tabQuestionnaire.Padding = new System.Windows.Forms.Padding(3);
+            this.tabQuestionnaire.Size = new System.Drawing.Size(1159, 744);
             this.tabQuestionnaire.TabIndex = 2;
             this.tabQuestionnaire.Text = "Interest Questionnaire";
             this.tabQuestionnaire.UseVisualStyleBackColor = true;
@@ -991,10 +877,9 @@
             // btnSubmitQuestions
             // 
             this.btnSubmitQuestions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnSubmitQuestions.Location = new System.Drawing.Point(3, 555);
-            this.btnSubmitQuestions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnSubmitQuestions.Location = new System.Drawing.Point(3, 696);
             this.btnSubmitQuestions.Name = "btnSubmitQuestions";
-            this.btnSubmitQuestions.Size = new System.Drawing.Size(1023, 36);
+            this.btnSubmitQuestions.Size = new System.Drawing.Size(1153, 45);
             this.btnSubmitQuestions.TabIndex = 2;
             this.btnSubmitQuestions.Text = "Submit Questionnaire";
             this.btnSubmitQuestions.UseVisualStyleBackColor = true;
@@ -1004,17 +889,15 @@
             // 
             this.flowQuestions.AutoScroll = true;
             this.flowQuestions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowQuestions.Location = new System.Drawing.Point(3, 2);
-            this.flowQuestions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowQuestions.Location = new System.Drawing.Point(3, 3);
             this.flowQuestions.Name = "flowQuestions";
-            this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 16);
-            this.flowQuestions.Size = new System.Drawing.Size(1023, 589);
+            this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.flowQuestions.Size = new System.Drawing.Size(1153, 738);
             this.flowQuestions.TabIndex = 0;
             // 
             // tabAdvisoryOutcome
             // 
-            this.tabAdvisoryOutcome.Controls.Add(this.btnViewAlternatives);
-            this.tabAdvisoryOutcome.Controls.Add(this.btnContinueToFunding);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnViewRecs);
             this.tabAdvisoryOutcome.Controls.Add(this.btnBack1);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxReason);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxEligibilityResult);
@@ -1022,151 +905,145 @@
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxInterestAlignment);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxSelectedQual);
             this.tabAdvisoryOutcome.Controls.Add(this.label1);
-            this.tabAdvisoryOutcome.Location = new System.Drawing.Point(4, 25);
-            this.tabAdvisoryOutcome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabAdvisoryOutcome.Location = new System.Drawing.Point(4, 29);
+            this.tabAdvisoryOutcome.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabAdvisoryOutcome.Name = "tabAdvisoryOutcome";
-            this.tabAdvisoryOutcome.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabAdvisoryOutcome.Size = new System.Drawing.Size(1029, 593);
+            this.tabAdvisoryOutcome.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabAdvisoryOutcome.Size = new System.Drawing.Size(1159, 744);
             this.tabAdvisoryOutcome.TabIndex = 3;
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
             this.tabAdvisoryOutcome.UseVisualStyleBackColor = true;
             // 
-            // btnContinueToFunding
+            // btnViewRecs
             // 
-            this.btnContinueToFunding.Location = new System.Drawing.Point(858, 630);
-            this.btnContinueToFunding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnContinueToFunding.Name = "btnContinueToFunding";
-            this.btnContinueToFunding.Size = new System.Drawing.Size(195, 35);
-            this.btnContinueToFunding.TabIndex = 10;
-            this.btnContinueToFunding.Text = "Continue to Funding";
-            this.btnContinueToFunding.UseVisualStyleBackColor = true;
-            this.btnContinueToFunding.Click += new System.EventHandler(this.btnContinueToFunding_Click);
-            this.btnViewRecs.Location = new System.Drawing.Point(748, 479);
-            this.btnViewRecs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnViewRecs.Location = new System.Drawing.Point(842, 598);
+            this.btnViewRecs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnViewRecs.Name = "btnViewRecs";
-            this.btnViewRecs.Size = new System.Drawing.Size(219, 28);
+            this.btnViewRecs.Size = new System.Drawing.Size(246, 35);
             this.btnViewRecs.TabIndex = 9;
             this.btnViewRecs.Text = "View Recommendations";
             this.btnViewRecs.UseVisualStyleBackColor = true;
+            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
             // 
             // btnBack1
             // 
-            this.btnBack1.Location = new System.Drawing.Point(805, 407);
-            this.btnBack1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBack1.Location = new System.Drawing.Point(906, 509);
+            this.btnBack1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack1.Name = "btnBack1";
-            this.btnBack1.Size = new System.Drawing.Size(100, 28);
+            this.btnBack1.Size = new System.Drawing.Size(112, 35);
             this.btnBack1.TabIndex = 8;
             this.btnBack1.Text = "Back";
             this.btnBack1.UseVisualStyleBackColor = true;
+            this.btnBack1.Click += new System.EventHandler(this.btnBack1_Click);
             // 
             // grpboxReason
             // 
             this.grpboxReason.Controls.Add(this.txtReason);
-            this.grpboxReason.Location = new System.Drawing.Point(372, 342);
-            this.grpboxReason.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxReason.Location = new System.Drawing.Point(418, 428);
+            this.grpboxReason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxReason.Name = "grpboxReason";
-            this.grpboxReason.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxReason.Size = new System.Drawing.Size(259, 228);
+            this.grpboxReason.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxReason.Size = new System.Drawing.Size(291, 285);
             this.grpboxReason.TabIndex = 6;
             this.grpboxReason.TabStop = false;
             this.grpboxReason.Text = "Reason:";
             // 
             // txtReason
             // 
-            this.txtReason.Location = new System.Drawing.Point(28, 41);
-            this.txtReason.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtReason.Location = new System.Drawing.Point(32, 51);
+            this.txtReason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtReason.Multiline = true;
             this.txtReason.Name = "txtReason";
             this.txtReason.ReadOnly = true;
-            this.txtReason.Size = new System.Drawing.Size(197, 149);
+            this.txtReason.Size = new System.Drawing.Size(222, 186);
             this.txtReason.TabIndex = 0;
             // 
             // grpboxEligibilityResult
             // 
             this.grpboxEligibilityResult.Controls.Add(this.txtEligibilityResult);
-            this.grpboxEligibilityResult.Location = new System.Drawing.Point(21, 342);
-            this.grpboxEligibilityResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxEligibilityResult.Location = new System.Drawing.Point(24, 428);
+            this.grpboxEligibilityResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxEligibilityResult.Name = "grpboxEligibilityResult";
-            this.grpboxEligibilityResult.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxEligibilityResult.Size = new System.Drawing.Size(259, 228);
+            this.grpboxEligibilityResult.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxEligibilityResult.Size = new System.Drawing.Size(291, 285);
             this.grpboxEligibilityResult.TabIndex = 7;
             this.grpboxEligibilityResult.TabStop = false;
             this.grpboxEligibilityResult.Text = "Eligibility Result";
             // 
             // txtEligibilityResult
             // 
-            this.txtEligibilityResult.Location = new System.Drawing.Point(28, 41);
-            this.txtEligibilityResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEligibilityResult.Location = new System.Drawing.Point(32, 51);
+            this.txtEligibilityResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtEligibilityResult.Multiline = true;
             this.txtEligibilityResult.Name = "txtEligibilityResult";
             this.txtEligibilityResult.ReadOnly = true;
-            this.txtEligibilityResult.Size = new System.Drawing.Size(197, 149);
+            this.txtEligibilityResult.Size = new System.Drawing.Size(222, 186);
             this.txtEligibilityResult.TabIndex = 0;
             // 
             // grpboxIdentifiedGaps
             // 
             this.grpboxIdentifiedGaps.Controls.Add(this.txtIdentifiedGaps);
-            this.grpboxIdentifiedGaps.Location = new System.Drawing.Point(720, 79);
-            this.grpboxIdentifiedGaps.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxIdentifiedGaps.Location = new System.Drawing.Point(810, 98);
+            this.grpboxIdentifiedGaps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxIdentifiedGaps.Name = "grpboxIdentifiedGaps";
-            this.grpboxIdentifiedGaps.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxIdentifiedGaps.Size = new System.Drawing.Size(259, 228);
+            this.grpboxIdentifiedGaps.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxIdentifiedGaps.Size = new System.Drawing.Size(291, 285);
             this.grpboxIdentifiedGaps.TabIndex = 6;
             this.grpboxIdentifiedGaps.TabStop = false;
             this.grpboxIdentifiedGaps.Text = "Identifies Gaps";
             // 
             // txtIdentifiedGaps
             // 
-            this.txtIdentifiedGaps.Location = new System.Drawing.Point(28, 41);
-            this.txtIdentifiedGaps.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtIdentifiedGaps.Location = new System.Drawing.Point(32, 51);
+            this.txtIdentifiedGaps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIdentifiedGaps.Multiline = true;
             this.txtIdentifiedGaps.Name = "txtIdentifiedGaps";
             this.txtIdentifiedGaps.ReadOnly = true;
-            this.txtIdentifiedGaps.Size = new System.Drawing.Size(197, 149);
+            this.txtIdentifiedGaps.Size = new System.Drawing.Size(222, 186);
             this.txtIdentifiedGaps.TabIndex = 0;
             // 
             // grpboxInterestAlignment
             // 
             this.grpboxInterestAlignment.Controls.Add(this.txtInterestAlign);
-            this.grpboxInterestAlignment.Location = new System.Drawing.Point(372, 79);
-            this.grpboxInterestAlignment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxInterestAlignment.Location = new System.Drawing.Point(418, 98);
+            this.grpboxInterestAlignment.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxInterestAlignment.Name = "grpboxInterestAlignment";
-            this.grpboxInterestAlignment.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxInterestAlignment.Size = new System.Drawing.Size(259, 228);
+            this.grpboxInterestAlignment.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxInterestAlignment.Size = new System.Drawing.Size(291, 285);
             this.grpboxInterestAlignment.TabIndex = 6;
             this.grpboxInterestAlignment.TabStop = false;
             this.grpboxInterestAlignment.Text = "Interest Alignment";
             // 
             // txtInterestAlign
             // 
-            this.txtInterestAlign.Location = new System.Drawing.Point(28, 41);
-            this.txtInterestAlign.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtInterestAlign.Location = new System.Drawing.Point(32, 51);
+            this.txtInterestAlign.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInterestAlign.Multiline = true;
             this.txtInterestAlign.Name = "txtInterestAlign";
             this.txtInterestAlign.ReadOnly = true;
-            this.txtInterestAlign.Size = new System.Drawing.Size(197, 149);
+            this.txtInterestAlign.Size = new System.Drawing.Size(222, 186);
             this.txtInterestAlign.TabIndex = 0;
             // 
             // grpboxSelectedQual
             // 
             this.grpboxSelectedQual.Controls.Add(this.txtQualifications);
-            this.grpboxSelectedQual.Location = new System.Drawing.Point(21, 79);
-            this.grpboxSelectedQual.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxSelectedQual.Location = new System.Drawing.Point(24, 98);
+            this.grpboxSelectedQual.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxSelectedQual.Name = "grpboxSelectedQual";
-            this.grpboxSelectedQual.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxSelectedQual.Size = new System.Drawing.Size(259, 228);
+            this.grpboxSelectedQual.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxSelectedQual.Size = new System.Drawing.Size(291, 285);
             this.grpboxSelectedQual.TabIndex = 5;
             this.grpboxSelectedQual.TabStop = false;
             this.grpboxSelectedQual.Text = "Selected Qualification";
             // 
             // txtQualifications
             // 
-            this.txtQualifications.Location = new System.Drawing.Point(28, 41);
-            this.txtQualifications.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtQualifications.Location = new System.Drawing.Point(32, 51);
+            this.txtQualifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtQualifications.Multiline = true;
             this.txtQualifications.Name = "txtQualifications";
             this.txtQualifications.ReadOnly = true;
-            this.txtQualifications.Size = new System.Drawing.Size(197, 149);
+            this.txtQualifications.Size = new System.Drawing.Size(222, 186);
             this.txtQualifications.TabIndex = 0;
             // 
             // label1
@@ -1174,10 +1051,10 @@
             this.label1.BackColor = System.Drawing.Color.LightBlue;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 21);
+            this.label1.Location = new System.Drawing.Point(0, 26);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1026, 34);
+            this.label1.Size = new System.Drawing.Size(1154, 42);
             this.label1.TabIndex = 4;
             this.label1.Text = "Advisory Outcomes";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1190,41 +1067,41 @@
             this.tabAltRecs.Controls.Add(this.grpboxRecExplain);
             this.tabAltRecs.Controls.Add(this.label2);
             this.tabAltRecs.Controls.Add(this.grpboxRecProgrammes);
-            this.tabAltRecs.Location = new System.Drawing.Point(4, 25);
-            this.tabAltRecs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabAltRecs.Location = new System.Drawing.Point(4, 29);
+            this.tabAltRecs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabAltRecs.Name = "tabAltRecs";
-            this.tabAltRecs.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabAltRecs.Size = new System.Drawing.Size(1029, 593);
+            this.tabAltRecs.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabAltRecs.Size = new System.Drawing.Size(1159, 744);
             this.tabAltRecs.TabIndex = 4;
             this.tabAltRecs.Text = "Alternative Programme";
             this.tabAltRecs.UseVisualStyleBackColor = true;
             // 
             // btnAdvisorySum
             // 
-            this.btnAdvisorySum.Location = new System.Drawing.Point(817, 527);
-            this.btnAdvisorySum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdvisorySum.Location = new System.Drawing.Point(920, 658);
+            this.btnAdvisorySum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAdvisorySum.Name = "btnAdvisorySum";
-            this.btnAdvisorySum.Size = new System.Drawing.Size(165, 28);
+            this.btnAdvisorySum.Size = new System.Drawing.Size(186, 35);
             this.btnAdvisorySum.TabIndex = 9;
             this.btnAdvisorySum.Text = "Advisory Summary";
             this.btnAdvisorySum.UseVisualStyleBackColor = true;
             // 
             // btnContinue
             // 
-            this.btnContinue.Location = new System.Drawing.Point(645, 527);
-            this.btnContinue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnContinue.Location = new System.Drawing.Point(726, 658);
+            this.btnContinue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnContinue.Name = "btnContinue";
-            this.btnContinue.Size = new System.Drawing.Size(100, 28);
+            this.btnContinue.Size = new System.Drawing.Size(112, 35);
             this.btnContinue.TabIndex = 8;
             this.btnContinue.Text = "Continue";
             this.btnContinue.UseVisualStyleBackColor = true;
             // 
             // btnBack2
             // 
-            this.btnBack2.Location = new System.Drawing.Point(105, 527);
-            this.btnBack2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBack2.Location = new System.Drawing.Point(118, 658);
+            this.btnBack2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack2.Name = "btnBack2";
-            this.btnBack2.Size = new System.Drawing.Size(100, 28);
+            this.btnBack2.Size = new System.Drawing.Size(112, 35);
             this.btnBack2.TabIndex = 7;
             this.btnBack2.Text = "Back";
             this.btnBack2.UseVisualStyleBackColor = true;
@@ -1232,23 +1109,23 @@
             // grpboxRecExplain
             // 
             this.grpboxRecExplain.Controls.Add(this.textBox2);
-            this.grpboxRecExplain.Location = new System.Drawing.Point(591, 87);
-            this.grpboxRecExplain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxRecExplain.Location = new System.Drawing.Point(664, 109);
+            this.grpboxRecExplain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxRecExplain.Name = "grpboxRecExplain";
-            this.grpboxRecExplain.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxRecExplain.Size = new System.Drawing.Size(363, 345);
+            this.grpboxRecExplain.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxRecExplain.Size = new System.Drawing.Size(408, 431);
             this.grpboxRecExplain.TabIndex = 6;
             this.grpboxRecExplain.TabStop = false;
             this.grpboxRecExplain.Text = "Recommendation Explanation";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(24, 57);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Location = new System.Drawing.Point(27, 71);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(297, 256);
+            this.textBox2.Size = new System.Drawing.Size(334, 319);
             this.textBox2.TabIndex = 0;
             // 
             // label2
@@ -1256,10 +1133,10 @@
             this.label2.BackColor = System.Drawing.Color.LightBlue;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(0, 17);
+            this.label2.Location = new System.Drawing.Point(0, 22);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(1026, 34);
+            this.label2.Size = new System.Drawing.Size(1154, 42);
             this.label2.TabIndex = 5;
             this.label2.Text = "Alternative Programme Recommendations";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1267,195 +1144,168 @@
             // grpboxRecProgrammes
             // 
             this.grpboxRecProgrammes.Controls.Add(this.textBox1);
-            this.grpboxRecProgrammes.Location = new System.Drawing.Point(39, 87);
-            this.grpboxRecProgrammes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxRecProgrammes.Location = new System.Drawing.Point(44, 109);
+            this.grpboxRecProgrammes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxRecProgrammes.Name = "grpboxRecProgrammes";
-            this.grpboxRecProgrammes.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxRecProgrammes.Size = new System.Drawing.Size(363, 345);
+            this.grpboxRecProgrammes.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxRecProgrammes.Size = new System.Drawing.Size(408, 431);
             this.grpboxRecProgrammes.TabIndex = 0;
             this.grpboxRecProgrammes.TabStop = false;
             this.grpboxRecProgrammes.Text = "Recommended Programmes";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(24, 57);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Location = new System.Drawing.Point(27, 71);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(297, 256);
+            this.textBox1.Size = new System.Drawing.Size(334, 319);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tabFundingInfo
             // 
             this.tabFundingInfo.Controls.Add(this.btnContinue2);
-
-            this.tabFundingInfo.Controls.Add(this.btnBackFunding);
+            this.tabFundingInfo.Controls.Add(this.btnBack3);
             this.tabFundingInfo.Controls.Add(this.grpFundingDetails);
             this.tabFundingInfo.Controls.Add(this.grpboxFundingOpps);
-
-            this.tabFundingInfo.Controls.Add(this.btnBack3);
-            this.tabFundingInfo.Controls.Add(this.groupBox2);
-            this.tabFundingInfo.Controls.Add(this.gepboxFundingOpps);
-
             this.tabFundingInfo.Controls.Add(this.grpboxPrompt);
             this.tabFundingInfo.Controls.Add(this.label3);
-            this.tabFundingInfo.Location = new System.Drawing.Point(4, 25);
-            this.tabFundingInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabFundingInfo.Location = new System.Drawing.Point(4, 29);
+            this.tabFundingInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabFundingInfo.Name = "tabFundingInfo";
-            this.tabFundingInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabFundingInfo.Size = new System.Drawing.Size(1029, 593);
+            this.tabFundingInfo.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabFundingInfo.Size = new System.Drawing.Size(1159, 744);
             this.tabFundingInfo.TabIndex = 5;
             this.tabFundingInfo.Text = "Funding Info";
             this.tabFundingInfo.UseVisualStyleBackColor = true;
             // 
             // btnContinue2
             // 
-            this.btnContinue2.Location = new System.Drawing.Point(733, 470);
-            this.btnContinue2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnContinue2.Location = new System.Drawing.Point(825, 588);
+            this.btnContinue2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnContinue2.Name = "btnContinue2";
-            this.btnContinue2.Size = new System.Drawing.Size(100, 28);
+            this.btnContinue2.Size = new System.Drawing.Size(112, 35);
             this.btnContinue2.TabIndex = 10;
             this.btnContinue2.Text = "Continue";
             this.btnContinue2.UseVisualStyleBackColor = true;
             // 
-            // btnBackFunding
+            // btnBack3
             // 
-
-            this.btnBackFunding.Location = new System.Drawing.Point(134, 589);
-            this.btnBackFunding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnBackFunding.Name = "btnBackFunding";
-            this.btnBackFunding.Size = new System.Drawing.Size(112, 35);
-            this.btnBackFunding.TabIndex = 9;
-            this.btnBackFunding.Text = "Back";
-            this.btnBackFunding.UseVisualStyleBackColor = true;
-            this.btnBackFunding.Click += new System.EventHandler(this.btnBackFunding_Click);
-
-            this.btnBack3.Location = new System.Drawing.Point(119, 471);
-            this.btnBack3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBack3.Location = new System.Drawing.Point(134, 589);
+            this.btnBack3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack3.Name = "btnBack3";
-            this.btnBack3.Size = new System.Drawing.Size(100, 28);
+            this.btnBack3.Size = new System.Drawing.Size(112, 35);
             this.btnBack3.TabIndex = 9;
             this.btnBack3.Text = "Back";
             this.btnBack3.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // grpFundingDetails
             // 
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Location = new System.Drawing.Point(707, 124);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox2.Size = new System.Drawing.Size(297, 279);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Funding Details";
+            this.grpFundingDetails.Controls.Add(this.txtFundingDetails);
+            this.grpFundingDetails.Location = new System.Drawing.Point(795, 155);
+            this.grpFundingDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpFundingDetails.Name = "grpFundingDetails";
+            this.grpFundingDetails.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpFundingDetails.Size = new System.Drawing.Size(334, 349);
+            this.grpFundingDetails.TabIndex = 8;
+            this.grpFundingDetails.TabStop = false;
+            this.grpFundingDetails.Text = "Funding Details";
             // 
-            // textBox3
+            // txtFundingDetails
             // 
-            this.textBox3.Location = new System.Drawing.Point(27, 55);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(249, 194);
-            this.textBox3.TabIndex = 0;
+            this.txtFundingDetails.Location = new System.Drawing.Point(30, 69);
+            this.txtFundingDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtFundingDetails.Multiline = true;
+            this.txtFundingDetails.Name = "txtFundingDetails";
+            this.txtFundingDetails.ReadOnly = true;
+            this.txtFundingDetails.Size = new System.Drawing.Size(280, 241);
+            this.txtFundingDetails.TabIndex = 0;
             // 
-            // gepboxFundingOpps
+            // grpboxFundingOpps
             // 
-            this.gepboxFundingOpps.Controls.Add(this.label5);
-            this.gepboxFundingOpps.Controls.Add(this.listBox1);
-            this.gepboxFundingOpps.Location = new System.Drawing.Point(357, 124);
-            this.gepboxFundingOpps.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gepboxFundingOpps.Name = "gepboxFundingOpps";
-            this.gepboxFundingOpps.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gepboxFundingOpps.Size = new System.Drawing.Size(297, 250);
-            this.gepboxFundingOpps.TabIndex = 7;
-            this.gepboxFundingOpps.TabStop = false;
-            this.gepboxFundingOpps.Text = "Funding Opportunits";
-            this.toolTip1.SetToolTip(this.gepboxFundingOpps, "INFO: Funding Options are linked to your selected faculty and qualification");
+            this.grpboxFundingOpps.Controls.Add(this.label5);
+            this.grpboxFundingOpps.Controls.Add(this.lbFundingType);
+            this.grpboxFundingOpps.Location = new System.Drawing.Point(402, 155);
+            this.grpboxFundingOpps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxFundingOpps.Name = "grpboxFundingOpps";
+            this.grpboxFundingOpps.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxFundingOpps.Size = new System.Drawing.Size(334, 312);
+            this.grpboxFundingOpps.TabIndex = 7;
+            this.grpboxFundingOpps.TabStop = false;
+            this.grpboxFundingOpps.Text = "Funding Opportunities";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(25, 39);
+            this.label5.Location = new System.Drawing.Point(28, 49);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 16);
+            this.label5.Size = new System.Drawing.Size(117, 20);
             this.label5.TabIndex = 1;
             this.label5.Text = "Funding Name:";
             // 
-            // listBox1
+            // lbFundingType
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Items.AddRange(new object[] {
+            this.lbFundingType.FormattingEnabled = true;
+            this.lbFundingType.ItemHeight = 20;
+            this.lbFundingType.Items.AddRange(new object[] {
             "Faculty Merit Award",
-            "Faculty Bursary",
+            "Faculty Bursasry",
             "NSFAS Support"});
-
             this.lbFundingType.Location = new System.Drawing.Point(9, 103);
             this.lbFundingType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbFundingType.Name = "lbFundingType";
             this.lbFundingType.Size = new System.Drawing.Size(314, 144);
             this.lbFundingType.TabIndex = 0;
-            this.lbFundingType.SelectedIndexChanged += new System.EventHandler(this.lbFundingType_SelectedIndexChanged);
-
-            this.listBox1.Location = new System.Drawing.Point(8, 82);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(280, 116);
-            this.listBox1.TabIndex = 0;
             // 
             // grpboxPrompt
             // 
             this.grpboxPrompt.Controls.Add(this.rdbNo);
             this.grpboxPrompt.Controls.Add(this.rdbYes);
-            this.grpboxPrompt.Controls.Add(this.label4);
-            this.grpboxPrompt.Location = new System.Drawing.Point(41, 175);
-            this.grpboxPrompt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpboxPrompt.Controls.Add(this.lblFundingQ);
+            this.grpboxPrompt.Location = new System.Drawing.Point(46, 218);
+            this.grpboxPrompt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxPrompt.Name = "grpboxPrompt";
-            this.grpboxPrompt.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpboxPrompt.Size = new System.Drawing.Size(267, 167);
+            this.grpboxPrompt.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpboxPrompt.Size = new System.Drawing.Size(300, 209);
             this.grpboxPrompt.TabIndex = 6;
             this.grpboxPrompt.TabStop = false;
             // 
             // rdbNo
             // 
             this.rdbNo.AutoSize = true;
-            this.rdbNo.Location = new System.Drawing.Point(163, 106);
-            this.rdbNo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rdbNo.Location = new System.Drawing.Point(183, 132);
+            this.rdbNo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rdbNo.Name = "rdbNo";
-            this.rdbNo.Size = new System.Drawing.Size(46, 20);
+            this.rdbNo.Size = new System.Drawing.Size(54, 24);
             this.rdbNo.TabIndex = 2;
             this.rdbNo.TabStop = true;
             this.rdbNo.Text = "No";
             this.rdbNo.UseVisualStyleBackColor = true;
-            this.rdbNo.CheckedChanged += new System.EventHandler(this.rdbNo_CheckedChanged);
             // 
             // rdbYes
             // 
             this.rdbYes.AutoSize = true;
-            this.rdbYes.Location = new System.Drawing.Point(31, 106);
-            this.rdbYes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rdbYes.Location = new System.Drawing.Point(34, 132);
+            this.rdbYes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rdbYes.Name = "rdbYes";
-            this.rdbYes.Size = new System.Drawing.Size(52, 20);
+            this.rdbYes.Size = new System.Drawing.Size(62, 24);
             this.rdbYes.TabIndex = 1;
             this.rdbYes.TabStop = true;
             this.rdbYes.Text = "Yes";
             this.rdbYes.UseVisualStyleBackColor = true;
-            this.rdbYes.CheckedChanged += new System.EventHandler(this.rdbYes_CheckedChanged);
             // 
-            // label4
+            // lblFundingQ
             // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(8, 32);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(250, 40);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Would you like to view funding opportunities related to you selected study pathwa" +
+            this.lblFundingQ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblFundingQ.Location = new System.Drawing.Point(9, 40);
+            this.lblFundingQ.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFundingQ.Name = "lblFundingQ";
+            this.lblFundingQ.Size = new System.Drawing.Size(281, 50);
+            this.lblFundingQ.TabIndex = 0;
+            this.lblFundingQ.Text = "Would you like to view funding opportunities related to you selected study pathwa" +
     "y";
             // 
             // label3
@@ -1463,32 +1313,21 @@
             this.label3.BackColor = System.Drawing.Color.LightBlue;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(0, 18);
+            this.label3.Location = new System.Drawing.Point(0, 23);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1026, 34);
+            this.label3.Size = new System.Drawing.Size(1154, 42);
             this.label3.TabIndex = 5;
             this.label3.Text = "Funding Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnViewAlternatives
-            // 
-            this.btnViewAlternatives.Location = new System.Drawing.Point(858, 570);
-            this.btnViewAlternatives.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnViewAlternatives.Name = "btnViewAlternatives";
-            this.btnViewAlternatives.Size = new System.Drawing.Size(195, 35);
-            this.btnViewAlternatives.TabIndex = 11;
-            this.btnViewAlternatives.Text = "View Alternatives";
-            this.btnViewAlternatives.UseVisualStyleBackColor = true;
-            // 
             // FuturePathForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1054, 651);
+            this.ClientSize = new System.Drawing.Size(1191, 814);
             this.Controls.Add(this.FuturePathTabControl);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FuturePathForm";
             this.Text = "Future Path Learner System";
             this.Load += new System.EventHandler(this.FuturePathForm_Load);
@@ -1520,10 +1359,10 @@
             this.grpboxRecProgrammes.ResumeLayout(false);
             this.grpboxRecProgrammes.PerformLayout();
             this.tabFundingInfo.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.gepboxFundingOpps.ResumeLayout(false);
-            this.gepboxFundingOpps.PerformLayout();
+            this.grpFundingDetails.ResumeLayout(false);
+            this.grpFundingDetails.PerformLayout();
+            this.grpboxFundingOpps.ResumeLayout(false);
+            this.grpboxFundingOpps.PerformLayout();
             this.grpboxPrompt.ResumeLayout(false);
             this.grpboxPrompt.PerformLayout();
             this.ResumeLayout(false);
@@ -1599,6 +1438,7 @@
         private System.Windows.Forms.GroupBox grpboxInterestAlignment;
         private System.Windows.Forms.TextBox txtInterestAlign;
         private System.Windows.Forms.TextBox txtQualifications;
+        private System.Windows.Forms.Button btnViewRecs;
         private System.Windows.Forms.Button btnBack1;
         private System.Windows.Forms.TabPage tabAltRecs;
         private System.Windows.Forms.Label label2;
@@ -1612,21 +1452,17 @@
         private System.Windows.Forms.TabPage tabFundingInfo;
         private System.Windows.Forms.GroupBox grpboxPrompt;
         private System.Windows.Forms.RadioButton rdbYes;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblFundingQ;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rdbNo;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox gepboxFundingOpps;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.GroupBox grpFundingDetails;
+        private System.Windows.Forms.GroupBox grpboxFundingOpps;
+        private System.Windows.Forms.ListBox lbFundingType;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnContinue2;
-        private System.Windows.Forms.Button btnBackFunding;
-        private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.Button btnBack3;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button btnContinueToFunding;
-        private System.Windows.Forms.Button btnViewAlternatives;
     }
 }
 
