@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Text;
-using System.Diagnostics.Eventing.Reader;
-using project2.Business;
 
 namespace project2
 {
     public partial class FuturePathForm : Form
     {
         LearnerManager learnerManager = new LearnerManager();
+
         private Learner learner;
         private RecommendationManager recommendationManager = new RecommendationManager();
         private FundingManager fundingManager = new FundingManager();
+
 
         public FuturePathForm()
         {
@@ -36,10 +36,15 @@ namespace project2
         {
             if (questionsLoaded) return;
 
-            List<InterestQuestion> questions;
+            var questions = new DataTable();
             try
             {
-                questions = new InterestQuestionDataAccess().GetAllQuestions();
+                using (var conn = new SqlConnection(ConnStr))
+                using (var da = new SqlDataAdapter("SELECT InterestQuestionID, InterestCategoryID, " +
+                    "QuestionText " + " FROM dbo.InterestQuestion ORDER BY InterestQuestionID", conn))
+                {
+                    da.Fill(questions);
+                }
             }
             catch (Exception ex)
             {
@@ -53,16 +58,13 @@ namespace project2
             flowQuestions.WrapContents = false;
             flowQuestions.AutoScroll = true;
 
-
-            foreach (InterestQuestion question in questions)
+            foreach (DataRow row in questions.Rows)
             {
-                var questionLabel = new Label
+                var lbl = new Label
                 {
-                    Text = question.QuestionText,
+                    Text = row["QuestionText"].ToString(),
                     AutoSize = true,
-
-                    MaximumSize = new Size(600, 0),
-                    Margin = new Padding(3, 12, 3, 5)
+                    Margin = new Padding(10, 10, 10, 20)
                 };
 
                 var rating = new NumericUpDown
@@ -70,16 +72,13 @@ namespace project2
                     Minimum = 1,
                     Maximum = 5,
                     Value = 3,
-
-                    Width = 70,
-                    Tag = question.InterestQuestionID,
-                    Margin = new Padding(3, 0, 3, 12)
+                    Width = 60,
+                    Tag = row["InterestQuestionID"]
                 };
 
-                flowQuestions.Controls.Add(questionLabel);
+                flowQuestions.Controls.Add(lbl);
                 flowQuestions.Controls.Add(rating);
             }
-
 
             flowQuestions.ResumeLayout();
             questionsLoaded = true;
@@ -88,231 +87,59 @@ namespace project2
         private DataTable GetAlignmentScores(int learnerID, int sessionID)
         {
             string sql = @"
-        SELECT
-            dp.ProgrammeName,
-            SUM(cat.Total * dim.Weight) AS Score
-        FROM dbo.DegreeInterestMapping dim
-        JOIN dbo.DegreeProgramme dp
-            ON dp.DegreeProgrammeID = dim.DegreeProgrammeID
-        JOIN
-        (
-            SELECT
-                q.InterestCategoryID,
-                SUM(r.ResponseValue) AS Total
-            FROM dbo.LearnerInterestResponse r
-            JOIN dbo.InterestQuestion q
-                ON q.InterestQuestionID = r.InterestQuestionID
-            WHERE r.LearnerID = @LearnerID
-              AND r.AdvisorySessionID = @SessionID
-            GROUP BY q.InterestCategoryID
-        ) cat
-            ON cat.InterestCategoryID = dim.InterestCategoryID
-        WHERE dp.IsActive = 1
-        GROUP BY dp.ProgrammeName
-        ORDER BY Score DESC;";
+                SELECT dp.ProgrammeName, SUM(cat.Total * dim.Weight) AS Score
+                FROM DBO.DegreeInterestMapping dim
+                JOIN dbo.DegreeProgramme dp
+                    ON dp.DegreeProgrammeID = dim.DegreeProgrammeID
+                JOIN (
+                    SELECT q.InterestCategoryID, SUM(r.ResponseValue) AS Total
+                    FROM dbo.LearnerInterestResponse r
+                    JOIN dbo.InterestQuestion q
+                        ON q.InterestQuestionID = r.InterestQuestionID
+                    WHERE r.LearnerID = @LearnerID
+                        AND r.AdvisorySessionID = @SessionID
+                    GROUP BY q.InterestCategoryID
+                ) cat ON cat.InterestCategoryID = dim.InterestCategoryID
+                WHERE dp.IsActive = 1
+                GROUP BY dp.ProgrammeName
+                ORDER BY Score DESC;";
 
-            DataTable results = new DataTable();
-
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            var results = new DataTable();
+            using (var conn = new SqlConnection(ConnStr))
+            using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@LearnerID", learnerID);
                 cmd.Parameters.AddWithValue("@SessionID", sessionID);
-
-                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                {
-                    adapter.Fill(results);
-                }
+                new SqlDataAdapter(cmd).Fill(results);
             }
-
             return results;
         }
 
         private int currentLearnerID;
-        private int currentSessionID;
 
         private int SaveLearner(Learner learner)
         {
-            string digits = new string(
-                learner.Grade.Where(char.IsDigit).ToArray());
-
+            string digits = new string(learner.Grade.Where(char.IsDigit).ToArray());
             int grade = int.Parse(digits);
 
             const string sql = @"
-        INSERT INTO dbo.Learner
-            (FirstName, LastName, Grade, School, Province, Email)
-        OUTPUT INSERTED.LearnerID
-        VALUES
-            (@First, @Last, @Grade, @School, @Province, @Email);";
+                INSERT INTO dbo.Learner (FirstName, LastName, Grade, School, Province)
+                OUTPUT INSERTED.LearnerID
+                VALUES (@First, @Last, @Grade, @School, @Province);";
 
             using (var conn = new SqlConnection(ConnStr))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@First", learner.FirstName);
                 cmd.Parameters.AddWithValue("@Last", learner.LastName);
-                cmd.Parameters.AddWithValue("@Grade", grade);
+                cmd.Parameters.AddWithValue("@Grade", learner.Grade);
                 cmd.Parameters.AddWithValue("@School", learner.SchoolName);
                 cmd.Parameters.AddWithValue("@Province", learner.Province);
-                cmd.Parameters.AddWithValue(
-                    "@Email",
-                    string.IsNullOrWhiteSpace(learner.Email)
-                        ? (object)DBNull.Value
-                        : learner.Email.Trim());
-
                 conn.Open();
-
-                return Convert.ToInt32(cmd.ExecuteScalar());
+                return (int)cmd.ExecuteScalar();
             }
-        
-
         }
         #endregion
-
-        private bool TryGetMark(string markText, out int mark)
-        {
-            mark = 0;
-
-            if (!int.TryParse(markText.Trim(), out mark))
-                return false;
-
-            return mark >= 0 && mark <= 100;
-        }
-
-        private void SaveSubjectMarks(int learnerID, int sessionID)
-        {
-            using (SqlConnection connection = new SqlConnection(ConnStr))
-            {
-                connection.Open();
-
-                string sql = @"
-            INSERT INTO dbo.LearnerSubject
-                (LearnerID, SubjectID, AdvisorySessionID, Mark)
-            VALUES
-                (@LearnerID, @SubjectID, @SessionID, @Mark)";
-
-                using (SqlCommand cmd = new SqlCommand(sql, connection))
-                {
-                    cmd.Parameters.Add("@LearnerID", SqlDbType.Int);
-                    cmd.Parameters.Add("@SubjectID", SqlDbType.Int);
-                    cmd.Parameters.Add("@SessionID", SqlDbType.Int);
-                    cmd.Parameters.Add("@Mark", SqlDbType.Int);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbHomeLanguage.Text, txtMarkHL.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbFAL.Text, txtMarkFAL.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbMaths.Text, txtMarkMaths.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        txtLO.Text, txtMarkLO.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbSubject1.Text, txtMark1.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbSubject2.Text, txtMark2.Text);
-
-                    SaveOneSubject(cmd, learnerID, sessionID,
-                        cmbSubject3.Text, txtMark3.Text);
-                }
-            }
-        }
-
-        private void SaveOneSubject(
-            SqlCommand cmd, int learnerID, int sessionID,
-            string subjectName, string markText)
-        {
-            // Ignore rows that have not been selected or entered.
-            if (string.IsNullOrWhiteSpace(subjectName) ||
-                string.IsNullOrWhiteSpace(markText))
-                return;
-
-            if (!int.TryParse(markText, out int mark) ||
-                mark < 0 || mark > 100)
-            {
-                throw new ArgumentException(
-                    "Enter a valid mark between 0 and 100 for "
-                    + subjectName + ".");
-            }
-
-            int subjectID = GetSubjectID(subjectName);
-
-            cmd.Parameters["@LearnerID"].Value = learnerID;
-            cmd.Parameters["@SubjectID"].Value = subjectID;
-            cmd.Parameters["@SessionID"].Value = sessionID;
-            cmd.Parameters["@Mark"].Value = mark;
-
-            cmd.ExecuteNonQuery();
-        }
-
-
-        private int GetSubjectID(string subjectName)
-        {
-            string dbSubjectName = subjectName.Trim();
-
-            // Convert Home Language abbreviations.
-            if (dbSubjectName.EndsWith(" HL"))
-            {
-                dbSubjectName =
-                    dbSubjectName.Substring(0, dbSubjectName.Length - 3)
-                    + " Home Language";
-            }
-            // Convert First Additional Language abbreviations.
-            else if (dbSubjectName.EndsWith(" FAL"))
-            {
-                dbSubjectName =
-                    dbSubjectName.Substring(0, dbSubjectName.Length - 4)
-                    + " First Additional Language";
-            }
-
-            // Match abbreviated names used in the subject dropdowns.
-            switch (dbSubjectName)
-            {
-                case "Computer Applications Technology (CAT)":
-                    dbSubjectName = "Computer Applications Technology";
-                    break;
-
-                case "Information Technology (IT)":
-                    dbSubjectName = "Information Technology";
-                    break;
-
-                case "Engineering Graphics and Design (EGD)":
-                    dbSubjectName = "Engineering Graphics and Design";
-                    break;
-            }
-
-            using (SqlConnection connection = new SqlConnection(ConnStr))
-            {
-                connection.Open();
-
-                string sql = @"
-            SELECT SubjectID
-            FROM dbo.Subject
-            WHERE SubjectName = @SubjectName";
-
-                using (SqlCommand cmd = new SqlCommand(sql, connection))
-                {
-                    cmd.Parameters.Add("@SubjectName", SqlDbType.VarChar, 100)
-                        .Value = dbSubjectName;
-
-                    object result = cmd.ExecuteScalar();
-
-                    if (result == null || result == DBNull.Value)
-                    {
-                        throw new ArgumentException(
-                            "This subject is not configured in the database: "
-                            + dbSubjectName);
-                    }
-
-                    return Convert.ToInt32(result);
-                }
-            }
-        }
-
-
 
         private void FuturePathForm_Load(object sender, EventArgs e)
         {
@@ -334,129 +161,48 @@ namespace project2
             
             if (txtLearnerName.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter First Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerName.Focus();
+                MessageBox.Show("Please enter a First Name");
                 return false;
                
             }
             if (txtLearnerName.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("First name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerName.Focus();
+                MessageBox.Show("First Name cannot contain numbers");
                 return false;
             }
             if (txtLearnerSurname.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter your Last Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerSurname.Focus();
+                MessageBox.Show("Please eneter a Last Name");
                 return false;
             }
             if(txtLearnerSurname.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("Last Name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerSurname.Focus();
+                MessageBox.Show("Last Name cannot contain numbers");
                 return false;
             }
-            if (cmbGrade.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select a grade", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbGrade.Focus();
-                return false;
-            }
-            
             if (txtSchool.Text.Trim() == "")
             {
-                MessageBox.Show("Please enter a School", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSchool.Focus();
+                MessageBox.Show("Please enter a School Name");
                 return false;
             }
             if (txtSchool.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("School Name cannot contain digits","Validation Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSchool.Focus();
-                return false;
+                MessageBox.Show("School Name cannot contain digits");
             }
             if (cmbProvince.Text == "")
             {
-                MessageBox.Show("Please select a Province", "Missing info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbProvince.Focus();
+                MessageBox.Show("Please select a Province");
                 return false;
             }
             if (txtEmail.Text != "" && !txtEmail.Text.Contains("@"))
             {
-                MessageBox.Show("Please enter a valid email address", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
-                return false;
-            }
-            //validate faculty
-            if (cmbFaculty.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select a Faculty");
-                cmbFaculty.Focus();
-                cmbFaculty.Focus();
-                return false;
-            }
-            //validate marks info
-            if (!ValidateSubject(cmbHomeLanguage, "Home Language"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMarkHL, "Home language"))
-            {
-                return false;
-            }
-            if (!ValidateSubject(cmbFAL, "First Additional Language"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMarkFAL, "First Additional language"))
-            {
-                return false;
-            }
-            if (!ValidateSubject(cmbMaths, "Mathematics"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMarkMaths, "Mathematics"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMarkLO, "Life Orientation"))
-            {
-                return false;
-            }
-            if (!ValidateSubject(cmbSubject1, "Subject 1"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMark1, "Subject 1"))
-            {
-                return false;
-            }
-            if (!ValidateSubject(cmbSubject2,"Subject 2"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMark2, "Subject 2"))
-            {
-                return false;
-            }
-            if (!ValidateSubject(cmbSubject3, "Subject 3"))
-            {
-                return false;
-            }
-            if (!ValidateMark(txtMark3, "Subject 3"))
-            {
-                return false;
-            }
-            //adding duplicate checks
-            if (!ValidateDuplicateSubjects())
-            {
+                MessageBox.Show("Please enter a valid email address");
                 return false;
             }
 
             return true;
         }
+
         //check that a subject has been selected
         private bool ValidateSubject(ComboBox cmbSubject, string subjectName)
         {
@@ -641,6 +387,11 @@ namespace project2
 
         }
 
+        //add focus to this!
+        //improve messageboxes
+        //also check spelling
+
+
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
             
@@ -650,138 +401,116 @@ namespace project2
         {
             
         }
-        //stays
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (radLearner.Checked)
             {
                 FuturePathTabControl.SelectedTab = tabLearnerInfo;
             }
-            else if (radAdministrator.Checked)
-            {
-                using (Administrator adminForm = new Administrator())
-                {
-                    adminForm.ShowDialog();
-                }
-            }
+
             else if (radCareerAdvisor.Checked)
             {
-                MessageBox.Show(
-                    "Career Advisor login will be implemented later.",
-                    "Coming Soon",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Please select a role first.");
+                Career_Advisor careerAdvisorForm = new Career_Advisor();
+                careerAdvisorForm.Show();
+                this.Hide();
             }
         }
-        //stays
+
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!ValidateLearner())
+            {
                 return;
+            }
+            Learner learner = new Learner(txtLearnerName.Text, txtLearnerSurname.Text,
+                                          cmbGrade.Text, txtSchool.Text, cmbProvince.Text,
+                                          txtEmail.Text);
+            learnerManager.AddLearner(learner);
+            try { currentLearnerID = SaveLearner(learner); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not save learner: " + ex.Message);
+                return;
+            }
+            MessageBox.Show("Learner Added Successfully!!");
 
-             learner = new Learner(
-                txtLearnerName.Text,
-                txtLearnerSurname.Text,
-                cmbGrade.Text,
-                txtSchool.Text,
-                cmbProvince.Text,
-                txtEmail.Text,
-                cmbFaculty.Text,
-                cmbQualification.Text
-            );
+
+
+
+
+        }
+
+        private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
+                LoadQuestions();
+        }
+
+        private void btnSubmitQuestions_Click(object sender, EventArgs e)
+        {
+            if (currentLearnerID == 0)
+            {
+                MessageBox.Show("Please complete Learner Information first.");
+                return;
+            }
 
             try
             {
-                learnerManager.AddLearner(learner);
-                currentLearnerID = SaveLearner(learner);
+                int sessionID;
+                using (var conn = new SqlConnection(ConnStr))
+                {
+                    conn.Open();
+                    using (var trans = conn.BeginTransaction())
+                    {
+                        using (var cmd = new SqlCommand(
+                            "INSERT INTO dbo.AdvisorySession (LearnerID, SessionDate) " +
+                            "OUTPUT INSERTED.AdvisorySessionID VALUES (@L, GETDATE());", conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@L", currentLearnerID);
+                            sessionID = (int)cmd.ExecuteScalar();
+                        }
 
-                AdvisorySessionDataAccess dataAccess =
-                    new AdvisorySessionDataAccess();
+                        foreach (Control c in flowQuestions.Controls)
+                        {
+                            if (c is NumericUpDown rating)
+                            {
+                                using (var cmd = new SqlCommand(
+                                    "INSERT INTO dbo.LearnerInterestResponse " + 
+                                    "(LearnerID, InterestQuestionID, AdvisorySessionID, ResponseValue) " +
+                                    "VALUES (@L, @Q, @S, @V);", conn, trans))
+                                {
+                                    cmd.Parameters.AddWithValue("@L", currentLearnerID);
+                                    cmd.Parameters.AddWithValue("@Q", Convert.ToInt32(rating.Tag));
+                                    cmd.Parameters.AddWithValue("@S", sessionID);
+                                    cmd.Parameters.AddWithValue("@V", (int)rating.Value);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                        trans.Commit();
+                    }
+                }
 
-                currentSessionID = dataAccess.SaveSession(currentLearnerID);
-
-                SaveSubjectMarks(currentLearnerID, currentSessionID);
-
-                MessageBox.Show("Learner and subject marks saved successfully!");
-
-                FuturePathTabControl.SelectedTab = tabQuestionnaire;
+                DataTable scores = GetAlignmentScores(currentLearnerID, sessionID);
+                string text = "Your best matches:\n";
+                for (int i = 0; i < Math.Min(3, scores.Rows.Count); i++)
+                    text += (i + 1) + ". " + scores.Rows[i]["ProgrammeName"] + "\n";
+                MessageBox.Show(text, "Interest Results");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Could not save the learner information:\n" + ex.Message
-                );
+                MessageBox.Show("Could not save answers: " + ex.Message);
             }
         }
-
-        private int GetSelectedDegreeProgrammeID()
-        {
-            string qualification = cmbQualification.Text.Trim();
-
-            string programmeName = null;
-
-            if (qualification.Contains("Bachelor of Commerce"))
-                programmeName = "Bachelor of Commerce";
-            else if (qualification.Contains("Bachelor of Business Science") ||
-                     qualification.StartsWith("BBusSci") ||
-                     qualification.StartsWith("BCom"))
-                programmeName = "Bachelor of Business Science";
-            else if (qualification.Contains("Bachelor of Social Science") ||
-                     qualification.StartsWith("BSocSci"))
-                programmeName = "Bachelor of Social Science";
-            else if (qualification.Contains("Bachelor of Arts") ||
-                     qualification.StartsWith("BA in"))
-                programmeName = "Bachelor of Arts";
-            else if (qualification.Contains("BSc Engineering") ||
-                     qualification.Contains("BSc Construction Studies") ||
-                     qualification.Contains("BSc Property Studies") ||
-                     qualification.Contains("BSc Architectural Studies") ||
-                     qualification.Contains("BSc Geomatics"))
-                programmeName = "Bachelor of Science in Engineering";
-            else if (qualification.Contains("Bachelor of Sciences"))
-                programmeName = "Bachelor of Science";
-            else if (qualification.Contains("Physiotherapy") ||
-                     qualification.Contains("Occupational Therapy") ||
-                     qualification.Contains("Audiology") ||
-                     qualification.Contains("Speech-Language Pathology") ||
-                     qualification.Contains("MBChB"))
-                programmeName = "Bachelor of Health Sciences";
-
-            if (programmeName == null)
-                return 0;
-
-            const string sql = @"
-        SELECT DegreeProgrammeID
-        FROM dbo.DegreeProgramme
-        WHERE ProgrammeName = @ProgrammeName
-          AND IsActive = 1;";
-
-            using (var conn = new SqlConnection(ConnStr))
-            using (var cmd = new SqlCommand(sql, conn))
-            {
-                cmd.Parameters.AddWithValue("@ProgrammeName", programmeName);
-                conn.Open();
-
-                object result = cmd.ExecuteScalar();
-
-                return result == null || result == DBNull.Value
-                    ? 0
-                    : Convert.ToInt32(result);
-            }
-        }
-
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void FuturePathTabControl_SelectedIndexChanged(
-    object sender, EventArgs e)
+
+        private void FuturePathTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (FuturePathTabControl.SelectedTab == tabQuestionnaire)
             {
@@ -997,6 +726,10 @@ namespace project2
         {
             FuturePathTabControl.SelectedTab = tabAdvisoryOutcome;
         }
-    }
-    }
+        private void radCareerAdvisor_CheckedChanged(object sender, EventArgs e)
+        {
 
+        }
+
+    }
+}
