@@ -281,6 +281,7 @@
             this.btnBack3.TabIndex = 14;
             this.btnBack3.Text = "Back";
             this.btnBack3.UseVisualStyleBackColor = true;
+            this.btnBack3.Click += new System.EventHandler(this.btnBack3_Click);
             // 
             // btnSave
             // 

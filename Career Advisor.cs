@@ -93,5 +93,13 @@ namespace project2
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         
         }
+
+        private void btnBack3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("back button was clicked");
+            tabControlCareerAdvisor.SelectedTab = tabCareeradvisor;
+            grpboxCareerLogin.Visible = false;
+            grpboxCareerFunctions.Visible = true;
+        }
     }
 }
