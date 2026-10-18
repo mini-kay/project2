@@ -645,8 +645,21 @@ namespace project2
             }
 
         }
+
         
         //stays
+
+
+        private void tabRoleSelection_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void radLearner_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (radLearner.Checked)
@@ -856,9 +869,6 @@ namespace project2
         }
         private void btnClear_Click(object sender, EventArgs e)
         {
-        }
-            private void btnClearAll_Click(object sender, EventArgs e)
-        {
             // Learner information
             txtLearnerName.Clear();
             txtLearnerSurname.Clear();
@@ -890,7 +900,13 @@ namespace project2
 
             // Put cursor back in first textbox
             txtLearnerName.Focus();
+        
+
         }
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+        }
+            
 
         
 
