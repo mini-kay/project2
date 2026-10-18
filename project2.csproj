@@ -149,6 +149,7 @@
     <Content Include="Database\QUERY31.sql" />
     <Content Include="Database\QUERY32.sql" />
     <Content Include="Database\QUERY33.sql" />
+    <Content Include="Database\QUERY34.sql" />
     <Content Include="Database\QUERY4.sql" />
     <Content Include="Database\QUERY5.sql" />
     <Content Include="Database\QUERY6.sql" />
