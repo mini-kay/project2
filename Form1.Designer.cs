@@ -85,6 +85,8 @@
             this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
             this.tabAdvisoryOutcome = new System.Windows.Forms.TabPage();
+            this.btnViewAlts = new System.Windows.Forms.Button();
+            this.btnFundingInfo = new System.Windows.Forms.Button();
             this.btnBack1 = new System.Windows.Forms.Button();
             this.grpboxReason = new System.Windows.Forms.GroupBox();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -120,8 +122,7 @@
             this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnFundingInfo = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
             this.tabRoleSelection.SuspendLayout();
@@ -156,7 +157,6 @@
             this.radLearner.TabStop = true;
             this.radLearner.Text = "Learner";
             this.radLearner.UseVisualStyleBackColor = true;
-            this.radLearner.CheckedChanged += new System.EventHandler(this.radLearner_CheckedChanged);
             // 
             // radCareerAdvisor
             // 
@@ -596,7 +596,6 @@
             this.tabRoleSelection.TabIndex = 0;
             this.tabRoleSelection.Text = "Role Selection";
             this.tabRoleSelection.UseVisualStyleBackColor = true;
-            this.tabRoleSelection.Click += new System.EventHandler(this.tabRoleSelection_Click);
             // 
             // btnLogin
             // 
@@ -637,7 +636,6 @@
             this.tabLearnerInfo.TabIndex = 1;
             this.tabLearnerInfo.Text = "Learner Information";
             this.tabLearnerInfo.UseVisualStyleBackColor = true;
-            this.tabLearnerInfo.Click += new System.EventHandler(this.tabLearnerInfo_Click);
             // 
             // btnClear
             // 
@@ -894,7 +892,8 @@
             // 
             // tabAdvisoryOutcome
             // 
-            this.tabAdvisoryOutcome.Controls.Add(this.button1);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnClose);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnViewAlts);
             this.tabAdvisoryOutcome.Controls.Add(this.btnFundingInfo);
             this.tabAdvisoryOutcome.Controls.Add(this.btnBack1);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxReason);
@@ -912,9 +911,29 @@
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
             this.tabAdvisoryOutcome.UseVisualStyleBackColor = true;
             // 
+            // btnViewAlts
+            // 
+            this.btnViewAlts.Location = new System.Drawing.Point(985, 527);
+            this.btnViewAlts.Name = "btnViewAlts";
+            this.btnViewAlts.Size = new System.Drawing.Size(130, 55);
+            this.btnViewAlts.TabIndex = 10;
+            this.btnViewAlts.Text = "View Alternative Choices";
+            this.btnViewAlts.UseVisualStyleBackColor = true;
+            this.btnViewAlts.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnFundingInfo
+            // 
+            this.btnFundingInfo.Location = new System.Drawing.Point(810, 527);
+            this.btnFundingInfo.Name = "btnFundingInfo";
+            this.btnFundingInfo.Size = new System.Drawing.Size(112, 55);
+            this.btnFundingInfo.TabIndex = 9;
+            this.btnFundingInfo.Text = "Proceed to Funding Info";
+            this.btnFundingInfo.UseVisualStyleBackColor = true;
+            this.btnFundingInfo.Click += new System.EventHandler(this.btnFundingInfo_Click);
+            // 
             // btnBack1
             // 
-            this.btnBack1.Location = new System.Drawing.Point(890, 621);
+            this.btnBack1.Location = new System.Drawing.Point(810, 633);
             this.btnBack1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack1.Name = "btnBack1";
             this.btnBack1.Size = new System.Drawing.Size(127, 55);
@@ -1149,7 +1168,6 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(334, 319);
             this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tabFundingInfo
             // 
@@ -1311,25 +1329,15 @@
             this.label3.Text = "Funding Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnFundingInfo
+            // btnClose
             // 
-            this.btnFundingInfo.Location = new System.Drawing.Point(899, 447);
-            this.btnFundingInfo.Name = "btnFundingInfo";
-            this.btnFundingInfo.Size = new System.Drawing.Size(112, 55);
-            this.btnFundingInfo.TabIndex = 9;
-            this.btnFundingInfo.Text = "Proceed to Funding Info";
-            this.btnFundingInfo.UseVisualStyleBackColor = true;
-            this.btnFundingInfo.Click += new System.EventHandler(this.btnFundingInfo_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(890, 528);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(130, 55);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "View Alternative Choices";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnClose.Location = new System.Drawing.Point(1003, 633);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(112, 55);
+            this.btnClose.TabIndex = 11;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // FuturePathForm
             // 
@@ -1473,7 +1481,8 @@
         private System.Windows.Forms.TextBox txtFundingDetails;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnFundingInfo;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnViewAlts;
+        private System.Windows.Forms.Button btnClose;
     }
 }
 

@@ -16,7 +16,7 @@ Wanted(SubjectName) AS (
 		('Agricultural Technology'),('Business Studies'),('Civil Technology'),
 		('Computer Applications Technology (CAT)'),('Consumer Studies'),('Dance Studies'),
 		('Design'),('Dramatic Arts'),('Economics'),('Electrical Technology'),
-		('Engineering Graphics and Design (EGD)'), ('Geography'),('History'),('Hospitality Studies'),
+		('Engineering Graphics and Design'), ('Geography'),('History'),('Hospitality Studies'),
 		('Information Technology (IT)'),('Life Sciences'),('Marine Sciences'),('Maritime Economics'),
 		('Mechanical Technology'), ('Music'),('Nautical Sciences'),('Physical Sciences'),
 		('Religion Studies'),('Technical Sciences'),('Tourism'),('Visual Arts')
