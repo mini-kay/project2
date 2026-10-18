@@ -10,5 +10,7 @@ namespace project2.Business
     {
         //full printable summary
         public string SummaryText { get; set; }
+
+        
     }
 }

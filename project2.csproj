@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="AdvisorySession.cs" />
     <Compile Include="AdvisorySessionDataAccess.cs" />
+    <Compile Include="Business\AdvisorySummaryResults.cs" />
     <Compile Include="Business\AlternativeProgrammeResult.cs" />
     <Compile Include="Business\AlternativeProgrammeManager.cs" />
     <Compile Include="Business\AdvisoryResult.cs" />

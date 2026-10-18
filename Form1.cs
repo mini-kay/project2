@@ -21,7 +21,11 @@ namespace project2
         private Learner learner;
         private RecommendationManager recommendationManager = new RecommendationManager();
         private FundingManager fundingManager = new FundingManager();
-
+        private AlternativeProgrammeManager alternativeProgrammeManager = 
+                                         new AlternativeProgrammeManager();
+        private AlternativeProgrammeResult alternativeResult;
+        private AdvisoryResult advisoryResult;
+        
         public FuturePathForm()
         {
             InitializeComponent();
@@ -316,9 +320,8 @@ namespace project2
 
         private void FuturePathForm_Load(object sender, EventArgs e)
         {
-            radLearner.Checked = false;
-            radCareerAdvisor.Checked = false;
-            radAdministrator.Checked = false;
+            
+
             MessageBox.Show("Please take note of the system functionality below, then click OK to select how you would like to access the system.\n\n" +
                 "Future Path is a student advising system designed to help Grade 11 and Grade 12 learners explore possible study pathways after school.\n\n" +
                 "This System allows you to: \n" +
@@ -327,29 +330,21 @@ namespace project2
                 " - Discover alternative study options.\n" +
                 " - View funding opportunities related to your chosen field(s) of study.\n",
                 "Welcome to Future Path", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+
+
         }
         private bool ValidateLearner()
         {
             
-            if (txtLearnerName.Text.Trim() == "")
-            {
-                MessageBox.Show("Please enter First Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerName.Focus();
-                return false;
-               
-            }
+            
             if (txtLearnerName.Text.Any(char.IsDigit))
             {
                 MessageBox.Show("First name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtLearnerName.Focus();
                 return false;
             }
-            if (txtLearnerSurname.Text.Trim() == "")
-            {
-                MessageBox.Show("Please enter your Last Name", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLearnerSurname.Focus();
-                return false;
-            }
+            
             if(txtLearnerSurname.Text.Any(char.IsDigit))
             {
                 MessageBox.Show("Last Name cannot contain digits", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -381,11 +376,20 @@ namespace project2
                 cmbProvince.Focus();
                 return false;
             }
-            if (txtEmail.Text != "" && !txtEmail.Text.Contains("@"))
+            if (!string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                MessageBox.Show("Please enter a valid email address", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
-                return false;
+                if (!txtEmail.Text.Contains("@") ||
+                    !txtEmail.Text.Contains("."))
+                {
+                    MessageBox.Show(
+                        "Please enter a valid email address Email needs to conatian @ and .",
+                        "Validation Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtEmail.Focus();
+                    return false;
+                }
             }
             //validate faculty
             if (cmbFaculty.SelectedIndex == -1)
@@ -395,6 +399,12 @@ namespace project2
                 cmbFaculty.Focus();
                 return false;
             }
+            // Validate qualification matches selected faculty
+            if (!ValidateFacultyQualification())
+            {
+                return false;
+            }
+
             //validate marks info
             if (!ValidateSubject(cmbHomeLanguage, "Home Language"))
             {
@@ -487,6 +497,46 @@ namespace project2
             }
             return true;
         }
+            //-----------------------------------------------------
+            // Validate qualification matches selected faculty
+            //-----------------------------------------------------
+private bool ValidateFacultyQualification()
+        {
+            string faculty = cmbFaculty.Text;
+            string qualification = cmbQualification.Text;
+
+            // Qualification is optional
+            if (string.IsNullOrWhiteSpace(qualification))
+            {
+                return true;
+            }
+
+            // Engineering
+            if (faculty.Contains("Engineering") &&
+                !qualification.Contains("Engineering"))
+            {
+                MessageBox.Show(
+                    "Please select an Engineering qualification.");
+
+                cmbQualification.Focus();
+                return false;
+            }
+
+            // Commerce
+            if (faculty.Contains("Commerce") &&
+                !(qualification.Contains("Commerce") ||
+                  qualification.Contains("Business")))
+            {
+                MessageBox.Show(
+                    "Please select a Commerce qualification.");
+
+                cmbQualification.Focus();
+                return false;
+            }
+
+            return true;
+        }
+        
         //validate mark textboxes
         private bool ValidateMark(TextBox txtMark, string subject)
         {
@@ -567,24 +617,30 @@ namespace project2
 
             if (faculty.Contains("Engineering"))
             {
-                AdvisoryResult result = recommendationManager.GenerateEngineeringOutcome(
+                advisoryResult = 
+
+                    recommendationManager.GenerateEngineeringOutcome(
                                         mathsType,
                                         recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
                                         cmbSubject3.Text),
                                         physicalScienceMark,
                                         mathsMark,
                                         average);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                //display result on the form
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
             }
             //Commerce Faculty
             else if (faculty.Contains("Commerce"))
             {
-                AdvisoryResult result = recommendationManager.GenerateCommerceOutcome(mathsMark);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                advisoryResult =
+
+                    recommendationManager.GenerateCommerceOutcome(mathsMark);
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
+
             }
 
 
@@ -592,17 +648,19 @@ namespace project2
             //Humanities Faculty
             else if (faculty.Contains("Humanities"))
             {
-                AdvisoryResult result = recommendationManager.GenerateHumanitiesOutcome(homeLanguageMark);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                advisoryResult = 
+                    recommendationManager.GenerateHumanitiesOutcome(homeLanguageMark);
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
 
             }
 
             //Health Science Faculty
             else if (faculty.Contains("Health"))
             {
-                AdvisoryResult result = recommendationManager.GenerateHealthOutcome(
+                advisoryResult=
+                    recommendationManager.GenerateHealthOutcome(
                                         recommendationManager.HasMathematics(mathsType),
                                         recommendationManager.HasLifeScience(cmbSubject1.Text, cmbSubject2.Text,
                                         cmbSubject3.Text),
@@ -610,37 +668,52 @@ namespace project2
                                         mathsMark,
                                         homeLanguageMark,
                                         average);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
             }
 
             // Science Faculty
             else if (faculty.Contains("Science"))
             {
-                AdvisoryResult result = recommendationManager.GenerateScienceOutcome(
+                advisoryResult = 
+                    recommendationManager.GenerateScienceOutcome(
                                         recommendationManager.HasMathematics(mathsType),
                                          recommendationManager.HasPhysicalSciences(cmbSubject1.Text, cmbSubject2.Text,
                                         cmbSubject3.Text),
                                         physicalScienceMark,
                                         mathsMark,
                                         average);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
             }
             
             //Law faculty
             else if (faculty.Contains("Law"))
             {
-                AdvisoryResult result = recommendationManager.GenerateLawOutcome(
+                advisoryResult = 
+                    recommendationManager.GenerateLawOutcome(
                                         homeLanguageMark);
-                txtEligibilityResult.Text = result.EligibilityResult;
-                txtReason.Text = result.Reason;
-                txtIdentifiedGaps.Text = result.IdentifiedGaps;
+                txtEligibilityResult.Text = advisoryResult.EligibilityResult;
+                txtReason.Text = advisoryResult.Reason;
+                txtIdentifiedGaps.Text = advisoryResult.IdentifiedGaps;
             }
 
         }
+        //Display Alternative Programmes
+        private void DisplayAlternativeProgrammes()
+        {
+            
+            alternativeResult =
+                alternativeProgrammeManager.GetAlternativeProgrammeResult(
+                    learner.Faculty,
+                    txtEligibilityResult.Text);
+            txtRecProgrammes.Text = alternativeResult.RecommendedProgrammes;
+            txtRecexplanation.Text = alternativeResult.Explanation;
+        }
+        
+            
 
         private void tabRoleSelection_Click(object sender, EventArgs e)
         {
@@ -649,6 +722,7 @@ namespace project2
 
         private void radLearner_CheckedChanged(object sender, EventArgs e)
         {
+            
             
         }
         
@@ -972,11 +1046,60 @@ namespace project2
         private void button1_Click(object sender, EventArgs e)
         {
             FuturePathTabControl.SelectedTab = tabAltRecs;
+            DisplayAdvisoryOutcome();
+            DisplayAlternativeProgrammes();
+            
+            
         }
 
         private void btnFundingInfo_Click(object sender, EventArgs e)
         {
             FuturePathTabControl.SelectedTab = tabFundingInfo;
+        }
+
+        private void btnAdvisorySum_Click(object sender, EventArgs e)
+        {
+            int average =
+                recommendationManager.CalculateAverage(
+                    Convert.ToInt32(txtMarkHL.Text),
+                    Convert.ToInt32(txtMarkFAL.Text),
+                    Convert.ToInt32(txtMarkMaths.Text),
+                    Convert.ToInt32(txtMarkLO.Text),
+                    Convert.ToInt32(txtMark1.Text),
+                    Convert.ToInt32(txtMark2.Text),
+                    Convert.ToInt32(txtMark3.Text));
+
+            AdvisorySummaryResults summary =
+                recommendationManager.GenerateAdvisorySummary(
+                    learner,
+                    advisoryResult,
+                    alternativeResult,
+                    average);
+
+            MessageBox.Show(
+                summary.SummaryText,
+                "Advisory Summary",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+        }
+
+        private void btnBack2_Click(object sender, EventArgs e)
+        {
+            FuturePathTabControl.SelectedTab = tabAdvisoryOutcome;
+
+        }
+
+        private void btnToQ_Click(object sender, EventArgs e)
+        {
+            FuturePathTabControl.SelectedTab = tabAltRecs;
+
+        }
+
+        private void btnBack3_Click(object sender, EventArgs e)
+        {
+            FuturePathTabControl.SelectedTab = tabAltRecs;
+
         }
     }
     }

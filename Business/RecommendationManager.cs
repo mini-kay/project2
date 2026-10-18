@@ -262,8 +262,78 @@ namespace project2.Business
                 result.IdentifiedGaps = "Improve Home Language.";
             }
             return result;
+
+        }
+        public AdvisoryResult GenerateMoreInformationNeeded()
+        {
+            AdvisoryResult result =
+                new AdvisoryResult();
+
+            result.EligibilityResult =
+                "More Information Needed";
+
+            result.Reason =
+                "The selected qualification could not be evaluated.";
+
+            result.IdentifiedGaps =
+                "Please ensure all required information has been entered.";
+
+            return result;
+        }
+        //Generate Advisor Summary
+        //combines learner information, advisory outcomes,
+        //and alternative programme recommendations into
+        //a single summary report
+        public AdvisorySummaryResults GenerateAdvisorySummary(Learner learner,
+                                                              AdvisoryResult advisoryResult,
+                                                              AlternativeProgrammeResult alternativeResult,
+                                                              int average)
+        {
+            //create summary object
+            AdvisorySummaryResults result =
+                new AdvisorySummaryResults();
+            //Build summary text
+            result.SummaryText =
+                "ADVISORY SUMMARY\n\n" +
+
+                //Learner Information
+                "Learner: " +
+                learner.FirstName + " " +
+                learner.LastName +
+
+                "\n\nFaculty: " +
+                learner.Faculty +
+
+                "\nQualification: " +
+                learner.Qualification +
+
+                "\nOverall Average: " +
+                average + "%" +
+
+                //Advisory Outcome
+                "\n\nEligibility Result: " +
+                advisoryResult.EligibilityResult +
+
+                "\nReason: " +
+                advisoryResult.Reason +
+
+                "\nAcademic Gaps: " +
+                advisoryResult.IdentifiedGaps +
+
+                //Alternative Programmes
+                "\n\nAlternative Programmes: " +
+                alternativeResult.RecommendedProgrammes +
+
+                "\nExplanation: " +
+                alternativeResult.Explanation;
+
+            //Return completed summary
+            return result;
+
+
         }
     }
+   
 }
 
                 
