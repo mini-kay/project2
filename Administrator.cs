@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
+using System.Text;
 
 namespace project2
 {
@@ -63,6 +64,19 @@ namespace project2
             grpboxAdminFunctions.Visible = false;
             tabAdvisorySum.Parent = null;
             btnManageReqs.Click += btnManageReqs_Click;
+
+            // Advisory Summary events
+            tabAdvisorySum.Enter += (s, e) => LoadAdvisorySummary();
+
+            btnBack3.Click += (s, e) =>
+                tabUserAccounts.SelectedTab = tabPage1;
+
+            btnFinish.Click += (s, e) =>
+                tabUserAccounts.SelectedTab = tabPage1;
+
+            btnSave.Click += (s, e) => SaveAdvisorySummary();
+            btnExport.Click += (s, e) => SaveAdvisorySummary();
+            btnPrint.Click += (s, e) => PrintAdvisorySummary();
 
 
             // Connect the buttons to their event handlers.
@@ -325,15 +339,17 @@ namespace project2
 
             string closingDate = txtClosingDate.Text.Trim();
 
-            if (closingDate != "" &&
-                !DateTime.TryParseExact(
-                    closingDate,
+            DateTime parsedClosingDate;
+
+            if (!DateTime.TryParseExact(
+                    closingDate.Trim(),
                     "yyyy-MM-dd",
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None,
-                    out _))
+                    out parsedClosingDate))
             {
-                MessageBox.Show("Enter the closing date as YYYY-MM-DD.");
+                MessageBox.Show(
+                    "Enter the closing date as yyyy-MM-dd, for example 2027-03-15.");
                 return;
             }
 
@@ -873,6 +889,7 @@ namespace project2
             }
         }
 
+
         private void BuildQuestionsScreen()
         {
             tabManageQuestions = new TabPage("Interest Questionnaires");
@@ -880,34 +897,78 @@ namespace project2
             dgvQuestions = new DataGridView
             {
                 Location = new System.Drawing.Point(20, 20),
-                Size = new System.Drawing.Size(700, 280),
+                Size = new System.Drawing.Size(700, 220),
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                MultiSelect = false
+            };
+
+            txtQuestionText = new TextBox
+            {
+                Location = new System.Drawing.Point(20, 255),
+                Size = new System.Drawing.Size(300, 25)
+            };
+
+            cmbInterestCategory = new ComboBox
+            {
+                Location = new System.Drawing.Point(330, 255),
+                Size = new System.Drawing.Size(200, 25),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            btnAddQuestion = new Button
+            {
+                Text = "Add Question",
+                Location = new System.Drawing.Point(540, 255),
+                Size = new System.Drawing.Size(120, 30)
+            };
+
+            btnToggleQuestionStatus = new Button
+            {
+                Text = "Activate / Deactivate",
+                Location = new System.Drawing.Point(20, 300),
+                Size = new System.Drawing.Size(160, 30)
             };
 
             btnRefreshQuestions = new Button
             {
                 Text = "Refresh",
-                Location = new System.Drawing.Point(20, 320)
+                Location = new System.Drawing.Point(190, 300),
+                Size = new System.Drawing.Size(80, 30)
             };
 
             btnBackQuestions = new Button
             {
                 Text = "Back to Dashboard",
-                Location = new System.Drawing.Point(120, 320),
+                Location = new System.Drawing.Point(280, 300),
                 Size = new System.Drawing.Size(140, 30)
             };
 
             tabManageQuestions.Controls.Add(dgvQuestions);
+            tabManageQuestions.Controls.Add(txtQuestionText);
+            tabManageQuestions.Controls.Add(cmbInterestCategory);
+            tabManageQuestions.Controls.Add(btnAddQuestion);
+            tabManageQuestions.Controls.Add(btnToggleQuestionStatus);
             tabManageQuestions.Controls.Add(btnRefreshQuestions);
             tabManageQuestions.Controls.Add(btnBackQuestions);
 
-            btnRefreshQuestions.Click += (s, e) => LoadInterestQuestions();
+            btnRefreshQuestions.Click += (s, e) =>
+            {
+                LoadInterestCategories();
+                LoadInterestQuestions();
+            };
+
+            btnAddQuestion.Click += btnAddQuestion_Click;
+            btnToggleQuestionStatus.Click += btnToggleQuestionStatus_Click;
+
             btnBackQuestions.Click += (s, e) =>
                 tabUserAccounts.SelectedTab = tabPage1;
+
+            LoadInterestCategories();
         }
+
 
         private void LoadInterestQuestions()
         {
@@ -930,6 +991,137 @@ namespace project2
                 MessageBox.Show("Could not load interest questions: " + ex.Message);
             }
         }
+
+
+        private void LoadInterestCategories()
+        {
+            try
+            {
+                string cs = ConfigurationManager
+                    .ConnectionStrings["FuturePathDB"].ConnectionString;
+
+                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlDataAdapter da = new SqlDataAdapter(
+                    "SELECT InterestCategoryID, CategoryName " +
+                    "FROM dbo.InterestCategory ORDER BY CategoryName", con))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    cmbInterestCategory.DataSource = dt;
+                    cmbInterestCategory.DisplayMember = "CategoryName";
+                    cmbInterestCategory.ValueMember = "InterestCategoryID";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not load categories: " + ex.Message);
+            }
+        }
+
+        private void btnAddQuestion_Click(object sender, EventArgs e)
+        {
+            string question = txtQuestionText.Text.Trim();
+
+            if (question.Length == 0)
+            {
+                MessageBox.Show("Please enter a question.");
+                return;
+            }
+
+            if (question.Length > 250)
+            {
+                MessageBox.Show("The question cannot exceed 250 characters.");
+                return;
+            }
+
+            if (cmbInterestCategory.SelectedValue == null)
+            {
+                MessageBox.Show("Please select an interest category.");
+                return;
+            }
+
+            try
+            {
+                string cs = ConfigurationManager
+                    .ConnectionStrings["FuturePathDB"].ConnectionString;
+
+                string sql = @"
+            INSERT INTO dbo.InterestQuestion
+                (InterestCategoryID, QuestionText, IsActive)
+            VALUES (@CategoryID, @QuestionText, 1);";
+
+                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.Add("@CategoryID", SqlDbType.Int).Value =
+                        Convert.ToInt32(cmbInterestCategory.SelectedValue);
+
+                    cmd.Parameters.Add("@QuestionText", SqlDbType.VarChar, 250).Value =
+                        question;
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                txtQuestionText.Clear();
+                LoadInterestQuestions();
+
+                MessageBox.Show("Question added successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not add question: " + ex.Message);
+            }
+        }
+
+        private void btnToggleQuestionStatus_Click(object sender, EventArgs e)
+        {
+            if (dgvQuestions.CurrentRow == null ||
+                dgvQuestions.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Please select a question first.");
+                return;
+            }
+
+            int questionID = Convert.ToInt32(
+                dgvQuestions.CurrentRow.Cells["InterestQuestionID"].Value);
+
+            bool currentlyActive = Convert.ToBoolean(
+                dgvQuestions.CurrentRow.Cells["IsActive"].Value);
+
+            try
+            {
+                string cs = ConfigurationManager
+                    .ConnectionStrings["FuturePathDB"].ConnectionString;
+
+                string sql = @"
+            UPDATE dbo.InterestQuestion
+            SET IsActive = @IsActive
+            WHERE InterestQuestionID = @QuestionID;";
+
+                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value =
+                        !currentlyActive;
+
+                    cmd.Parameters.Add("@QuestionID", SqlDbType.Int).Value =
+                        questionID;
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                LoadInterestQuestions();
+                MessageBox.Show("Question status updated.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not update question status: " + ex.Message);
+            }
+        }
+
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -1099,6 +1291,206 @@ namespace project2
             }
         }
 
+
+        private string advisorySummaryText = "";
+
+        private void LoadAdvisorySummary()
+        {
+            try
+            {
+                string cs = ConfigurationManager
+                    .ConnectionStrings["FuturePathDB"].ConnectionString;
+
+                string learnerOverview = "No advisory sessions recorded.";
+                string advisoryOutcome = "No outcome available.";
+                string keyFindings = "No recommendation findings available.";
+
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    con.Open();
+
+                    string sessionSql = @"
+                SELECT TOP 1
+                    l.FirstName,
+                    l.LastName,
+                    l.Grade,
+                    l.School,
+                    a.SessionDate,
+                    a.OverallOutcome,
+                    dp.ProgrammeName,
+                    rr.OverallScore,
+                    rr.GapExplanation
+                FROM dbo.AdvisorySession a
+                INNER JOIN dbo.Learner l
+                    ON l.LearnerID = a.LearnerID
+                INNER JOIN dbo.DegreeProgramme dp
+                    ON dp.DegreeProgrammeID = a.DegreeProgrammeID
+                OUTER APPLY
+                (
+                    SELECT TOP 1
+                        OverallScore,
+                        GapExplanation
+                    FROM dbo.RecommendationResult
+                    WHERE AdvisorySessionID = a.AdvisorySessionID
+                    ORDER BY OverallScore DESC
+                ) rr
+                ORDER BY a.SessionDate DESC;";
+
+                    using (SqlCommand cmd = new SqlCommand(sessionSql, con))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            learnerOverview =
+                                "Name: " + reader["FirstName"] + " " +
+                                reader["LastName"] +
+                                Environment.NewLine +
+                                "Grade: " + reader["Grade"] +
+                                Environment.NewLine +
+                                "School: " + reader["School"] +
+                                Environment.NewLine +
+                                "Session date: " +
+                                Convert.ToDateTime(reader["SessionDate"])
+                                    .ToString("dd MMM yyyy");
+
+                            advisoryOutcome =
+                                "Programme: " + reader["ProgrammeName"] +
+                                Environment.NewLine +
+                                "Outcome: " +
+                                (reader["OverallOutcome"] == DBNull.Value
+                                    ? "Pending"
+                                    : reader["OverallOutcome"].ToString());
+
+                            keyFindings =
+                                "Overall score: " +
+                                (reader["OverallScore"] == DBNull.Value
+                                    ? "Not available"
+                                    : reader["OverallScore"].ToString() + "/100") +
+                                Environment.NewLine +
+                                "Eligibility gaps: " +
+                                (reader["GapExplanation"] == DBNull.Value
+                                    ? "None recorded"
+                                    : reader["GapExplanation"].ToString());
+                        }
+                    }
+
+                    string fundingSql = @"
+                SELECT TOP 5 FundingName, FundingType, ClosingDate
+                FROM dbo.FundingOption
+                WHERE IsActive = 1
+                ORDER BY FundingName;";
+
+                    StringBuilder funding = new StringBuilder();
+
+                    using (SqlCommand cmd = new SqlCommand(fundingSql, con))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            funding.AppendLine(reader["FundingName"].ToString());
+                            funding.AppendLine("Type: " + reader["FundingType"]);
+
+                            funding.AppendLine("Closing date: " +
+                                (reader["ClosingDate"] == DBNull.Value
+                                    ? "Not specified"
+                                    : reader["ClosingDate"].ToString()));
+
+                            funding.AppendLine();
+                        }
+                    }
+
+                    textBox3.Text = learnerOverview;
+                    textBox4.Text = advisoryOutcome;
+                    textBox5.Text = funding.Length == 0
+                        ? "No active funding opportunities found."
+                        : funding.ToString();
+
+                    textBox6.Text = keyFindings;
+
+                    advisorySummaryText =
+                        "ADVISORY SUMMARY" + Environment.NewLine +
+                        "================" + Environment.NewLine +
+                        Environment.NewLine +
+                        "LEARNER OVERVIEW" + Environment.NewLine +
+                        learnerOverview + Environment.NewLine +
+                        Environment.NewLine +
+                        "ADVISORY OUTCOME" + Environment.NewLine +
+                        advisoryOutcome + Environment.NewLine +
+                        Environment.NewLine +
+                        "FUNDING OPPORTUNITIES" + Environment.NewLine +
+                        textBox5.Text + Environment.NewLine +
+                        "KEY FINDINGS" + Environment.NewLine +
+                        keyFindings;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Could not load the advisory summary: " + ex.Message,
+                    "Advisory Summary",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void SaveAdvisorySummary()
+        {
+            if (string.IsNullOrWhiteSpace(advisorySummaryText))
+                LoadAdvisorySummary();
+
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Title = "Save Advisory Summary";
+                dialog.Filter = "Text files (*.txt)|*.txt";
+                dialog.FileName = "AdvisorySummary.txt";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        System.IO.File.WriteAllText(
+                            dialog.FileName, advisorySummaryText);
+
+                        MessageBox.Show("Advisory summary saved successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Could not save summary: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void PrintAdvisorySummary()
+        {
+            if (string.IsNullOrWhiteSpace(advisorySummaryText))
+                LoadAdvisorySummary();
+
+            using (System.Drawing.Printing.PrintDocument document =
+                new System.Drawing.Printing.PrintDocument())
+            {
+                document.PrintPage += (s, e) =>
+                {
+                    using (System.Drawing.Font font =
+                        new System.Drawing.Font("Arial", 10))
+                    {
+                        e.Graphics.DrawString(
+                            advisorySummaryText,
+                            font,
+                            System.Drawing.Brushes.Black,
+                            e.MarginBounds);
+                    }
+                };
+
+                using (PrintDialog dialog = new PrintDialog())
+                {
+                    dialog.Document = document;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                        document.Print();
+                }
+            }
+        }
 
         private void tabPage2_Click(object sender, EventArgs e)
         {

@@ -85,7 +85,8 @@
             this.btnSubmitQuestions = new System.Windows.Forms.Button();
             this.flowQuestions = new System.Windows.Forms.FlowLayoutPanel();
             this.tabAdvisoryOutcome = new System.Windows.Forms.TabPage();
-            this.btnViewRecs = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnFundingInfo = new System.Windows.Forms.Button();
             this.btnBack1 = new System.Windows.Forms.Button();
             this.grpboxReason = new System.Windows.Forms.GroupBox();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -100,13 +101,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabAltRecs = new System.Windows.Forms.TabPage();
             this.btnAdvisorySum = new System.Windows.Forms.Button();
-            this.btnContinue = new System.Windows.Forms.Button();
             this.btnBack2 = new System.Windows.Forms.Button();
             this.grpboxRecExplain = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtRecexplanation = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.grpboxRecProgrammes = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtRecProgrammes = new System.Windows.Forms.TextBox();
             this.tabFundingInfo = new System.Windows.Forms.TabPage();
             this.btnContinue2 = new System.Windows.Forms.Button();
             this.btnBack3 = new System.Windows.Forms.Button();
@@ -120,6 +120,7 @@
             this.rdbYes = new System.Windows.Forms.RadioButton();
             this.lblFundingQ = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.tTipMarks = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.grpSubjects.SuspendLayout();
             this.FuturePathTabControl.SuspendLayout();
@@ -247,17 +248,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -286,17 +286,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -325,17 +324,16 @@
             "Agricultural Technology",
             "Business Studies",
             "Civil Technology",
-            "Computer Applications Technology (CAT)",
             "Consumer Studies",
             "Dance Studies",
             "Design",
             "Dramatic Arts",
             "Economics",
             "Electrical Technology",
+            "Engineering Graphics and Design",
             "Geography",
             "History",
             "Hospitality Studies",
-            "Information Technology (IT)",
             "Life Sciences",
             "Marine Sciences",
             "Maritime Economics",
@@ -556,6 +554,7 @@
             this.txtMarkHL.Name = "txtMarkHL";
             this.txtMarkHL.Size = new System.Drawing.Size(50, 26);
             this.txtMarkHL.TabIndex = 7;
+            this.tTipMarks.SetToolTip(this.txtMarkHL, "Enter percentage");
             // 
             // txtLO
             // 
@@ -767,6 +766,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(148, 26);
             this.txtEmail.TabIndex = 15;
+            this.tTipMarks.SetToolTip(this.txtEmail, "Email needs to contain an @ and .");
             // 
             // lblEmail
             // 
@@ -888,16 +888,16 @@
             // flowQuestions
             // 
             this.flowQuestions.AutoScroll = true;
-            this.flowQuestions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowQuestions.Location = new System.Drawing.Point(3, 3);
             this.flowQuestions.Name = "flowQuestions";
             this.flowQuestions.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
-            this.flowQuestions.Size = new System.Drawing.Size(1153, 738);
+            this.flowQuestions.Size = new System.Drawing.Size(1153, 687);
             this.flowQuestions.TabIndex = 0;
             // 
             // tabAdvisoryOutcome
             // 
-            this.tabAdvisoryOutcome.Controls.Add(this.btnViewRecs);
+            this.tabAdvisoryOutcome.Controls.Add(this.button1);
+            this.tabAdvisoryOutcome.Controls.Add(this.btnFundingInfo);
             this.tabAdvisoryOutcome.Controls.Add(this.btnBack1);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxReason);
             this.tabAdvisoryOutcome.Controls.Add(this.grpboxEligibilityResult);
@@ -914,25 +914,34 @@
             this.tabAdvisoryOutcome.Text = "Advisory Outcome";
             this.tabAdvisoryOutcome.UseVisualStyleBackColor = true;
             // 
-            // btnViewRecs
+            // button1
             // 
-            this.btnViewRecs.Location = new System.Drawing.Point(842, 598);
-            this.btnViewRecs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnViewRecs.Name = "btnViewRecs";
-            this.btnViewRecs.Size = new System.Drawing.Size(246, 35);
-            this.btnViewRecs.TabIndex = 9;
-            this.btnViewRecs.Text = "View Recommendations";
-            this.btnViewRecs.UseVisualStyleBackColor = true;
-            this.btnViewRecs.Click += new System.EventHandler(this.btnViewRecs_Click);
+            this.button1.Location = new System.Drawing.Point(890, 528);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(130, 55);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "View Alternative Choices";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnFundingInfo
+            // 
+            this.btnFundingInfo.Location = new System.Drawing.Point(899, 447);
+            this.btnFundingInfo.Name = "btnFundingInfo";
+            this.btnFundingInfo.Size = new System.Drawing.Size(112, 55);
+            this.btnFundingInfo.TabIndex = 9;
+            this.btnFundingInfo.Text = "Proceed to Funding Info";
+            this.btnFundingInfo.UseVisualStyleBackColor = true;
+            this.btnFundingInfo.Click += new System.EventHandler(this.btnFundingInfo_Click);
             // 
             // btnBack1
             // 
-            this.btnBack1.Location = new System.Drawing.Point(906, 509);
+            this.btnBack1.Location = new System.Drawing.Point(890, 621);
             this.btnBack1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack1.Name = "btnBack1";
-            this.btnBack1.Size = new System.Drawing.Size(112, 35);
+            this.btnBack1.Size = new System.Drawing.Size(127, 55);
             this.btnBack1.TabIndex = 8;
-            this.btnBack1.Text = "Back";
+            this.btnBack1.Text = "Return to Questionnaire";
             this.btnBack1.UseVisualStyleBackColor = true;
             this.btnBack1.Click += new System.EventHandler(this.btnBack1_Click);
             // 
@@ -990,7 +999,7 @@
             this.grpboxIdentifiedGaps.Size = new System.Drawing.Size(291, 285);
             this.grpboxIdentifiedGaps.TabIndex = 6;
             this.grpboxIdentifiedGaps.TabStop = false;
-            this.grpboxIdentifiedGaps.Text = "Identifies Gaps";
+            this.grpboxIdentifiedGaps.Text = "Identified Gaps";
             // 
             // txtIdentifiedGaps
             // 
@@ -1062,7 +1071,6 @@
             // tabAltRecs
             // 
             this.tabAltRecs.Controls.Add(this.btnAdvisorySum);
-            this.tabAltRecs.Controls.Add(this.btnContinue);
             this.tabAltRecs.Controls.Add(this.btnBack2);
             this.tabAltRecs.Controls.Add(this.grpboxRecExplain);
             this.tabAltRecs.Controls.Add(this.label2);
@@ -1085,16 +1093,7 @@
             this.btnAdvisorySum.TabIndex = 9;
             this.btnAdvisorySum.Text = "Advisory Summary";
             this.btnAdvisorySum.UseVisualStyleBackColor = true;
-            // 
-            // btnContinue
-            // 
-            this.btnContinue.Location = new System.Drawing.Point(726, 658);
-            this.btnContinue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnContinue.Name = "btnContinue";
-            this.btnContinue.Size = new System.Drawing.Size(112, 35);
-            this.btnContinue.TabIndex = 8;
-            this.btnContinue.Text = "Continue";
-            this.btnContinue.UseVisualStyleBackColor = true;
+            this.btnAdvisorySum.Click += new System.EventHandler(this.btnAdvisorySum_Click);
             // 
             // btnBack2
             // 
@@ -1105,10 +1104,11 @@
             this.btnBack2.TabIndex = 7;
             this.btnBack2.Text = "Back";
             this.btnBack2.UseVisualStyleBackColor = true;
+            this.btnBack2.Click += new System.EventHandler(this.btnBack2_Click);
             // 
             // grpboxRecExplain
             // 
-            this.grpboxRecExplain.Controls.Add(this.textBox2);
+            this.grpboxRecExplain.Controls.Add(this.txtRecexplanation);
             this.grpboxRecExplain.Location = new System.Drawing.Point(664, 109);
             this.grpboxRecExplain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxRecExplain.Name = "grpboxRecExplain";
@@ -1118,15 +1118,15 @@
             this.grpboxRecExplain.TabStop = false;
             this.grpboxRecExplain.Text = "Recommendation Explanation";
             // 
-            // textBox2
+            // txtRecexplanation
             // 
-            this.textBox2.Location = new System.Drawing.Point(27, 71);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(334, 319);
-            this.textBox2.TabIndex = 0;
+            this.txtRecexplanation.Location = new System.Drawing.Point(27, 71);
+            this.txtRecexplanation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtRecexplanation.Multiline = true;
+            this.txtRecexplanation.Name = "txtRecexplanation";
+            this.txtRecexplanation.ReadOnly = true;
+            this.txtRecexplanation.Size = new System.Drawing.Size(334, 319);
+            this.txtRecexplanation.TabIndex = 0;
             // 
             // label2
             // 
@@ -1143,7 +1143,7 @@
             // 
             // grpboxRecProgrammes
             // 
-            this.grpboxRecProgrammes.Controls.Add(this.textBox1);
+            this.grpboxRecProgrammes.Controls.Add(this.txtRecProgrammes);
             this.grpboxRecProgrammes.Location = new System.Drawing.Point(44, 109);
             this.grpboxRecProgrammes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpboxRecProgrammes.Name = "grpboxRecProgrammes";
@@ -1153,16 +1153,16 @@
             this.grpboxRecProgrammes.TabStop = false;
             this.grpboxRecProgrammes.Text = "Recommended Programmes";
             // 
-            // textBox1
+            // txtRecProgrammes
             // 
-            this.textBox1.Location = new System.Drawing.Point(27, 71);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(334, 319);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtRecProgrammes.Location = new System.Drawing.Point(27, 71);
+            this.txtRecProgrammes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtRecProgrammes.Multiline = true;
+            this.txtRecProgrammes.Name = "txtRecProgrammes";
+            this.txtRecProgrammes.ReadOnly = true;
+            this.txtRecProgrammes.Size = new System.Drawing.Size(334, 319);
+            this.txtRecProgrammes.TabIndex = 0;
+            this.txtRecProgrammes.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tabFundingInfo
             // 
@@ -1200,6 +1200,7 @@
             this.btnBack3.TabIndex = 9;
             this.btnBack3.Text = "Back";
             this.btnBack3.UseVisualStyleBackColor = true;
+            this.btnBack3.Click += new System.EventHandler(this.btnBack3_Click);
             // 
             // grpFundingDetails
             // 
@@ -1252,13 +1253,14 @@
             this.lbFundingType.ItemHeight = 20;
             this.lbFundingType.Items.AddRange(new object[] {
             "Faculty Merit Award",
-            "Faculty Bursasry",
+            "Faculty Bursary",
             "NSFAS Support"});
             this.lbFundingType.Location = new System.Drawing.Point(9, 103);
             this.lbFundingType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbFundingType.Name = "lbFundingType";
             this.lbFundingType.Size = new System.Drawing.Size(314, 144);
             this.lbFundingType.TabIndex = 0;
+            this.lbFundingType.SelectedIndexChanged += new System.EventHandler(this.lbFundingType_SelectedIndexChanged);
             // 
             // grpboxPrompt
             // 
@@ -1284,6 +1286,7 @@
             this.rdbNo.TabStop = true;
             this.rdbNo.Text = "No";
             this.rdbNo.UseVisualStyleBackColor = true;
+            this.rdbNo.CheckedChanged += new System.EventHandler(this.rdbNo_CheckedChanged);
             // 
             // rdbYes
             // 
@@ -1296,6 +1299,7 @@
             this.rdbYes.TabStop = true;
             this.rdbYes.Text = "Yes";
             this.rdbYes.UseVisualStyleBackColor = true;
+            this.rdbYes.CheckedChanged += new System.EventHandler(this.rdbYes_CheckedChanged);
             // 
             // lblFundingQ
             // 
@@ -1326,7 +1330,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1191, 814);
+            this.ClientSize = new System.Drawing.Size(1191, 847);
             this.Controls.Add(this.FuturePathTabControl);
             this.Name = "FuturePathForm";
             this.Text = "Future Path Learner System";
@@ -1438,17 +1442,15 @@
         private System.Windows.Forms.GroupBox grpboxInterestAlignment;
         private System.Windows.Forms.TextBox txtInterestAlign;
         private System.Windows.Forms.TextBox txtQualifications;
-        private System.Windows.Forms.Button btnViewRecs;
         private System.Windows.Forms.Button btnBack1;
         private System.Windows.Forms.TabPage tabAltRecs;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox grpboxRecProgrammes;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRecProgrammes;
         private System.Windows.Forms.Button btnBack2;
         private System.Windows.Forms.GroupBox grpboxRecExplain;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtRecexplanation;
         private System.Windows.Forms.Button btnAdvisorySum;
-        private System.Windows.Forms.Button btnContinue;
         private System.Windows.Forms.TabPage tabFundingInfo;
         private System.Windows.Forms.GroupBox grpboxPrompt;
         private System.Windows.Forms.RadioButton rdbYes;
@@ -1462,6 +1464,9 @@
         private System.Windows.Forms.Button btnContinue2;
         private System.Windows.Forms.Button btnBack3;
         private System.Windows.Forms.TextBox txtFundingDetails;
+        private System.Windows.Forms.ToolTip tTipMarks;
+        private System.Windows.Forms.Button btnFundingInfo;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolTip toolTip1;
     }
 }
